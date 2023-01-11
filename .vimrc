@@ -2,12 +2,14 @@ set rnu
 set number
 set maxmempattern=5000
 
+set backspace=2
+
 " set rnu when entering insert mode
 " close rnu when exiting insert mode
 autocmd InsertEnter * :set norelativenumber
 autocmd InsertLeave * :set relativenumber
 
-set numberwidth=4
+set numberwidth=2
 
 set cursorline
 set colorcolumn=80
@@ -31,6 +33,21 @@ set encoding=UTF-8
 set fileformat=unix
 set fileencoding=UTF-8
  
+" MAPPINGS {{{
+" set the backslash as the leader key (default)
+let mapleader = "/"
+
+" enter command mode by pressing <space>
+nnoremap <space> :
+
+" use 'o', 'O' to create a newline ONLY
+nnoremap o o<esc>
+nnoremap O O<esc>
+
+" center the cursor VERTICALLY while moving cursor in search result
+nnoremap n nzz
+nnoremap N Nzz
+
 " Go to tab by number
 noremap <leader>1 1gt
 noremap <leader>2 2gt
@@ -53,6 +70,19 @@ nmap ˙ <C-w><Left>
 nmap ¬ <C-w><Right>
 imap ˙ <S-Left>
 imap ¬ <S-Right>
+" }}}
+
+" Functions {{{
+" move viewport
+function! MoveViewPort ()
+  let curline = line('.')
+  exe "normal! oi 123456789<esc>"
+endfunction
+"
+" }}}
+nnoremap , :call MoveViewPort()<CR>
+
+
 
 " open NERDTree when open Vim
 autocmd VimEnter * NERDTree | wincmd p
@@ -64,22 +94,35 @@ highlight LineNr ctermfg=green ctermbg=black
 " set color of cursor line
 highlight CursorLine cterm=none ctermbg=236 ctermfg=none
 
-" au BufRead,BufNewFile *.py set tabstop=2 shiftwidth=2
+au BufRead,BufNewFile *.py set tabstop=2 shiftwidth=2
 
+
+" PLUGINS {{{
 call plug#begin()
-Plug 'preservim/NERDTree'
-" Plug 'govim/govim'
-Plug 'jiangmiao/auto-pairs'
-Plug 'preservim/nerdcommenter'
-Plug 'davidhalter/jedi-vim'
-Plug 'fatih/vim-go'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'ryanoasis/vim-devicons'
-Plug 'tpope/vim-fugitive'
+  Plug 'preservim/NERDTree'
+  " Plug 'govim/govim'
+  Plug 'jiangmiao/auto-pairs'
+  Plug 'preservim/nerdcommenter'
+  Plug 'davidhalter/jedi-vim'
+  Plug 'fatih/vim-go'
+  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+  Plug 'ryanoasis/vim-devicons'
+  Plug 'tpope/vim-fugitive'
+  Plug 'ervandew/supertab'
 call plug#end()
+" }}}
 
 
-""" plugin config
+" VIMSCRIPT {{{
+" enable folding
+augroup filetype_vim
+  autocmd!
+  autocmd FileType vim setlocal foldmethod=marker
+augroup END
+" }}}
+
+
+" plugin config
 
 " show hidden file in file explorer
 let NERDTreeShowHidden=1
