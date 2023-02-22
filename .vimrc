@@ -76,11 +76,20 @@ imap ¬ <S-Right>
 " move viewport
 function! MoveViewPort ()
   let curline = line('.')
-  exe "normal! oi 123456789<esc>"
+  let w0 = line('w0', win_getid())
+  let wn = line('w$', win_getid())
+  echo w0 curline wn
+  if wn - curline < 10
+    call feedkeys("\<C-e>")
+  endif
+  else
+    exe "normal j"
+  endif
 endfunction
 "
 " }}}
 nnoremap , :call MoveViewPort()<CR>
+
 
 
 
@@ -109,6 +118,7 @@ call plug#begin()
   Plug 'ryanoasis/vim-devicons'
   Plug 'tpope/vim-fugitive'
   Plug 'ervandew/supertab'
+  Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 call plug#end()
 " }}}
 
