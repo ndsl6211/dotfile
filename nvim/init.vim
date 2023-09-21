@@ -2,7 +2,6 @@ set rnu                     " set relativen
 set number                  " add line numbers
 set maxmempattern=5000
 
-colorscheme desert
 set backspace=2
 
 " set rnu when entering insert mode
@@ -11,11 +10,12 @@ autocmd InsertEnter * :set norelativenumber
 autocmd InsertLeave * :set relativenumber
 
 set numberwidth=2
+set nowrap
 
 set cursorline
 set colorcolumn=80
 set mouse=a                 " enable mouse click
-set mouse=v                 " middle-click paste with 
+"set mouse=v                 " middle-click paste with 
 
 set virtualedit=block
 set showmode
@@ -38,7 +38,7 @@ set nocompatible            " disable compatibility to old-time vi
 set showmatch               " show matching 
 set ignorecase              " case insensitive 
 set wildmode=longest,list   " get bash-like tab completions
-filetype plugin indent on   "allow auto-indenting depending on file type
+filetype plugin indent on   " allow auto-indenting depending on file type
 "syntax on                   " syntax highlighting
 set clipboard=unnamedplus   " using system clipboard
 "filetype plugin on
@@ -47,39 +47,49 @@ set ttyfast                 " Speed up scrolling in Vim
 " set spell                 " enable spell check (may need to download language package)
 " set noswapfile            " disable creating swap file
 " set backupdir=~/.cache/vim " Directory to store backup files.
-"
 
 set splitright
 set splitbelow
 
 nnoremap <silent> <space> :
 
+"let g:python3_host_skip_check = 1
+let g:python3_host_prog = system('pyenv which python')
+let g:python3_host_prog = substitute(g:python3_host_prog, '\n\+$', '', '')
+
 " Open NERDTree when open Vim
-autocmd VimEnter * NERDTreeToggle | wincmd p  "toggle nerdtree when enter vim and switch to another window
-let NERDTreeShowHidden=1
+"autocmd VimEnter * NERDTreeToggle | wincmd p  "toggle nerdtree when enter vim and switch to another window
+"let NERDTreeShowHidden=1
 "autocmd VimEnter * NERDTree | wincmd p
 "autocmd BufEnter * NERDTreeMirror
 
 " Plugins
 call plug#begin("~/.vim/plugged")
   Plug 'dracula/vim'
-  Plug 'jiangmiao/auto-pairs'
-  Plug 'ryanoasis/vim-devicons'
-  " Plug 'SirVer/ultisnips'
+  Plug 'cohama/lexima.vim'
   Plug 'honza/vim-snippets'
-  Plug 'preservim/NERDTree'
+
+  " Comments
   Plug 'preservim/nerdcommenter'
   Plug 'mhinz/vim-startify'
   Plug 'lukas-reineke/indent-blankline.nvim'
-  " Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
+  " File explorer
+  Plug 'nvim-tree/nvim-tree.lua'
+  Plug 'nvim-tree/nvim-web-devicons'
+
+  " Status bar
   Plug 'nvim-lualine/lualine.nvim'
 
+  " Searching
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
   Plug 'tpope/vim-fugitive'
+
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+  " Register previewer
+  Plug 'tversteeg/registers.nvim'
 
   Plug 'neovim/nvim-lspconfig'
   Plug 'hrsh7th/cmp-nvim-lsp'
@@ -88,40 +98,28 @@ call plug#begin("~/.vim/plugged")
   Plug 'hrsh7th/cmp-cmdline'
   Plug 'hrsh7th/nvim-cmp'
 
-  function! UpdateRemotePlugins(...)
-    " Needed to refresh runtime files
-    let &rtp=&rtp
-    UpdateRemotePlugins
-  endfunction
-  Plug 'gelguy/wilder.nvim', { 'do': function('UpdateRemotePlugins') }
+  " Color schemes
+  Plug 'savq/melange-nvim'
+
+  " Markdown preview
+  " Plug 'iamcco/markdown-preview.nvim'
+
+  " Multi-cursor
+  Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+
+  " Toggle terminal
+  Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 call plug#end()
 
 lua require('lsp')
 lua require('lsp-cmp')
-lua require('mylualine')
-
-" Setup smart tab complete
-"function! Smart_TabComplete()
-  "let line = getline('.')                         " current line
-
-  "let substr = strpart(line, -1, col('.')+1)      " from the start of the current
-                                                  "" line to one character right
-                                                  "" of the cursor
-  "let substr = matchstr(substr, "[^ \t]*$")       " word till cursor
-  "if (strlen(substr)==0)                          " nothing to match on empty string
-    "return "\<tab>"
-  "endif
-  "let has_period = match(substr, '\.') != -1      " position of period, if any
-  "let has_slash = match(substr, '\/') != -1       " position of slash, if any
-  "if (!has_period && !has_slash)
-    "return "\<C-X>\<C-P>"                         " existing text matching
-  "elseif ( has_slash )
-    "return "\<C-X>\<C-F>"                         " file matching
-  "else
-    "return "\<C-X>\<C-O>"                         " plugin matching
-  "endif
-"endfunction
-" inoremap <tab> <c-r>=Smart_TabComplete()<CR>
+lua require('my-lualine')
+lua require('my-nvim-tree')
+lua require('my-tree-sitter')
+lua require('my-registers')
+lua require('my-indent-blankline')
+lua require('my-toggleterm')
+" lua require('my-wilder')
 
 " Key mappings
 nnoremap <C-f> <Esc>:BLines<CR>
@@ -131,10 +129,24 @@ inoremap <CS-f> <Esc>:RG<CR>
 
 nnoremap ff :GFiles<CR>
 nnoremap FF :Files<CR>
+nnoremap tt <Esc>:tabnew<CR>
+nnoremap t[ <Esc>:tabprevious<CR>
+nnoremap t] <Esc>:tabnext<CR>
 nmap <leader><tab> <plug>(fzf-maps-n)
 
-nnoremap <C-b> <Esc> :NERDTreeToggle<CR>
+nnoremap <C-b> <Esc> :NvimTreeToggle<CR>
+nnoremap <CS-v> <C-w><C-v>
+nnoremap <CS-x> <C-w><C-s>
+
+nnoremap <silent> gv :vsp<CR>gd
+nnoremap <silent> gx :sp<CR>gd
 
 " Terminal mappings
-tnoremap <Esc> <C-\><C-n>
+tnoremap <C-Esc> <C-\><C-n>
+"tnoremap  <C-\><C-n>
+
+" Color schemes
+"colorscheme desert 
+"colorscheme dracula
+colorscheme melange
 
