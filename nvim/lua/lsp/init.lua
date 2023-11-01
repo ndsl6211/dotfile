@@ -1,5 +1,7 @@
 local lspconfig = require('lspconfig')
-lspconfig.pyright.setup {
+
+-- python
+lspconfig.pyright.setup({
   settings = {
     python = {
       analysis = {
@@ -8,8 +10,13 @@ lspconfig.pyright.setup {
       }
     }
   }
-}
-lspconfig.tsserver.setup {}
+})
+
+-- typescript
+lspconfig.tsserver.setup({})
+
+-- golang
+lspconfig.gopls.setup({})
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions

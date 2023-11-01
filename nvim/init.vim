@@ -84,6 +84,7 @@ call plug#begin("~/.vim/plugged")
   " Searching
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
+  Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
   Plug 'tpope/vim-fugitive'
 
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -109,11 +110,19 @@ call plug#begin("~/.vim/plugged")
 
   " Toggle terminal
   Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
+
+  " Tab manager
+  Plug 'lewis6991/gitsigns.nvim' " OPTIONAL: for git status
+  Plug 'nvim-tree/nvim-web-devicons' " OPTIONAL: for file icons
+  Plug 'romgrk/barbar.nvim'
 call plug#end()
 
+" import .lua settings
 lua require('lsp')
 lua require('lsp-cmp')
+lua require('my-barbar')
 lua require('my-lualine')
+lua require('my-fzf-lua')
 lua require('my-nvim-tree')
 lua require('my-tree-sitter')
 lua require('my-registers')
@@ -121,20 +130,24 @@ lua require('my-indent-blankline')
 lua require('my-toggleterm')
 " lua require('my-wilder')
 
+" import .vim settings
+"source ~/.config/nvim/vim/my-fzf/init.vim
+
 " Key mappings
 nnoremap <C-f> <Esc>:BLines<CR>
 inoremap <C-f> <Esc>:BLines<CR>
 nnoremap <CS-f> <Esc>:RG<CR>
 inoremap <CS-f> <Esc>:RG<CR>
 
-nnoremap ff :GFiles<CR>
-nnoremap FF :Files<CR>
+"nnoremap ff :GFiles<CR>
+"nnoremap FF :Files<CR>
 nnoremap tt <Esc>:tabnew<CR>
-nnoremap t[ <Esc>:tabprevious<CR>
-nnoremap t] <Esc>:tabnext<CR>
+"nnoremap t[ <Esc>:tabprevious<CR>
+"nnoremap t] <Esc>:tabnext<CR>
 nmap <leader><tab> <plug>(fzf-maps-n)
 
 nnoremap <C-b> <Esc> :NvimTreeToggle<CR>
+nnoremap <leader>f <Esc> :NvimTreeFindFile<CR>
 nnoremap <CS-v> <C-w><C-v>
 nnoremap <CS-x> <C-w><C-s>
 
@@ -150,3 +163,6 @@ tnoremap <C-Esc> <C-\><C-n>
 "colorscheme dracula
 colorscheme melange
 
+
+let g:fzf_vim = {}
+let g:fzf_vim.preview_window = ['right:70%', 'ctrl-/']

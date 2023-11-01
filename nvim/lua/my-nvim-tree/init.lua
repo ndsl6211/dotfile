@@ -19,7 +19,6 @@ local function on_attach(bufnr)
   vim.keymap.set('n', '?', api.tree.toggle_help, opts('Help'))
   vim.keymap.set('n', '<C-[>', api.tree.change_root_to_parent, opts('CD..'))
   vim.keymap.set('n', '<CR>', api.tree.change_root_to_node, opts('Change root to node'))
-  -- vim.keymap.
 end
 
 -- OR setup with some options
