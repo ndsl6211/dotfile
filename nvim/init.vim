@@ -4,6 +4,8 @@ set maxmempattern=5000
 
 set backspace=2
 
+set autoread
+
 " set rnu when entering insert mode
 " close rnu when exiting insert mode
 autocmd InsertEnter * :set norelativenumber
@@ -101,6 +103,7 @@ call plug#begin("~/.vim/plugged")
 
   " Color schemes
   Plug 'savq/melange-nvim'
+  Plug 'ellisonleao/gruvbox.nvim'
 
   " Markdown preview
   " Plug 'iamcco/markdown-preview.nvim'
@@ -115,6 +118,10 @@ call plug#begin("~/.vim/plugged")
   Plug 'lewis6991/gitsigns.nvim' " OPTIONAL: for git status
   Plug 'nvim-tree/nvim-web-devicons' " OPTIONAL: for file icons
   Plug 'romgrk/barbar.nvim'
+
+  " Github Copilot
+  Plug 'github/copilot.vim'
+
 call plug#end()
 
 " import .lua settings
@@ -161,7 +168,8 @@ tnoremap <C-Esc> <C-\><C-n>
 " Color schemes
 "colorscheme desert 
 "colorscheme dracula
-colorscheme melange
+"colorscheme melange
+colorscheme gruvbox
 
 
 let g:fzf_vim = {}
