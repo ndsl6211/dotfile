@@ -1,8 +1,10 @@
-set rnu
-set number
+set rnu                     " set relativen
+set number                  " add line numbers
 set maxmempattern=5000
 
 set backspace=2
+
+set autoread
 
 " set rnu when entering insert mode
 " close rnu when exiting insert mode
@@ -10,135 +12,172 @@ autocmd InsertEnter * :set norelativenumber
 autocmd InsertLeave * :set relativenumber
 
 set numberwidth=2
+set nowrap
 
-set cursorline
-set colorcolumn=80
-set mouse=a
+set mouse=a                 " enable mouse click
+"set mouse=v                 " middle-click paste with 
 
 set virtualedit=block
 set showmode
 
-set hlsearch    " highlight search
-set incsearch   " searching while typing
+set hlsearch                " highlight search
+set incsearch               " searching while typing
 
-set expandtab     " convert tab into space
-set tabstop=2     " set the tabsize to 2
-set shiftwidth=2  " set the size of auto-indent to 2
-set textwidth=79
+set expandtab               " convert tab into space
+set tabstop=2               " set the tabsize to 2
+
+set autoindent              " indent a new line the same amount as the line just type
+set shiftwidth=2            " set the size of auto-indent to 2
+
+set cursorline
+set cursorcolumn
+set textwidth=99
+set cc=100                   " set an 80 column border for good coding style
 set smartindent
 set shiftround
-" set list listchars=tab:≫\,trail:·
 
-set encoding=UTF-8
-set fileformat=unix
-set fileencoding=UTF-8
- 
-" MAPPINGS {{{
-" set the backslash as the leader key (default)
-let mapleader = "/"
+set nocompatible            " disable compatibility to old-time vi
+set showmatch               " show matching 
+set ignorecase              " case insensitive 
+set wildmode=longest,list   " get bash-like tab completions
+filetype plugin indent on   " allow auto-indenting depending on file type
+"syntax on                   " syntax highlighting
+set clipboard=unnamedplus   " using system clipboard
+"filetype plugin on
 
-" enter command mode by pressing <space>
-nnoremap <space> :
+set ttyfast                 " Speed up scrolling in Vim
+" set spell                 " enable spell check (may need to download language package)
+" set noswapfile            " disable creating swap file
+" set backupdir=~/.cache/vim " Directory to store backup files.
+
+set splitright
+set splitbelow
+
+nnoremap <silent> <space> :
 
 " use 'o', 'O' to create a newline ONLY
-nnoremap o o<esc>
-nnoremap O O<esc>
-
-" center the cursor VERTICALLY while moving cursor in search result
-nnoremap n nzz
-nnoremap N Nzz
-
-" Go to tab by number
-noremap <leader>1 1gt
-noremap <leader>2 2gt
-noremap <leader>3 3gt
-noremap <leader>4 4gt
-noremap <leader>5 5gt
-noremap <leader>6 6gt
-noremap <leader>7 7gt
-noremap <leader>8 8gt
-noremap <leader>9 9gt
+"nnoremap o o<esc>
+"nnoremap O O<esc>
 
 " swap lines
 " nnoremap <C-k> :m-2<CR>
 " nnoremap <C-j> :m+<CR>
 
-" switch between split pages
-nmap ∆ <C-w><Down>
-nmap ˚ <C-w><Up>
-nmap ˙ <C-w><Left>
-nmap ¬ <C-w><Right>
-imap ˙ <S-Left>
-imap ¬ <S-Right>
-" }}}
-
-" Functions {{{
-" move viewport
-function! MoveViewPort ()
-  let curline = line('.')
-  let w0 = line('w0', win_getid())
-  let wn = line('w$', win_getid())
-  echo w0 curline wn
-  if wn - curline < 10
-    call feedkeys("\<C-e>")
-  endif
-  else
-    exe "normal j"
-  endif
-endfunction
-"
-" }}}
-nnoremap , :call MoveViewPort()<CR>
-
-
-
-
-" open NERDTree when open Vim
-autocmd VimEnter * NERDTree | wincmd p
-autocmd BufEnter * NERDTreeMirror
-
 " set color of line number
-highlight LineNr ctermfg=green ctermbg=black
+"highlight LineNr ctermfg=green ctermbg=black
 
 " set color of cursor line
-highlight CursorLine cterm=none ctermbg=236 ctermfg=none
+"highlight CursorLine cterm=none ctermbg=236 ctermfg=none
 
-au BufRead,BufNewFile *.py set tabstop=2 shiftwidth=2
+" Plugins
+call plug#begin("~/.vim/plugged")
+  Plug 'dracula/vim'
+  Plug 'cohama/lexima.vim'
+  Plug 'honza/vim-snippets'
 
-
-" PLUGINS {{{
-call plug#begin()
-  Plug 'preservim/NERDTree'
-  " Plug 'govim/govim'
-  Plug 'jiangmiao/auto-pairs'
+  " Comments
   Plug 'preservim/nerdcommenter'
-  Plug 'davidhalter/jedi-vim'
-  Plug 'fatih/vim-go'
-  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-  Plug 'ryanoasis/vim-devicons'
+  Plug 'mhinz/vim-startify'
+  Plug 'lukas-reineke/indent-blankline.nvim'
+
+  " File explorer
+  Plug 'nvim-tree/nvim-tree.lua'
+  Plug 'nvim-tree/nvim-web-devicons'
+
+  " Status bar
+  Plug 'nvim-lualine/lualine.nvim'
+
+  " Searching
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
+  Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
   Plug 'tpope/vim-fugitive'
-  Plug 'ervandew/supertab'
-  Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+  " Register previewer
+  Plug 'tversteeg/registers.nvim'
+
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-buffer'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'hrsh7th/cmp-cmdline'
+  Plug 'hrsh7th/nvim-cmp'
+
+  " Color schemes
+  Plug 'savq/melange-nvim'
+  Plug 'ellisonleao/gruvbox.nvim'
+
+  " Markdown preview
+  " Plug 'iamcco/markdown-preview.nvim'
+
+  " Multi-cursor
+  Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+
+  " Toggle terminal
+  Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
+
+  " Tab manager
+  Plug 'lewis6991/gitsigns.nvim' " OPTIONAL: for git status
+  Plug 'nvim-tree/nvim-web-devicons' " OPTIONAL: for file icons
+  Plug 'romgrk/barbar.nvim'
+
+  " Github Copilot
+  Plug 'github/copilot.vim'
+
 call plug#end()
-" }}}
 
+" import .lua settings
+lua require('lsp')
+lua require('lsp-cmp')
+lua require('my-barbar')
+lua require('my-lualine')
+lua require('my-fzf-lua')
+lua require('my-nvim-tree')
+lua require('my-tree-sitter')
+lua require('my-registers')
+lua require('my-indent-blankline')
+lua require('my-toggleterm')
+" lua require('my-wilder')
 
-" VIMSCRIPT {{{
-" enable folding
-augroup filetype_vim
-  autocmd!
-  autocmd FileType vim setlocal foldmethod=marker
-augroup END
-" }}}
+" import .vim settings
+"source ~/.config/nvim/vim/my-fzf/init.vim
 
+" Key mappings
+nnoremap <C-f> <Esc>:BLines<CR>
+inoremap <C-f> <Esc>:BLines<CR>
+nnoremap <CS-f> <Esc>:RG<CR>
+inoremap <CS-f> <Esc>:RG<CR>
 
-" plugin config
+"nnoremap ff :GFiles<CR>
+"nnoremap FF :Files<CR>
+nnoremap tt <Esc>:tabnew<CR>
+"nnoremap t[ <Esc>:tabprevious<CR>
+"nnoremap t] <Esc>:tabnext<CR>
+nmap <leader><tab> <plug>(fzf-maps-n)
 
-" show hidden file in file explorer
-let NERDTreeShowHidden=1
-let g:NERDSpaceDelims=1
-let g:NERDTreeChDirMode=2
-let g:jedi#force_py_version=3
+nnoremap <C-b> <Esc> :NvimTreeToggle<CR>
+nnoremap <leader>f <Esc> :NvimTreeFindFile<CR>
+nnoremap <CS-v> <C-w><C-v>
+nnoremap <CS-x> <C-w><C-s>
 
+nnoremap <silent> gv :vsp<CR>gd
+nnoremap <silent> gx :sp<CR>gd
 
-""" plugin config end
+" center the cursor VERTICALLY while moving cursor in search result
+nnoremap n nzz
+nnoremap N Nzz
+
+" Terminal mappings
+tnoremap <C-Esc> <C-\><C-n>
+"tnoremap  <C-\><C-n>
+
+" Color schemes
+"colorscheme desert 
+"colorscheme dracula
+"colorscheme melange
+colorscheme gruvbox
+
+let g:fzf_vim = {}
+let g:fzf_vim.preview_window = ['right:70%', 'ctrl-/']
