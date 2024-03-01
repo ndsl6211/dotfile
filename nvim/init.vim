@@ -14,8 +14,6 @@ autocmd InsertLeave * :set relativenumber
 set numberwidth=2
 set nowrap
 
-set cursorline
-set colorcolumn=80
 set mouse=a                 " enable mouse click
 "set mouse=v                 " middle-click paste with 
 
@@ -31,8 +29,10 @@ set tabstop=2               " set the tabsize to 2
 set autoindent              " indent a new line the same amount as the line just type
 set shiftwidth=2            " set the size of auto-indent to 2
 
-set textwidth=79
-set cc=80                   " set an 80 column border for good coding style
+set cursorline
+set cursorcolumn
+set textwidth=99
+set cc=100                   " set an 80 column border for good coding style
 set smartindent
 set shiftround
 
@@ -56,7 +56,7 @@ set splitbelow
 nnoremap <silent> <space> :
 
 "let g:python3_host_skip_check = 1
-let g:python3_host_prog = system('pyenv which python')
+let g:python3_host_prog = system('pyenv which python3')
 let g:python3_host_prog = substitute(g:python3_host_prog, '\n\+$', '', '')
 
 " Open NERDTree when open Vim
@@ -82,6 +82,9 @@ call plug#begin("~/.vim/plugged")
 
   " Status bar
   Plug 'nvim-lualine/lualine.nvim'
+
+  " Scroll bar
+  Plug 'petertriho/nvim-scrollbar'
 
   " Searching
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -122,6 +125,9 @@ call plug#begin("~/.vim/plugged")
   " Github Copilot
   Plug 'github/copilot.vim'
 
+  " Work exchange
+  Plug 'tommcdo/vim-exchange'
+
 call plug#end()
 
 " import .lua settings
@@ -135,6 +141,7 @@ lua require('my-tree-sitter')
 lua require('my-registers')
 lua require('my-indent-blankline')
 lua require('my-toggleterm')
+lua require('my-scrollbar')
 " lua require('my-wilder')
 
 " import .vim settings
@@ -161,6 +168,10 @@ nnoremap <CS-x> <C-w><C-s>
 nnoremap <silent> gv :vsp<CR>gd
 nnoremap <silent> gx :sp<CR>gd
 
+" center the cursor VERTICALLY while moving cursor in search result
+nnoremap n nzz
+nnoremap N Nzz
+
 " Terminal mappings
 tnoremap <C-Esc> <C-\><C-n>
 "tnoremap  <C-\><C-n>
@@ -170,7 +181,6 @@ tnoremap <C-Esc> <C-\><C-n>
 "colorscheme dracula
 "colorscheme melange
 colorscheme gruvbox
-
 
 let g:fzf_vim = {}
 let g:fzf_vim.preview_window = ['right:70%', 'ctrl-/']

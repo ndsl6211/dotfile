@@ -7,8 +7,10 @@ require('nvim-treesitter.configs').setup({
     "vim", "lua",
     "json", "yaml",
     "java", "kotlin",
-    "python", "typescript", "javascript",
-    "go", "prisma"
+    "python",
+    "typescript", "javascript", "prisma",
+    "go", "jsdoc", "regex",
+    "html", "css", "scss"
   },
   sync_install = false,
   auto_install = false,
