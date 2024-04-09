@@ -125,8 +125,14 @@ call plug#begin("~/.vim/plugged")
   " Github Copilot
   Plug 'github/copilot.vim'
 
-  " Work exchange
+  " Word exchange
   Plug 'tommcdo/vim-exchange'
+
+  " Argument text object
+  Plug 'vim-scripts/argtextobj.vim'
+  
+  " Surround
+  Plug 'kylechui/nvim-surround'
 
 call plug#end()
 
@@ -142,10 +148,12 @@ lua require('my-registers')
 lua require('my-indent-blankline')
 lua require('my-toggleterm')
 lua require('my-scrollbar')
+lua require('my-surround')
 " lua require('my-wilder')
 
 " import .vim settings
 "source ~/.config/nvim/vim/my-fzf/init.vim
+source ~/.config/nvim/vim/my-idea/init.vim
 
 " Key mappings
 nnoremap <C-f> <Esc>:BLines<CR>
