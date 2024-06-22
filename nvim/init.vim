@@ -26,15 +26,15 @@ set incsearch               " searching while typing
 set expandtab               " convert tab into space
 set tabstop=2               " set the tabsize to 2
 
-set autoindent              " indent a new line the same amount as the line just type
 set shiftwidth=2            " set the size of auto-indent to 2
+set shiftround
 
 set cursorline
 set cursorcolumn
 set textwidth=99
 set cc=100                   " set an 80 column border for good coding style
+set autoindent              " indent a new line the same amount as the line just type
 set smartindent
-set shiftround
 
 set nocompatible            " disable compatibility to old-time vi
 set showmatch               " show matching 
@@ -68,13 +68,21 @@ let g:python3_host_prog = substitute(g:python3_host_prog, '\n\+$', '', '')
 " Plugins
 call plug#begin("~/.vim/plugged")
   Plug 'dracula/vim'
-  Plug 'cohama/lexima.vim'
+  "Plug 'cohama/lexima.vim'
+  Plug 'windwp/nvim-autopairs'
   Plug 'honza/vim-snippets'
 
   " Comments
   Plug 'preservim/nerdcommenter'
+
+  " Fancy start screen
   Plug 'mhinz/vim-startify'
+
+  " Indentation lines
   Plug 'lukas-reineke/indent-blankline.nvim'
+
+  " Python indent
+  Plug 'Vimjas/vim-python-pep8-indent'
 
   " File explorer
   Plug 'nvim-tree/nvim-tree.lua'
@@ -149,6 +157,7 @@ lua require('my-indent-blankline')
 lua require('my-toggleterm')
 lua require('my-scrollbar')
 lua require('my-surround')
+lua require('my-nvim-autopairs')
 " lua require('my-wilder')
 
 " import .vim settings
