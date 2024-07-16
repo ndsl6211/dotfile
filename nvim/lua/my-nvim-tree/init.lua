@@ -5,8 +5,18 @@ vim.g.loaded_netrwPlugin = 1
 -- set termguicolors to enable highlight groups
 vim.opt.termguicolors = true
 
+local api = require "nvim-tree.api"
+
+-- open nvim-tree on VimEnter
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    api.tree.open({ path = vim.fn.getcwd() }) -- open tree on the current directory
+    vim.cmd("wincmd w") -- focus back to the main window
+    vim.cmd("Startify") -- open startify
+  end
+})
+
 local function on_attach(bufnr)
-  local api = require "nvim-tree.api"
 
   local function opts(desc)
     return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }

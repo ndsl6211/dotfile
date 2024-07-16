@@ -1,4 +1,5 @@
 set rnu                     " set relativen
+
 set number                  " add line numbers
 set maxmempattern=5000
 
@@ -100,6 +101,12 @@ call plug#begin("~/.vim/plugged")
   Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
   Plug 'tpope/vim-fugitive'
 
+  " Searching by Telescope
+  " https://github.com/nvim-telescope/telescope.nvim
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
+  Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' }
+
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
   " Register previewer
@@ -149,7 +156,8 @@ lua require('lsp')
 lua require('lsp-cmp')
 lua require('my-barbar')
 lua require('my-lualine')
-lua require('my-fzf-lua')
+"lua require('my-fzf-lua')
+lua require('my-telescope')
 lua require('my-nvim-tree')
 lua require('my-tree-sitter')
 lua require('my-registers')
@@ -161,7 +169,6 @@ lua require('my-nvim-autopairs')
 " lua require('my-wilder')
 
 " import .vim settings
-"source ~/.config/nvim/vim/my-fzf/init.vim
 source ~/.config/nvim/vim/my-idea/init.vim
 
 " Key mappings
