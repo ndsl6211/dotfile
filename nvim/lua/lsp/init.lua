@@ -8,11 +8,26 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 -- python
 lspconfig.pyright.setup({
   settings = {
+    pyright = {
+      -- Using Ruff's import organizer
+      disableOrganizeImports = true,
+    },
     python = {
       analysis = {
         autoImportCompletions = true,
         typeCheckingMode = "off",
+        -- Ignore all files for analysis to exclusively use Ruff for linting
+        ignore = { '*' },
       }
+    }
+  }
+})
+
+-- ruff
+lspconfig.ruff.setup({
+  init_options = {
+    settings = {
+      lineLength = 100
     }
   }
 })
@@ -67,6 +82,10 @@ lspconfig.html.setup({
 
 -- css
 lspconfig.cssls.setup({
+  capabilities = capabilities,
+})
+
+lspconfig.jsonls.setup({
   capabilities = capabilities,
 })
 

@@ -96,9 +96,9 @@ call plug#begin("~/.vim/plugged")
   Plug 'petertriho/nvim-scrollbar'
 
   " Searching
-  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-  Plug 'junegunn/fzf.vim'
-  Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
+  "Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  "Plug 'junegunn/fzf.vim'
+  "Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
   Plug 'tpope/vim-fugitive'
 
   " Searching by Telescope
@@ -172,10 +172,10 @@ lua require('my-nvim-autopairs')
 source ~/.config/nvim/vim/my-idea/init.vim
 
 " Key mappings
-nnoremap <C-f> <Esc>:BLines<CR>
-inoremap <C-f> <Esc>:BLines<CR>
-nnoremap <CS-f> <Esc>:RG<CR>
-inoremap <CS-f> <Esc>:RG<CR>
+"nnoremap <C-f> <Esc>:BLines<CR>
+"inoremap <C-f> <Esc>:BLines<CR>
+"nnoremap <CS-f> <Esc>:RG<CR>
+"inoremap <CS-f> <Esc>:RG<CR>
 
 "nnoremap ff :GFiles<CR>
 "nnoremap FF :Files<CR>
@@ -184,8 +184,8 @@ nnoremap tt <Esc>:tabnew<CR>
 "nnoremap t] <Esc>:tabnext<CR>
 nmap <leader><tab> <plug>(fzf-maps-n)
 
-nnoremap <C-b> <Esc> :NvimTreeToggle<CR>
-nnoremap <leader>f <Esc> :NvimTreeFindFile<CR>
+nnoremap <C-b> <Esc>:NvimTreeToggle<CR>
+nnoremap <C-f> <Esc>:NvimTreeFindFile<CR>
 nnoremap <CS-v> <C-w><C-v>
 nnoremap <CS-x> <C-w><C-s>
 
@@ -199,6 +199,9 @@ nnoremap N Nzz
 " Terminal mappings
 tnoremap <C-Esc> <C-\><C-n>
 "tnoremap  <C-\><C-n>
+
+" Clear highlight
+nnoremap <silent> <C-h> :nohlsearch<CR>
 
 " Color schemes
 "colorscheme desert 

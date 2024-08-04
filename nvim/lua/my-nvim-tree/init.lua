@@ -17,9 +17,14 @@ vim.api.nvim_create_autocmd("VimEnter", {
 })
 
 local function on_attach(bufnr)
-
   local function opts(desc)
-    return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+    return {
+      desc = "nvim-tree: " .. desc,
+      buffer = bufnr,
+      noremap = true,
+      silent = true,
+      nowait = true
+    }
   end
 
   -- default mappings
