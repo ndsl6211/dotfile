@@ -9,9 +9,10 @@ require('nvim-treesitter.configs').setup({
     "json", "yaml",
     "java", "kotlin",
     "python",
+    "rust",
     "typescript", "javascript", "prisma",
     "go", "jsdoc", "regex",
-    "html", "css", "scss"
+    "html", "css", "scss", "vue"
   },
   sync_install = false,
   auto_install = false,

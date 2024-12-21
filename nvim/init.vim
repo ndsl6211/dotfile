@@ -166,6 +166,7 @@ lua require('my-toggleterm')
 lua require('my-scrollbar')
 lua require('my-surround')
 lua require('my-nvim-autopairs')
+lua require('my-custom-shortcut')
 " lua require('my-wilder')
 
 " import .vim settings

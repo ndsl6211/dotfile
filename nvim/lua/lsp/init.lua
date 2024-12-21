@@ -23,6 +23,9 @@ lspconfig.pyright.setup({
   }
 })
 
+-- rust
+lspconfig.rust_analyzer.setup({})
+
 -- ruff
 lspconfig.ruff.setup({
   init_options = {
@@ -33,7 +36,7 @@ lspconfig.ruff.setup({
 })
 
 -- typescript
-lspconfig.tsserver.setup({})
+lspconfig.ts_ls.setup({})
 
 -- golang
 lspconfig.gopls.setup({})
@@ -85,12 +88,29 @@ lspconfig.cssls.setup({
   capabilities = capabilities,
 })
 
+-- json
 lspconfig.jsonls.setup({
   capabilities = capabilities,
 })
 
+-- yaml
+lspconfig.yamlls.setup {
+  settings = {
+    yaml = {
+      schemas = {
+        ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
+        ["../path/relative/to/file.yml"] = "/.github/workflows/*",
+        ["/path/from/root/of/project"] = "/.github/workflows/*",
+      },
+    },
+  }
+}
+
 -- hcl
 lspconfig.terraformls.setup({})
+
+-- prisma
+lspconfig.prismals.setup({})
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
