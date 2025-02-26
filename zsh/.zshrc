@@ -83,6 +83,7 @@ plugins=(
   fast-syntax-highlighting
   web-search
   direnv
+  fzf
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -112,7 +113,7 @@ alias gui="/usr/local/bin/gitui"
 
 ### Use vim keybindings
 bindkey -v
-bindkey "^R" history-incremental-pattern-search-backward
+#bindkey "^R" history-incremental-pattern-search-backward
 
 
 # To customize prompt, run p10k configure or edit ~/.p10k.zsh.
