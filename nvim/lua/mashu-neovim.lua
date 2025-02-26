@@ -45,7 +45,7 @@ vim.opt.splitbelow = true
 vim.opt.showmatch = true
 
 -- set the completion char and mode
-vim.opt.wildchar = vim.fn.char2nr("<Tab>")
+vim.opt.wildchar = 9
 vim.opt.wildmode = "longest,list"
 
 -- the actual effect need to be confirmed
