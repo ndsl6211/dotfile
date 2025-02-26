@@ -1,70 +1,6 @@
-set rnu                     " set relativen
-
-set number                  " add line numbers
-set maxmempattern=5000
-
-set backspace=2
-
-set autoread
-
-" set rnu when entering insert mode
-" close rnu when exiting insert mode
-autocmd InsertEnter * :set norelativenumber
-autocmd InsertLeave * :set relativenumber
-
-set numberwidth=2
-set nowrap
-
-set mouse=a                 " enable mouse click
-"set mouse=v                 " middle-click paste with 
-
-set virtualedit=block
-set showmode
-
-set hlsearch                " highlight search
-set incsearch               " searching while typing
-
-set expandtab               " convert tab into space
-set tabstop=2               " set the tabsize to 2
-
-set shiftwidth=2            " set the size of auto-indent to 2
-set shiftround
-
-set cursorline
-set cursorcolumn
-set textwidth=99
-set cc=100                   " set an 80 column border for good coding style
-set autoindent              " indent a new line the same amount as the line just type
-set smartindent
-
-set nocompatible            " disable compatibility to old-time vi
-set showmatch               " show matching 
-set ignorecase              " case insensitive 
-set wildmode=longest,list   " get bash-like tab completions
-filetype plugin indent on   " allow auto-indenting depending on file type
-"syntax on                   " syntax highlighting
-set clipboard=unnamedplus   " using system clipboard
-"filetype plugin on
-
-set ttyfast                 " Speed up scrolling in Vim
-" set spell                 " enable spell check (may need to download language package)
-" set noswapfile            " disable creating swap file
-" set backupdir=~/.cache/vim " Directory to store backup files.
-
-set splitright
-set splitbelow
-
-nnoremap <silent> <space> :
-
 "let g:python3_host_skip_check = 1
 let g:python3_host_prog = system('pyenv which python3')
 let g:python3_host_prog = substitute(g:python3_host_prog, '\n\+$', '', '')
-
-" Open NERDTree when open Vim
-"autocmd VimEnter * NERDTreeToggle | wincmd p  "toggle nerdtree when enter vim and switch to another window
-"let NERDTreeShowHidden=1
-"autocmd VimEnter * NERDTree | wincmd p
-"autocmd BufEnter * NERDTreeMirror
 
 " Plugins
 call plug#begin("~/.vim/plugged")
@@ -152,6 +88,8 @@ call plug#begin("~/.vim/plugged")
 call plug#end()
 
 " import .lua settings
+" - A folder containing an init.lua file can be required directly
+lua require('mashu-neovim')
 lua require('lsp')
 lua require('lsp-cmp')
 lua require('my-barbar')
@@ -172,43 +110,8 @@ lua require('my-custom-shortcut')
 " import .vim settings
 source ~/.config/nvim/vim/my-idea/init.vim
 
-" Key mappings
-"nnoremap <C-f> <Esc>:BLines<CR>
-"inoremap <C-f> <Esc>:BLines<CR>
-"nnoremap <CS-f> <Esc>:RG<CR>
-"inoremap <CS-f> <Esc>:RG<CR>
-
-"nnoremap ff :GFiles<CR>
-"nnoremap FF :Files<CR>
-nnoremap tt <Esc>:tabnew<CR>
-"nnoremap t[ <Esc>:tabprevious<CR>
-"nnoremap t] <Esc>:tabnext<CR>
-nmap <leader><tab> <plug>(fzf-maps-n)
-
-nnoremap <C-b> <Esc>:NvimTreeToggle<CR>
-nnoremap <C-f> <Esc>:NvimTreeFindFile<CR>
-nnoremap <CS-v> <C-w><C-v>
-nnoremap <CS-x> <C-w><C-s>
-
-nnoremap <silent> gv :vsp<CR>gd
-nnoremap <silent> gx :sp<CR>gd
-
-" center the cursor VERTICALLY while moving cursor in search result
-nnoremap n nzz
-nnoremap N Nzz
-
-" Terminal mappings
-tnoremap <C-Esc> <C-\><C-n>
-"tnoremap  <C-\><C-n>
-
-" Clear highlight
-nnoremap <silent> <C-h> :nohlsearch<CR>
-
 " Color schemes
 "colorscheme desert 
 "colorscheme dracula
 "colorscheme melange
 colorscheme gruvbox
-
-let g:fzf_vim = {}
-let g:fzf_vim.preview_window = ['right:70%', 'ctrl-/']
