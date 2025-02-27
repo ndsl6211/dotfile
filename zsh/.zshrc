@@ -84,6 +84,7 @@ plugins=(
   web-search
   direnv
   fzf
+  zsh-fzf-history-search
 )
 
 source $ZSH/oh-my-zsh.sh
