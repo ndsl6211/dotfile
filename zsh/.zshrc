@@ -109,7 +109,7 @@ alias apm="appium"
 alias nv="nvim"
 alias tm="tmux"
 alias tf="terraform"
-alias gui="/usr/local/bin/gitui"
+alias gui="gitui"
 
 
 ### Use vim keybindings
