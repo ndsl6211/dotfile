@@ -16,6 +16,9 @@ vim.api.nvim_create_autocmd("VimEnter", {
   end
 })
 
+vim.keymap.set('n', '<C-b>', ":NvimTreeToggle<CR>", { desc = "nvim-tree: Toggle", silent = true })
+vim.keymap.set('n', '<C-f>', ":NvimTreeFindFile<CR>", { desc = "nvim-tree: Find file", silent = true })
+
 local function on_attach(bufnr)
   local function opts(desc)
     return {
@@ -34,8 +37,6 @@ local function on_attach(bufnr)
   vim.keymap.set('n', '?', api.tree.toggle_help, opts('Help'))
   vim.keymap.set('n', '<C-[>', api.tree.change_root_to_parent, opts('CD..'))
   vim.keymap.set('n', '<CR>', api.tree.change_root_to_node, opts('Change root to node'))
-  vim.keymap.set('n', '<C-b>', api.tree.toggle, opts('Toggle'))
-  vim.keymap.set('n', '<C-f>', api.tree.find_file, opts('Find file'))
 end
 
 -- OR setup with some options
