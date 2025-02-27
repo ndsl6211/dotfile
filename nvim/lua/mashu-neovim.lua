@@ -15,6 +15,9 @@ vim.opt.colorcolumn = "100"
 vim.opt.cursorline = true
 vim.opt.cursorcolumn = true
 
+-- share clipboard with the system
+vim.opt.clipboard = "unnamedplus"
+
 -- enable mouse support for all modes
 vim.opt.mouse = "a"
 
