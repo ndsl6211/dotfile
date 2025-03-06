@@ -1,5 +1,5 @@
 require("toggleterm").setup({
-  open_mapping = [[<c-j>]],
+  open_mapping = [[<c-\>]],
   winbar = {
     enabled = false,
     name_formatter = function(term) --  term: Terminal

@@ -88,3 +88,7 @@ vim.keymap.set("n", "gx", ":sp<CR>gd", { noremap = true, silent = true })
 -- create split and switch to it
 vim.keymap.set("n", "<CS-v>", "<C-w><C-v>", { noremap = true, silent = true })
 vim.keymap.set("n", "<CS-x>", "<C-w><C-s>", { noremap = true, silent = true })
+
+-- remap page up and down to j and k
+vim.keymap.set("n", "<C-k>", "<C-u>zz", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-j>", "<C-d>zz", { noremap = true, silent = true })
