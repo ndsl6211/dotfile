@@ -72,7 +72,7 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 vim.keymap.set("n", "<space>", ":", { noremap = true, silent = true })
 
 -- map <C-h> to clear the search highlight
-vim.keymap.set("n", "<C-h>", ":nohlsearch<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-c>", ":nohlsearch<CR>", { noremap = true, silent = true })
 
 -- map <C-Esc> to exit terminal focus
 vim.keymap.set("t", "<C-Esc>", "<C-\\><C-n>", { noremap = true, silent = true })
