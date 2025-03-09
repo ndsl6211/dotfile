@@ -106,7 +106,11 @@ alias kl="kubectl"
 alias vl="vksctl"
 alias klc="kubectl config"
 alias apm="appium"
-alias nv="nvim"
+if [[ "$(uname)" == "Linux" ]]; then
+  alias nv="/opt/nvim-linux-x86_64/bin/nvim"
+else
+  alias nv="nvim"
+fi
 alias tm="tmux"
 alias tf="terraform"
 alias gui="gitui"
@@ -124,6 +128,8 @@ if [[ "$(uname)" == "Linux" ]]; then
   # add brew to path
   export PATH="$HOME/linuxbrew/.linuxbrew/bin:$PATH"
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+  export PATH="$PATH:/opt/nvim/"
 fi
 
 
