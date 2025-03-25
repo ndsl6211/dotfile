@@ -134,6 +134,13 @@ command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 #eval "$(pyenv virtualenv-init -)"
 
 
+### Setup neovim
+# use the neovim installed directly
+export PATH="/opt/nvim-linux-x86_64/bin:$PATH"
+# use the neo vim installed via brew
+# export PATH="$BREW_PREFIX/bin:$PATH"
+
+
 ### Setup z
 . ~/z.sh
 
