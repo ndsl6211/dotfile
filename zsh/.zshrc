@@ -152,7 +152,8 @@ export JAVA_HOME="/Users/mashu/Library/Java/JavaVirtualMachines/graalvm-ce-21.0.
 
 
 ### Set up Golang
-export PATH="/Users/mashu/go/bin:$PATH"
+export PATH=$PATH:/usr/local/go/bin
+export PATH=$HOME/go/bin:$PATH
 
 
 ### Set up Rust
