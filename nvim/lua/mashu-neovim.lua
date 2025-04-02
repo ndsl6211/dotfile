@@ -76,6 +76,7 @@ vim.keymap.set("n", "<C-c>", ":nohlsearch<CR>", { noremap = true, silent = true 
 
 -- map <C-Esc> to exit terminal focus
 vim.keymap.set("t", "<C-Esc>", "<C-\\><C-n>", { noremap = true, silent = true })
+vim.keymap.set("t", "<C-t>", "<C-\\><C-n>", { noremap = true, silent = true })
 
 -- make n and N center the screen
 vim.keymap.set("n", "n", "nzz", { noremap = true, silent = true })
