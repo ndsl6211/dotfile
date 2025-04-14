@@ -93,3 +93,10 @@ vim.keymap.set("n", "<CS-x>", "<C-w><C-s>", { noremap = true, silent = true })
 -- remap page up and down to j and k
 vim.keymap.set("n", "<C-k>", "<C-u>zz", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-j>", "<C-d>zz", { noremap = true, silent = true })
+
+-- remap split window to <A-k>, <A-j>, <A-h>, <A-l>
+vim.keymap.set("n", "<A-k>", "<C-w>k", { noremap = true, silent = true })
+vim.keymap.set("n", "<A-j>", "<C-w>j", { noremap = true, silent = true })
+vim.keymap.set("n", "<A-h>", "<C-w>h", { noremap = true, silent = true })
+vim.keymap.set("n", "<A-l>", "<C-w>l", { noremap = true, silent = true })
+
