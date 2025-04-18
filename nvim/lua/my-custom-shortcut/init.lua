@@ -1,2 +1,0 @@
---vim.keymap.set('n', '<C-[>', 'zc', {})
---vim.keymap.set('n', '<C-]>', 'zo', {})
