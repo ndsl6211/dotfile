@@ -99,3 +99,6 @@ vim.keymap.set("n", "<A-k>", "<C-w>k", { noremap = true, silent = true })
 vim.keymap.set("n", "<A-j>", "<C-w>j", { noremap = true, silent = true })
 vim.keymap.set("n", "<A-h>", "<C-w>h", { noremap = true, silent = true })
 vim.keymap.set("n", "<A-l>", "<C-w>l", { noremap = true, silent = true })
+
+-- set colorscheme
+vim.cmd.colorscheme("dracula")

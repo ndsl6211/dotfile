@@ -9,6 +9,47 @@ local function init()
   vim.keymap.set('n', '<leader>ft', builtin.treesitter, {})
   vim.keymap.set('n', '<leader>fr', builtin.lsp_references, {})
   vim.keymap.set('n', '<leader>fm', builtin.keymaps, {})
+
+  vim.keymap.set(
+    'n',
+    'gd',
+    function ()
+      builtin.lsp_definitions({
+        jump_type = 'vsplit',
+      })
+    end,
+    {}
+  )
+  vim.keymap.set(
+    'n',
+    'gD',
+    function ()
+      builtin.lsp_type_definitions({
+        jump_type = 'vsplit',
+      })
+    end,
+    {}
+  )
+  vim.keymap.set(
+    'n',
+    'gi',
+    function ()
+      builtin.lsp_implementations({
+        jump_type = 'vsplit',
+      })
+    end,
+    {}
+  )
+  vim.keymap.set(
+    'n',
+    'gr',
+    function ()
+      builtin.lsp_references({
+        jump_type = 'vsplit',
+      })
+    end,
+    {}
+  )
 end
 
 return {
