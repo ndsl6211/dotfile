@@ -1,19 +1,10 @@
--- set relative line numbers
-vim.opt.rnu = true
-vim.opt.number = true
-vim.opt.numberwidth = 2
-
 vim.opt.autoread = true
 vim.opt.maxmempattern = 5000
 
 -- set the textwith and wrapping
 vim.opt.textwidth = 99
 vim.opt.wrap = false
-vim.opt.colorcolumn = "100"
-
--- set the cursorline and cursorcolumn
-vim.opt.cursorline = true
-vim.opt.cursorcolumn = true
+--vim.opt.colorcolumn = "100"
 
 -- share clipboard with the system
 vim.opt.clipboard = "unnamedplus"
@@ -56,49 +47,83 @@ vim.opt.showmode = true
 vim.opt.compatible = false
 vim.opt.ttyfast = true
 
--- disable relative number when entering insert mode
-vim.api.nvim_create_autocmd("InsertEnter", {
-  pattern = "*",
-  command = "set norelativenumber",
-})
+local function set_up_nu_rnu()
+  -- set relative line numbers
+  vim.opt.rnu = true
+  vim.opt.number = true
+  vim.opt.numberwidth = 2
 
--- enable relative number when leaving insert mode
-vim.api.nvim_create_autocmd("InsertLeave", {
-  pattern = "*",
-  command = "set relativenumber",
-})
+  -- disable relative number when entering insert mode
+  vim.api.nvim_create_autocmd("InsertEnter", {
+    pattern = "*",
+    command = "set norelativenumber",
+  })
 
--- map space key to :
-vim.keymap.set("n", "<space>", ":", { noremap = true, silent = true })
+  -- enable relative number when leaving insert mode
+  vim.api.nvim_create_autocmd("InsertLeave", {
+    pattern = "*",
+    command = "set relativenumber",
+  })
+end
 
--- map <C-h> to clear the search highlight
-vim.keymap.set("n", "<C-c>", ":nohlsearch<CR>", { noremap = true, silent = true })
+local function set_up_keymaps()
+  -- map space key to :
+  vim.keymap.set("n", "<space>", ":", { noremap = true, silent = true })
 
--- map <C-Esc> to exit terminal focus
-vim.keymap.set("t", "<C-Esc>", "<C-\\><C-n>", { noremap = true, silent = true })
-vim.keymap.set("t", "<C-t>", "<C-\\><C-n>", { noremap = true, silent = true })
+  -- map <C-h> to clear the search highlight
+  vim.keymap.set("n", "<C-c>", ":nohlsearch<CR>", { noremap = true, silent = true })
 
--- make n and N center the screen
-vim.keymap.set("n", "n", "nzz", { noremap = true, silent = true })
-vim.keymap.set("n", "N", "Nzz", { noremap = true, silent = true })
+  -- map <C-Esc> to exit terminal focus
+  vim.keymap.set("t", "<C-Esc>", "<C-\\><C-n>", { noremap = true, silent = true })
+  vim.keymap.set("t", "<C-t>", "<C-\\><C-n>", { noremap = true, silent = true })
 
--- to be updated
-vim.keymap.set("n", "gv", ":vsp<CR>gd", { noremap = true, silent = true })
-vim.keymap.set("n", "gx", ":sp<CR>gd", { noremap = true, silent = true })
+  -- make n and N center the screen
+  vim.keymap.set("n", "n", "nzz", { noremap = true, silent = true })
+  vim.keymap.set("n", "N", "Nzz", { noremap = true, silent = true })
 
--- create split and switch to it
-vim.keymap.set("n", "<CS-v>", "<C-w><C-v>", { noremap = true, silent = true })
-vim.keymap.set("n", "<CS-x>", "<C-w><C-s>", { noremap = true, silent = true })
+  -- to be updated
+  vim.keymap.set("n", "gv", ":vsp<CR>gd", { noremap = true, silent = true })
+  vim.keymap.set("n", "gx", ":sp<CR>gd", { noremap = true, silent = true })
 
--- remap page up and down to j and k
-vim.keymap.set("n", "<C-k>", "<C-u>zz", { noremap = true, silent = true })
-vim.keymap.set("n", "<C-j>", "<C-d>zz", { noremap = true, silent = true })
+  -- create split and switch to it
+  vim.keymap.set("n", "<CS-v>", "<C-w><C-v>", { noremap = true, silent = true })
+  vim.keymap.set("n", "<CS-x>", "<C-w><C-s>", { noremap = true, silent = true })
 
--- remap split window to <A-k>, <A-j>, <A-h>, <A-l>
-vim.keymap.set("n", "<A-k>", "<C-w>k", { noremap = true, silent = true })
-vim.keymap.set("n", "<A-j>", "<C-w>j", { noremap = true, silent = true })
-vim.keymap.set("n", "<A-h>", "<C-w>h", { noremap = true, silent = true })
-vim.keymap.set("n", "<A-l>", "<C-w>l", { noremap = true, silent = true })
+  -- remap page up and down to j and k
+  vim.keymap.set("n", "<C-k>", "<C-u>zz", { noremap = true, silent = true })
+  vim.keymap.set("n", "<C-j>", "<C-d>zz", { noremap = true, silent = true })
 
--- set colorscheme
-vim.cmd.colorscheme("dracula")
+  -- remap split window to <A-k>, <A-j>, <A-h>, <A-l>
+  vim.keymap.set("n", "<A-k>", "<C-w>k", { noremap = true, silent = true })
+  vim.keymap.set("n", "<A-j>", "<C-w>j", { noremap = true, silent = true })
+  vim.keymap.set("n", "<A-h>", "<C-w>h", { noremap = true, silent = true })
+  vim.keymap.set("n", "<A-l>", "<C-w>l", { noremap = true, silent = true })
+end
+
+local function set_up_theme()
+  -- set colorscheme
+  --vim.cmd.colorscheme("dracula")
+  --vim.cmd.colorscheme("onedark")
+  vim.cmd.colorscheme("everforest")
+
+  -- enable the cursorline and cursorcolumn
+  vim.opt.cursorline = true
+  vim.opt.cursorcolumn = true
+
+  -- set the highlight for the cursorline to "underline" without bg
+  -- Note: this lua function will automatically determine cterm and gui through the variable
+  -- "termguicolors". You can check the value of "termguicolors" by running ":echo &termguicolors"
+  vim.api.nvim_set_hl(0, "CursorLine", {
+    underline = true,
+    bg = "NONE"
+  })
+
+  vim.api.nvim_set_hl(0, "CursorColumn", {
+    underline = false,
+    bg = "#3a3a3a"
+  })
+end
+
+set_up_nu_rnu()
+set_up_keymaps()
+set_up_theme()
