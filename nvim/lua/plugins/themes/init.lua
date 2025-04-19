@@ -1,16 +1,4 @@
 local function init()
-  -- set the highlight for the cursorline to "underline" without bg
-  -- Note: this lua function will automatically determine cterm and gui through the variable
-  -- "termguicolors". You can check the value of "termguicolors" by running ":echo &termguicolors"
-  vim.api.nvim_set_hl(0, "CursorLine", {
-    underline = true,
-    bg = "NONE"
-  })
-
-  vim.api.nvim_set_hl(0, "CursorColumn", {
-    underline = false,
-    bg = "#4a4a4a"
-  })
 end
 
 init()
@@ -29,14 +17,36 @@ return {
     opts = {},
   },
   { 'EdenEast/nightfox.nvim' },
-  { 'lunarvim/darkplus.nvim' },
-  { 'lunarvim/onedarker.nvim' },
-  { 'lunarvim/onedark.nvim' },
-  { 'lunarvim/templeos.nvim' },
-  { 'lunarvim/everforest.nvim' },
-  { 'lunarvim/sonokai.nvim' },
+  {
+    'navarasu/onedark.nvim',
+    config = function ()
+      require('onedark').setup({
+        style = 'deep',
+      })
+    end,
+  },
+  {
+    'neanias/everforest-nvim',
+    version = false,
+    lazy = false,
+    priority = 1000, -- make sure to load this before all the other start plugins
+    -- Optional; default configuration will be used if setup isn't called.
+    config = function()
+      require("everforest").setup({
+        -- Your config here
+      })
+    end,
+  },
+  {
+    'sainnhe/sonokai',
+      lazy = false,
+      priority = 1000,
+      config = function()
+        -- Optionally configure and load the colorscheme
+        -- directly inside the plugin declaration.
+        vim.g.sonokai_enable_italic = true
+        --vim.cmd.colorscheme('sonokai')
+      end
+  },
   { 'lunarvim/synthwave84.nvim' },
-  { 'lunarvim/oxocarbon.nvim' },
-  { 'lunarvim/kanagawa.nvim' },
-  { 'lunarvim/ayu-vim' },
 }
