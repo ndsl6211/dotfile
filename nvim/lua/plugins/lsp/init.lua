@@ -139,12 +139,15 @@ local function init_nvim_lsp()
       -- Buffer local mappings.
       -- See `:help vim.lsp.*` for documentation on any of the below functions
       local opts = { buffer = ev.buf }
-      vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-      vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-      vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-      vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
       vim.keymap.set('n', '<C-h>', vim.lsp.buf.hover, opts)
       vim.keymap.set('n', '<C-s>', vim.lsp.buf.signature_help, opts)
+
+      -- the following four mappings are disabled because I've mapped them on telescope
+      --vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+      --vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+      --vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+      --vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+      --
       --vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
       --vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
       --vim.keymap.set('n', '<space>wl', function()
@@ -206,8 +209,8 @@ return {
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-path",
-    "hrsh7th/cmp-cmdline",
     "hrsh7th/nvim-cmp",
+    --"hrsh7th/cmp-cmdline",
     -- "saadparwaiz1/cmp_luasnip",
     -- "L3MON4D3/LuaSnip",
     -- "rafamadriz/friendly-snippets",
