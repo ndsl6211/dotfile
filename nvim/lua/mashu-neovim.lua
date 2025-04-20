@@ -108,7 +108,10 @@ local function set_up_theme()
 
   -- enable the cursorline and cursorcolumn
   vim.opt.cursorline = true
-  vim.opt.cursorcolumn = true
+
+  if not vim.g.vscode then
+    vim.opt.cursorcolumn = true
+  end
 
   -- set the highlight for the cursorline to "underline" without bg
   -- Note: this lua function will automatically determine cterm and gui through the variable
@@ -124,6 +127,20 @@ local function set_up_theme()
   })
 end
 
+local function set_up_neovide()
+  vim.g.neovide_input_macos_option_key_is_meta = 'only_left'
+  vim.keymap.set('n', '<D-s>', ':w<CR>') -- Save
+  vim.keymap.set('v', '<D-c>', '"+y') -- Copy
+  vim.keymap.set('n', '<D-v>', '"+P') -- Paste normal mode
+  vim.keymap.set('v', '<D-v>', '"+P') -- Paste visual mode
+  vim.keymap.set('c', '<D-v>', '<C-R>+') -- Paste command mode
+  vim.keymap.set('i', '<D-v>', '<ESC>l"+Pli') -- Paste insert mode
+end
+
 set_up_nu_rnu()
 set_up_keymaps()
 set_up_theme()
+
+if vim.g.neovide then
+  set_up_neovide()
+end
