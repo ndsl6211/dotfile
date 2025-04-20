@@ -68,7 +68,7 @@ end
 
 local function set_up_keymaps()
   -- map space key to :
-  vim.keymap.set("n", "<space>", ":", { noremap = true, silent = true })
+  vim.keymap.set("n", "<space>", ":", { noremap = true })
 
   -- map <C-h> to clear the search highlight
   vim.keymap.set("n", "<C-c>", ":nohlsearch<CR>", { noremap = true, silent = true })
@@ -90,8 +90,9 @@ local function set_up_keymaps()
   vim.keymap.set("n", "<CS-x>", "<C-w><C-s>", { noremap = true, silent = true })
 
   -- remap page up and down to j and k
-  vim.keymap.set("n", "<C-k>", "<C-u>zz", { noremap = true, silent = true })
-  vim.keymap.set("n", "<C-j>", "<C-d>zz", { noremap = true, silent = true })
+  -- !! the followint two mappings are replaced by plugin "neoscroll"
+  --vim.keymap.set("n", "<C-k>", "<C-u>zz", { noremap = true, silent = true })
+  --vim.keymap.set("n", "<C-j>", "<C-d>zz", { noremap = true, silent = true })
 
   -- remap split window to <A-k>, <A-j>, <A-h>, <A-l>
   vim.keymap.set("n", "<A-k>", "<C-w>k", { noremap = true, silent = true })
@@ -125,6 +126,10 @@ local function set_up_theme()
     underline = false,
     bg = "#3a3a3a"
   })
+
+  vim.api.nvim_set_hl(0, 'IlluminatedWordText', { underline = true })
+  vim.api.nvim_set_hl(0, 'IlluminatedWordRead', { underline = true })
+  vim.api.nvim_set_hl(0, 'IlluminatedWordWrite', { underline = true })
 end
 
 local function set_up_neovide()

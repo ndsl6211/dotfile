@@ -142,23 +142,22 @@ local function init_nvim_lsp()
       vim.keymap.set('n', '<C-h>', vim.lsp.buf.hover, opts)
       vim.keymap.set('n', '<C-s>', vim.lsp.buf.signature_help, opts)
 
-      -- the following four mappings are disabled because I've mapped them on telescope
-      --vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-      --vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-      --vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-      --vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-      --
+      vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+      vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+      vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+      vim.keymap.set('n', 'gR', vim.lsp.buf.references, opts)
+
       --vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
       --vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
       --vim.keymap.set('n', '<space>wl', function()
       --print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
       --end, opts)
       --vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
-      vim.keymap.set('n', '<A-r>', vim.lsp.buf.rename, opts)
       --vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
-      vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+
+      vim.keymap.set('n', '<A-r>', vim.lsp.buf.rename, opts)
       vim.keymap.set('n', '<A-f>', function()
-        vim.lsp.buf.format { async = true }
+        vim.lsp.buf.format({ async = true })
       end, opts)
 
       --vim.api.nvim_command('autocmd BufWritePre <buffer> lua vim.lsp.buf.format { async = true }')
