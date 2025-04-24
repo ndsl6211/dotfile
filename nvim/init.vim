@@ -3,8 +3,12 @@ let g:python3_host_prog = system('pyenv which python3')
 let g:python3_host_prog = substitute(g:python3_host_prog, '\n\+$', '', '')
 
 """ import .lua settings
-lua require('config.lazy')
-lua require('mashu-neovim')
+if exists('g:vscode')
+  lua require('mashu-neovim')
+else
+  lua require('config.lazy')
+  lua require('mashu-neovim')
+endif
 
 " import .vim settings
 source ~/.config/nvim/vim/my-idea/init.vim

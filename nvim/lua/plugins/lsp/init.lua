@@ -53,6 +53,9 @@ local function init_nvim_lsp()
   -- vim
   lspconfig.vimls.setup({})
 
+  -- bash
+  lspconfig.bashls.setup({})
+
   -- lua
   lspconfig.lua_ls.setup({
     on_init = function(client)

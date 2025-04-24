@@ -144,7 +144,9 @@ end
 
 set_up_nu_rnu()
 set_up_keymaps()
-set_up_theme()
+if not vim.g.vscode then
+  set_up_theme()
+end
 
 if vim.g.neovide then
   set_up_neovide()
