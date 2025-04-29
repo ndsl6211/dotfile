@@ -1,5 +1,6 @@
 return {
   'sphamba/smear-cursor.nvim',
+  enabled = true,
   opts = {
     -- detailed configuration: https://github.com/sphamba/smear-cursor.nvim/blob/main/lua/smear_cursor/config.lua
 
@@ -24,12 +25,14 @@ return {
     --cursor_color = '#d3cdc3',
 
     -- fire hazard
-    cursor_color = "#dcb124",
+    cursor_color = "#23a17e",
     stiffness = 0.5,
-    trailing_stiffness = 0.2,
-    trailing_exponent = 0.8,
+    trailing_stiffness = 0.3,
+    trailing_exponent = 1,
     never_draw_over_target = true,
-    hide_target_hack = true,
-    gamma = 1,
+    distance_stop_animating = 0.5,        -- 0.1      > 0
+
+    --hide_target_hack = true,
+    gamma = 0.75,
   },
 }

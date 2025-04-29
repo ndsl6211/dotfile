@@ -1,6 +1,6 @@
 local function init()
   vim.o.foldmethod = "expr"
-  vim.o.foldexpr = "nvim_treesitter#foldexpr()"
+  --vim.o.foldexpr = "nvim_treesitter#foldexpr()"
   vim.o.foldenable = false
 
   require('nvim-treesitter.configs').setup({

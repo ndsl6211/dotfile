@@ -12,10 +12,10 @@ local function init()
     sections = {
       lualine_a = {'mode'},
       lualine_b = {'branch', 'diff'},
-      lualine_c = {'filename', tree_sitter_status_line},
+      lualine_c = {'filename'},
       lualine_x = {'encoding', 'fileformat', 'filetype'},
       lualine_y = {'progress'},
-      lualine_z = {'location'}
+      lualine_z = {'location', 'selectioncount'}
     },
   })
 end
