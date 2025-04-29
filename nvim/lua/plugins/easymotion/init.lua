@@ -22,6 +22,7 @@ end
 
 return {
   'easymotion/vim-easymotion',
+  eanbled = false,
   config = function()
     init()
   end
