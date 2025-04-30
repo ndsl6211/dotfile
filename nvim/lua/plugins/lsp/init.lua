@@ -112,6 +112,10 @@ local function init_nvim_lsp()
         schemas = {
           ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
         },
+        schemaStore = {
+          enable = true,
+          url = "https://www.schemastore.org/api/json/catalog.json",
+        }
       },
     }
   }
@@ -168,6 +172,60 @@ end
 
 local function init_nvim_cmp()
   local cmp = require('cmp')
+  local kind_icons = {
+    Text = "",
+    Method = "󰆧",
+    Function = "󰊕",
+    Constructor = "",
+    Field = "󰇽",
+    Variable = "󰂡",
+    Class = "󰠱",
+    Interface = "",
+    Module = "",
+    Property = "󰜢",
+    Unit = "",
+    Value = "󰎠",
+    Enum = "",
+    Keyword = "󰌋",
+    Snippet = "",
+    Color = "󰏘",
+    File = "󰈙",
+    Reference = "",
+    Folder = "󰉋",
+    EnumMember = "",
+    Constant = "󰏿",
+    Struct = "",
+    Event = "",
+    Operator = "󰆕",
+    TypeParameter = "󰅲",
+  }
+  --local cmp_kinds = {
+  --Text = '  ',
+  --Method = '  ',
+  --Function = '  ',
+  --Constructor = '  ',
+  --Field = '  ',
+  --Variable = '  ',
+  --Class = '  ',
+  --Interface = '  ',
+  --Module = '  ',
+  --Property = '  ',
+  --Unit = '  ',
+  --Value = '  ',
+  --Enum = '  ',
+  --Keyword = '  ',
+  --Snippet = '  ',
+  --Color = '  ',
+  --File = '  ',
+  --Reference = '  ',
+  --Folder = '  ',
+  --EnumMember = '  ',
+  --Constant = '  ',
+  --Struct = '  ',
+  --Event = '  ',
+  --Operator = '  ',
+  --TypeParameter = '  ',
+  --}
   cmp.setup({
     window = {
       completion = {
@@ -198,7 +256,28 @@ local function init_nvim_cmp()
       -- { name = 'snippy' }, -- For snippy users.
     }, {
       { name = 'buffer' },
-    })
+    }),
+    formatting = {
+      fields = { "kind", "abbr", "menu" },
+      format = function(entry, vim_item)
+        -- Kind icons
+        local entrySourceName = ({
+          buffer = "[Buffer]",
+          nvim_lsp = "[LSP]",
+          luasnip = "[LuaSnip]",
+          nvim_lua = "[Lua]",
+          latex_symbols = "[LaTeX]",
+        })[entry.source.name] or ""
+
+        local kind = require("lspkind").cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, vim_item)
+        local strings = vim.split(kind.kind, "%s", { trimempty = true })
+        kind.kind = (strings[1] or "")
+        --kind.menu = "    (" .. (strings[2] or "") .. ")"
+        kind.menu = "(" .. (strings[2] or "") .. ")" .. entrySourceName
+
+        return kind
+      end
+    },
   })
 end
 
@@ -210,7 +289,8 @@ return {
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-path",
     "hrsh7th/nvim-cmp",
-    --"hrsh7th/cmp-cmdline",
+    "onsails/lspkind.nvim",
+    "hrsh7th/cmp-cmdline",
     -- "saadparwaiz1/cmp_luasnip",
     -- "L3MON4D3/LuaSnip",
     -- "rafamadriz/friendly-snippets",
