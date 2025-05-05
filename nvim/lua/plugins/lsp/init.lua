@@ -250,6 +250,7 @@ local function init_nvim_cmp()
     }),
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
+      { name = 'nvim_lsp_signature_help' },
       -- { name = 'vsnip' }, -- For vsnip users.
       -- { name = 'luasnip' }, -- For luasnip users.
       -- { name = 'ultisnips' }, -- For ultisnips users.
@@ -291,6 +292,8 @@ return {
     "hrsh7th/nvim-cmp",
     "onsails/lspkind.nvim",
     "hrsh7th/cmp-cmdline",
+    "hrsh7th/cmp-nvim-lsp-signature-help"
+    --"ray-x/lsp_signature.nvim"
     -- "saadparwaiz1/cmp_luasnip",
     -- "L3MON4D3/LuaSnip",
     -- "rafamadriz/friendly-snippets",
