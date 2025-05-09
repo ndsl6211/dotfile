@@ -8,7 +8,7 @@
 - 如果是使用 iTerm，需要 alt+f 來 format code，請到 iTerm settings
 <img width="1128" alt="截圖 2025-05-07 19 40 12" src="https://github.com/user-attachments/assets/0ece900e-cd1d-409d-9e2a-561b113de960" />
 
-## GitHub Copilot
+## [GitHub Copilot](https://github.com/github/copilot.vim)
 
 Clone config:
 ```
