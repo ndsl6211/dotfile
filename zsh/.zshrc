@@ -126,6 +126,9 @@ if [[ "$(uname)" == "Linux" ]]; then
   # add brew to path
   export PATH="$HOME/linuxbrew/.linuxbrew/bin:$PATH"
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+  # add kitty to path
+  export PATH="$HOME/.local/kitty.app/bin:$PATH"
 fi
 
 
@@ -149,7 +152,7 @@ export PATH="/opt/nvim-linux-x86_64/bin:$PATH"
 
 ### Set up Node.js
 export NVM_DIR="$HOME/.nvm"
-#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 #[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 
@@ -171,3 +174,5 @@ export PATH=$HOME/go/bin:$PATH
 
 ### Welcome message
 figlet -f slant -w 120 '[ welcome, mashu ]' | cowsay -f parrot -n | lolcat -f -S 10
+
+. "$HOME/.local/bin/env"

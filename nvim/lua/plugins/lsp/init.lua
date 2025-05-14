@@ -286,6 +286,23 @@ local function init_nvim_cmp()
   })
 end
 
+local function init_nvim_cmp_cmdline()
+  local cmp = require('cmp')
+  cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = 'path' }
+    }, {
+      {
+        name = 'cmdline',
+        option = {
+          ignore_cmds = { 'Man', '!' }
+        }
+      }
+    })
+  })
+end
+
 return {
   "neovim/nvim-lspconfig",
   lazy = false,
@@ -305,5 +322,6 @@ return {
   config = function()
     init_nvim_lsp()
     init_nvim_cmp()
+    init_nvim_cmp_cmdline()
   end,
 }
