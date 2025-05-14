@@ -23,18 +23,22 @@ local function init_nvim_lsp()
       }
     }
   })
-
-  -- rust
-  lspconfig.rust_analyzer.setup({})
-
-  -- ruff
   lspconfig.ruff.setup({
     init_options = {
       settings = {
-        lineLength = 100
+        lineLength = 100,
+        organizeImports = true,
+        lint = {
+          enable = true,
+          select = {"I"}
+        }
       }
     }
   })
+
+
+  -- rust
+  lspconfig.rust_analyzer.setup({})
 
   lspconfig.ruff.setup({
     init_options = {
