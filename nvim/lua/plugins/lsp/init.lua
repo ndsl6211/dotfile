@@ -164,9 +164,19 @@ local function init_nvim_lsp()
       --vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
       --vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
 
+      -- rename variable
       vim.keymap.set('n', '<A-r>', vim.lsp.buf.rename, opts)
+
+      -- format code + organize imports
       vim.keymap.set('n', '<A-f>', function()
-        vim.lsp.buf.format({ async = true })
+        vim.lsp.buf.format({ async = false })
+        vim.lsp.buf.code_action({
+          context = {
+            only = { "source.organizeImports" },
+            diagnostics = {},
+          },
+          apply = true,
+        })
       end, opts)
 
       --vim.api.nvim_command('autocmd BufWritePre <buffer> lua vim.lsp.buf.format { async = true }')
