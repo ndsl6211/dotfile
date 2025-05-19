@@ -172,6 +172,10 @@ export PATH=$HOME/go/bin:$PATH
 . "$HOME/.cargo/env"
 
 
+### Set up kubeconfig
+export KUBECONFIG="$HOME/.kube/config:$HOME/.kube/mashu-config"
+
+
 ### Welcome message
 figlet -f slant -w 120 '[ welcome, mashu ]' | cowsay -f parrot -n | lolcat -f -S 10
 
