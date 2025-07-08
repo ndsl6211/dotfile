@@ -7,6 +7,7 @@ local function init_nvim_lsp()
 
 
   -- python
+  if vim.fn.executable('pyright-langserver') == 1 then
   lspconfig.pyright.setup({
     settings = {
       pyright = {
@@ -23,36 +24,37 @@ local function init_nvim_lsp()
       }
     }
   })
-  lspconfig.ruff.setup({
-    init_options = {
-      settings = {
-        lineLength = 100,
-        organizeImports = true,
-        lint = {
-          enable = true,
-          select = {"I"}
+  end
+  if vim.fn.executable('ruff') == 1 then
+    lspconfig.ruff.setup({
+      init_options = {
+        settings = {
+          lineLength = 100,
+          organizeImports = true,
+          args = { "--line-length=100" },
+          lint = {
+            enable = true,
+            select = { "I" }
+          }
         }
       }
-    }
-  })
-
+    })
+  end
 
   -- rust
-  lspconfig.rust_analyzer.setup({})
-
-  lspconfig.ruff.setup({
-    init_options = {
-      settings = {
-        args = { "--line-length=100" }
-      }
-    }
-  })
+  if vim.fn.executable('rust-analyzer') == 1 then
+    lspconfig.rust_analyzer.setup({})
+  end
 
   -- typescript
-  lspconfig.ts_ls.setup({})
+  if vim.fn.executable('typescript-language-server') == 1 then
+    lspconfig.ts_ls.setup({})
+  end
 
   -- golang
-  lspconfig.gopls.setup({})
+  if vim.fn.executable('gopls') == 1 then
+    lspconfig.gopls.setup({})
+  end
 
   -- vim
   lspconfig.vimls.setup({})
