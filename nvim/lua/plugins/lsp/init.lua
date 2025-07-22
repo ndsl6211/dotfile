@@ -1,136 +1,48 @@
 local function init_nvim_lsp()
-  local lspconfig = require('lspconfig')
+  -- Enable the following language servers only if Neovim version >= 0.11
+  if vim.fn.has('nvim-0.11') == 1 then
+    -- python
+    vim.lsp.enable({ "pyright", "ruff" })
 
-  --Enable (broadcasting) snippet capability for completion
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities.textDocument.completion.completionItem.snippetSupport = true
+    -- rust
+    vim.lsp.enable("rust_analyzer")
 
+    -- typescript
+    vim.lsp.enable("ts_ls")
 
-  -- python
-  if vim.fn.executable('pyright-langserver') == 1 then
-  lspconfig.pyright.setup({
-    settings = {
-      pyright = {
-        -- Using Ruff's import organizer
-        disableOrganizeImports = true,
-      },
-      python = {
-        analysis = {
-          autoImportCompletions = true,
-          typeCheckingMode = "off",
-          -- Ignore all files for analysis to exclusively use Ruff for linting
-          ignore = { '*' },
-        }
-      }
-    }
-  })
-  end
-  if vim.fn.executable('ruff') == 1 then
-    lspconfig.ruff.setup({
-      init_options = {
-        settings = {
-          lineLength = 100,
-          organizeImports = true,
-          args = { "--line-length=100" },
-          lint = {
-            enable = true,
-            select = { "I" }
-          }
-        }
-      }
-    })
-  end
+    -- golang
+    vim.lsp.enable("gopls")
 
-  -- rust
-  if vim.fn.executable('rust-analyzer') == 1 then
-    lspconfig.rust_analyzer.setup({})
+    -- vim
+    vim.lsp.enable("vimls")
+
+    -- bash
+    vim.lsp.enable("bashls")
+
+    -- lua
+    vim.lsp.enable("lua_ls")
+
+    -- html
+    vim.lsp.enable("html")
+
+    -- css
+    vim.lsp.enable("cssls")
+
+    -- json
+    vim.lsp.enable("jsonls")
+
+    -- yaml
+    vim.lsp.enable("yamlls")
+
+    -- hcl
+    vim.lsp.enable("terraformls")
+
+    -- prisma
+    vim.lsp.enable("prismals")
+  else
+    vim.notify("Neovim version >= 0.11 is required for LSP support", vim.log.levels.WARN)
   end
 
-  -- typescript
-  if vim.fn.executable('typescript-language-server') == 1 then
-    lspconfig.ts_ls.setup({})
-  end
-
-  -- golang
-  if vim.fn.executable('gopls') == 1 then
-    lspconfig.gopls.setup({})
-  end
-
-  -- vim
-  lspconfig.vimls.setup({})
-
-  -- bash
-  lspconfig.bashls.setup({})
-
-  -- lua
-  lspconfig.lua_ls.setup({
-    on_init = function(client)
-      local path = client.workspace_folders[1].name
-      if vim.loop.fs_stat(path .. '/.luarc.json') or vim.loop.fs_stat(path .. '/.luarc.jsonc') then
-        return
-      end
-
-      client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
-        runtime = {
-          -- Tell the language server which version of Lua you're using
-          -- (most likely LuaJIT in the case of Neovim)
-          version = 'LuaJIT'
-        },
-        -- Make the server aware of Neovim runtime files
-        workspace = {
-          checkThirdParty = false,
-          library = {
-            vim.env.VIMRUNTIME
-            -- Depending on the usage, you might want to add additional paths here.
-            -- "${3rd}/luv/library"
-            -- "${3rd}/busted/library",
-          }
-          -- or pull in all of 'runtimepath'. NOTE: this is a lot slower
-          -- library = vim.api.nvim_get_runtime_file("", true)
-        }
-      })
-    end,
-    settings = {
-      Lua = {}
-    },
-    capabilities = capabilities,
-  })
-
-  -- html
-  lspconfig.html.setup({
-    capabilities = capabilities,
-  })
-
-  -- css
-  lspconfig.cssls.setup({
-    capabilities = capabilities,
-  })
-
-  -- json
-  lspconfig.jsonls.setup({
-    capabilities = capabilities,
-  })
-
-  -- yaml
-  lspconfig.yamlls.setup {
-    settings = {
-      yaml = {
-        schemas = {
-          ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
-        },
-        schemaStore = {
-          enable = true,
-          url = "https://www.schemastore.org/api/json/catalog.json",
-        }
-      },
-    }
-  }
-
-  -- hcl
-  lspconfig.terraformls.setup({})
-
-  -- prisma
-  lspconfig.prismals.setup({})
 
   -- Global mappings.
   -- See `:help vim.diagnostic.*` for documentation on any of the below functions
