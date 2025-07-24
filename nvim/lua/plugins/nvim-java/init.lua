@@ -26,7 +26,7 @@ return {
     "mason-org/mason-lspconfig.nvim",
     "neovim/nvim-lspconfig",
   },
-  enabled = false,
+  enabled = true,
   config = function ()
     init()
   end,

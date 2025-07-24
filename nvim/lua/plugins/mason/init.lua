@@ -8,6 +8,7 @@ local function init_mason_lspconfig()
       "gopls",
       "html",
       "jsonls",
+      "jdtls",
       "lua_ls",
       "pyright",
       "prismals",
