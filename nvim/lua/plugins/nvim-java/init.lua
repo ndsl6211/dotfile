@@ -1,20 +1,8 @@
 local function init()
-  require("java").setup({})
-
-  local lspconfig = require("lspconfig")
-  lspconfig.jdtls.setup({
-    settings = {
-      java = {
-        configuration = {
-          runtimes = {
-            {
-              name = "OpenJDK 21",
-              path = "/home/mashu/.sdkman/candidates/java/21.0.2-open",
-              default = true,
-            }
-          }
-        }
-      }
+  require("java").setup({
+    java_debug_adapter = {
+      enable = true,
+      version = "0.58.2"  -- Use the working version instead of default 0.58.1
     }
   })
 end
@@ -26,8 +14,8 @@ return {
     "mason-org/mason-lspconfig.nvim",
     "neovim/nvim-lspconfig",
   },
-  enabled = true,
-  config = function ()
+  enabled = false,
+  config = function()
     init()
   end,
   ft = { "java", "gradle", "kotlin" },

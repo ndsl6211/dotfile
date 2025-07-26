@@ -25,6 +25,10 @@ local function init_nvim_lsp()
     -- lua
     vim.lsp.enable("lua_ls")
 
+    -- java
+    vim.lsp.enable("jdtls")
+    vim.lsp.enable("kotlin_language_server")
+
     -- html
     vim.lsp.enable("html")
 
