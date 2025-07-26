@@ -10,6 +10,9 @@ local function init_nvim_lsp()
     -- typescript
     vim.lsp.enable("ts_ls")
 
+    -- clang
+    vim.lsp.enable("clangd")
+
     -- golang
     vim.lsp.enable("gopls")
 
