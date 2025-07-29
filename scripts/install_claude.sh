@@ -1,6 +1,6 @@
 #!/bin/bash
 # ABOUTME: Installs Claude Code configuration by creating ~/.claude directory and setting up symbolic links
-# ABOUTME: Links files from the dotfile repo's claude directory to the user's home directory
+# ABOUTME: Links files from the dotfile repo's claude directory to the user's home directory with OS-specific settings
 
 set -e
 
@@ -10,9 +10,23 @@ DOTFILE_ROOT="$(dirname "$SCRIPT_DIR")"
 CLAUDE_SRC_DIR="$DOTFILE_ROOT/claude"
 CLAUDE_TARGET_DIR="$HOME/.claude"
 
+# Detect operating system
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    OS="macos"
+    SETTINGS_FILE="settings-macos.json"
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    OS="ubuntu"
+    SETTINGS_FILE="settings-ubuntu.json"
+else
+    echo "❌ Unsupported operating system: $OSTYPE"
+    exit 1
+fi
+
 echo "🤖 Installing Claude Code configuration..."
+echo "🖥️  Detected OS: $OS"
 echo "📁 Source directory: $CLAUDE_SRC_DIR"
 echo "🎯 Target directory: $CLAUDE_TARGET_DIR"
+echo "⚙️  Using settings file: $SETTINGS_FILE"
 
 # Create ~/.claude directory if it doesn't exist
 if [ ! -d "$CLAUDE_TARGET_DIR" ]; then
@@ -37,13 +51,13 @@ create_link() {
     ln -s "$src_file" "$target_file"
 }
 
-# Link setting.json
-create_link "$CLAUDE_SRC_DIR/settings.json" "$CLAUDE_TARGET_DIR/settings.json"
+# Link OS-specific settings.json
+create_link "$CLAUDE_SRC_DIR/$SETTINGS_FILE" "$CLAUDE_TARGET_DIR/settings.json"
 
 # Link CLAUDE_md as CLAUDE.md
 create_link "$CLAUDE_SRC_DIR/CLAUDE_md" "$CLAUDE_TARGET_DIR/CLAUDE.md"
 
 echo "🎉 Claude Code configuration installed successfully!"
 echo "📋 Files linked:"
-echo "  ~/.claude/settings.json -> $CLAUDE_SRC_DIR/settings.json"
+echo "  ~/.claude/settings.json -> $CLAUDE_SRC_DIR/$SETTINGS_FILE"
 echo "  ~/.claude/CLAUDE.md -> $CLAUDE_SRC_DIR/CLAUDE_md"
