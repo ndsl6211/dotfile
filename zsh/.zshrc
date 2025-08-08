@@ -172,6 +172,11 @@ export PATH=$HOME/go/bin:$PATH
 . "$HOME/.cargo/env"
 
 
+### Set up podman for testcontainer
+export TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE=/var/run/docker.sock
+export TESTCONTAINERS_RYUK_DISABLED=true
+
+
 ### Set up kubeconfig
 export KUBECONFIG="$HOME/.kube/config:$HOME/.kube/mashu-config"
 
