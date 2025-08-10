@@ -78,6 +78,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 plugins=(
   git
+  z
   zsh-autosuggestions
   zsh-syntax-highlighting
   fast-syntax-highlighting
@@ -147,8 +148,8 @@ export PATH="/opt/nvim-linux-x86_64/bin:$PATH"
 
 
 ### Setup z
-. ~/z.sh
-
+#. ~/z.sh
+# This is no longer needed as z is now a plugin in oh-my-zsh
 
 ### Set up Node.js
 export NVM_DIR="$HOME/.nvm"
