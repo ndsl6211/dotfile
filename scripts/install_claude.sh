@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # ABOUTME: Installs Claude Code configuration by creating ~/.claude directory and setting up symbolic links
 # ABOUTME: Links files from the dotfile repo's claude directory to the user's home directory with OS-specific settings
 
