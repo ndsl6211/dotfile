@@ -185,4 +185,9 @@ export KUBECONFIG="$HOME/.kube/config:$HOME/.kube/mashu-config"
 ### Welcome message
 figlet -f slant -w 120 '[ welcome, mashu ]' | cowsay -f parrot -n | lolcat -f -S 10
 
-. "$HOME/.local/bin/env"
+
+#. "$HOME/.local/bin/env"
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
