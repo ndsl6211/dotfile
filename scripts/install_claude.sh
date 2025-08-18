@@ -41,15 +41,26 @@ fi
 create_link() {
     local src_file="$1"
     local target_file="$2"
+    local replace=${3:-"false"}
     
-    # Remove existing file/link if it exists
-    if [ -e "$target_file" ] || [ -L "$target_file" ]; then
-        echo "🗑️  Removing existing file/link: $target_file"
-        rm -f "$target_file"
+    if [ "$replace" == "true" ]; then
+        # Replace mode: remove existing file/link and create new link
+        echo "🔄 Replacing existing link: $target_file"
+        if [ -e "$target_file" ] || [ -L "$target_file" ]; then
+            echo "🗑️  Removing existing file/link: $target_file"
+            rm -f "$target_file"
+        fi
+        echo "🔗 Creating symbolic link: $target_file -> $src_file"
+        ln -s "$src_file" "$target_file"
+    else
+        # No replace mode: create link only if target doesn't exist
+        if [ -e "$target_file" ] || [ -L "$target_file" ]; then
+            echo "⏭️  Skipping existing file: $target_file"
+        else
+            echo "🔗 Creating symbolic link: $target_file -> $src_file"
+            ln -s "$src_file" "$target_file"
+        fi
     fi
-    
-    echo "🔗 Creating symbolic link: $target_file -> $src_file"
-    ln -s "$src_file" "$target_file"
 }
 
 # Link OS-specific settings.json
@@ -58,7 +69,7 @@ create_link "$CLAUDE_SRC_DIR/$SETTINGS_FILE" "$CLAUDE_TARGET_DIR/settings.json"
 # Link CLAUDE_md as CLAUDE.md
 create_link "$CLAUDE_SRC_DIR/CLAUDE_md" "$CLAUDE_TARGET_DIR/CLAUDE.md"
 
+# Link subagents
+create_link "$CLAUDE_SRC_DIR/agents" "$CLAUDE_TARGET_DIR/agents"
+
 echo "🎉 Claude Code configuration installed successfully!"
-echo "📋 Files linked:"
-echo "  ~/.claude/settings.json -> $CLAUDE_SRC_DIR/$SETTINGS_FILE"
-echo "  ~/.claude/CLAUDE.md -> $CLAUDE_SRC_DIR/CLAUDE_md"

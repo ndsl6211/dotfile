@@ -27,15 +27,26 @@ fi
 create_link() {
     local src_file="$1"
     local target_file="$2"
-
-    # Remove existing file/link if it exists
-    if [ -e "$target_file" ] || [ -L "$target_file" ]; then
-        echo "🗑️  Removing existing file/link: $target_file"
-        rm -f "$target_file"
+    local replace=${3:-"true"}
+    
+    if [ "$replace" == "true" ]; then
+        # Replace mode: remove existing file/link and create new link
+        echo "🔄 Replacing existing link: $target_file"
+        if [ -e "$target_file" ] || [ -L "$target_file" ]; then
+            echo "🗑️  Removing existing file/link: $target_file"
+            rm -f "$target_file"
+        fi
+        echo "🔗 Creating symbolic link: $target_file -> $src_file"
+        ln -s "$src_file" "$target_file"
+    else
+        # No replace mode: create link only if target doesn't exist
+        if [ -e "$target_file" ] || [ -L "$target_file" ]; then
+            echo "⏭️  Skipping existing file: $target_file"
+        else
+            echo "🔗 Creating symbolic link: $target_file -> $src_file"
+            ln -s "$src_file" "$target_file"
+        fi
     fi
-
-    echo "🔗 Creating symbolic link: $target_file -> $src_file"
-    ln -s "$src_file" "$target_file"
 }
 
 # Link key_bindings.ron
