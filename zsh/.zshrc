@@ -113,6 +113,7 @@ alias nvn="$HOME/.nvim-nightly/bin/nvim"
 alias tm="tmux"
 alias tf="terraform"
 alias gui="gitui"
+alias ghe="GH_HOST=git.linecorp.com gh"
 
 
 ### Use vim keybindings
