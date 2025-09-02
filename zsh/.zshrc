@@ -183,6 +183,10 @@ export TESTCONTAINERS_RYUK_DISABLED=true
 export KUBECONFIG="$HOME/.kube/config:$HOME/.kube/mashu-config"
 
 
+### Set up Flutter
+export PATH="$PATH:$HOME/flutter-sdk/flutter-3.35.2/bin"
+
+
 ### Welcome message
 figlet -f slant -w 120 '[ welcome, mashu ]' | cowsay -f parrot -n | lolcat -f -S 10
 
