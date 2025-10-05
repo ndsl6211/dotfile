@@ -1,6 +1,5 @@
 {
-  "env": {
-  },
+  "env": {},
   "permissions": {
     "allow": [],
     "deny": []
@@ -12,7 +11,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "afplay /System/Library/Sounds/Glass.aiff"
+            "command": "afplay /System/Library/Sounds/Funk.aiff"
           }
         ]
       }
@@ -21,7 +20,7 @@
       {
         "hooks": [
           {
-            "type": "command", 
+            "type": "command",
             "command": "afplay /System/Library/Sounds/Ping.aiff"
           }
         ]
@@ -31,11 +30,12 @@
       {
         "hooks": [
           {
-            "type": "command", 
+            "type": "command",
             "command": "afplay /System/Library/Sounds/Purr.aiff"
           }
         ]
       }
     ]
-  }
+  },
+  "alwaysThinkingEnabled": true
 }
