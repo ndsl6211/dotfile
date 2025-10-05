@@ -29,6 +29,9 @@ local function init_nvim_lsp()
     vim.lsp.enable("jdtls")
     vim.lsp.enable("kotlin_language_server")
 
+    -- dart
+    vim.lsp.enable("dartls")
+
     -- html
     vim.lsp.enable("html")
 
