@@ -1,7 +1,29 @@
 #!/bin/bash
 
-# ABOUTME: Installs Neovim configuration by creating ~/.config/nvim directory and setting up
-# symbolic links
+# ABOUTME: Installs Neovim configuration by creating ~/.config/nvim as a symlink to the repo
+# ABOUTME: This creates a directory-level symlink instead of individual file symlinks
+
+# Parse command line arguments
+REPLACE=false
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -r|--replace)
+            REPLACE=true
+            shift
+            ;;
+        -h|--help)
+            echo "Usage: $0 [-r|--replace] [-h|--help]"
+            echo "  -r, --replace    Replace existing configuration (default: false)"
+            echo "  -h, --help       Show this help message"
+            exit 0
+            ;;
+        *)
+            echo "Unknown option: $1"
+            echo "Use -h or --help for usage information"
+            exit 1
+            ;;
+    esac
+done
 
 # Check if Homebrew is installed
 echo "🔍 Checking for Homebrew installation..."
@@ -16,50 +38,39 @@ DOTFILE_ROOT="$(dirname "$SCRIPT_DIR")"
 NVIM_SRC_DIR="$DOTFILE_ROOT/nvim"
 NVIM_TARGET_DIR="$HOME/.config/nvim"
 
-# Create ~/.config/nvim directory if it doesn't exist
-if [ ! -d "$NVIM_TARGET_DIR" ]; then
-    echo "📂 Creating directory: $NVIM_TARGET_DIR"
-    mkdir -p "$NVIM_TARGET_DIR"
-else
-    echo "✅ Directory already exists: $NVIM_TARGET_DIR"
+# Check if ~/.config directory exists
+if [ ! -d "$HOME/.config" ]; then
+    echo "📂 Creating ~/.config directory"
+    mkdir -p "$HOME/.config"
 fi
 
-# Function to create symbolic link
-create_link() {
-    local src_file="$1"
-    local target_file="$2"
-    local replace=${3:-"true"}
-    
-    if [ "$replace" == "true" ]; then
-        # Replace mode: remove existing file/link and create new link
-        echo "🔄 Replacing existing link: $target_file"
-        if [ -e "$target_file" ] || [ -L "$target_file" ]; then
-            echo "🗑️  Removing existing file/link: $target_file"
-            rm -f "$target_file"
-        fi
-        echo "🔗 Creating symbolic link: $target_file -> $src_file"
-        ln -s "$src_file" "$target_file"
+# Handle existing nvim configuration
+if [ -L "$NVIM_TARGET_DIR" ]; then
+    # Target is already a symlink, check if it points to the right place
+    CURRENT_TARGET=$(readlink "$NVIM_TARGET_DIR")
+    if [ "$CURRENT_TARGET" = "$NVIM_SRC_DIR" ]; then
+        echo "✅ Neovim symlink already exists and points to correct location"
+        exit 0
     else
-        # No replace mode: create link only if target doesn't exist
-        if [ -e "$target_file" ] || [ -L "$target_file" ]; then
-            echo "⏭️  Skipping existing file: $target_file"
-        else
-            echo "🔗 Creating symbolic link: $target_file -> $src_file"
-            ln -s "$src_file" "$target_file"
-        fi
+        echo "🔄 Existing symlink points to: $CURRENT_TARGET"
+        echo "🔄 Updating symlink to point to: $NVIM_SRC_DIR"
+        unlink "$NVIM_TARGET_DIR"
     fi
-}
+elif [ -e "$NVIM_TARGET_DIR" ]; then
+    # Target exists but is not a symlink (directory or file)
+    echo "⚠️  Found existing nvim configuration at: $NVIM_TARGET_DIR"
+    if [ "$REPLACE" = "true" ]; then
+        echo "🗑️  Replacing existing configuration (--replace specified)"
+        rm -rf "$NVIM_TARGET_DIR"
+    else
+        echo "⏭️  Skipping installation to preserve existing configuration"
+        echo "💡 Use --replace or -r to overwrite existing configuration"
+        exit 0
+    fi
+fi
 
-# Link init.vim
-create_link "$NVIM_SRC_DIR/init.vim" "$NVIM_TARGET_DIR/init.vim"
+# Create the directory-level symlink
+echo "🔗 Creating directory symlink: $NVIM_TARGET_DIR -> $NVIM_SRC_DIR"
+ln -s "$NVIM_SRC_DIR" "$NVIM_TARGET_DIR"
 
-# Link lua Directory
-create_link "$NVIM_SRC_DIR/lua" "$NVIM_TARGET_DIR/lua"
-
-# Link lsp Directory
-create_link "$NVIM_SRC_DIR/lsp" "$NVIM_TARGET_DIR/lsp"
-
-# Link vim Directory
-create_link "$NVIM_SRC_DIR/vim" "$NVIM_TARGET_DIR/vim"
-
-echo "🎉 Neovim configuration installed successfully!"
+echo "✅ Neovim configuration installed successfully!"

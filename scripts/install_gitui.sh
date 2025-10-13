@@ -1,6 +1,29 @@
 #!/bin/bash
 
-# ABOUTME: Installs GitUI configuration by creating ~/.config/gitui directory and setting up
+# ABOUTME: Installs GitUI configuration by creating ~/.config/gitui as a symlink to the repo
+# ABOUTME: This creates a directory-level symlink instead of individual file symlinks
+
+# Parse command line arguments
+REPLACE=false
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -r|--replace)
+            REPLACE=true
+            shift
+            ;;
+        -h|--help)
+            echo "Usage: $0 [-r|--replace] [-h|--help]"
+            echo "  -r, --replace    Replace existing configuration (default: false)"
+            echo "  -h, --help       Show this help message"
+            exit 0
+            ;;
+        *)
+            echo "Unknown option: $1"
+            echo "Use -h or --help for usage information"
+            exit 1
+            ;;
+    esac
+done
 
 # Check if Homebrew is installed
 echo "🔍 Checking for Homebrew installation..."
@@ -15,42 +38,39 @@ DOTFILE_ROOT="$(dirname "$SCRIPT_DIR")"
 GITUI_SRC_DIR="$DOTFILE_ROOT/gitui"
 GITUI_TARGET_DIR="$HOME/.config/gitui"
 
-# Create ~/.config/gitui directory if it doesn't exist
-if [ ! -d "$GITUI_TARGET_DIR" ]; then
-    echo "📂 Creating directory: $GITUI_TARGET_DIR"
-    mkdir -p "$GITUI_TARGET_DIR"
-else
-    echo "✅ Directory already exists: $GITUI_TARGET_DIR"
+# Check if ~/.config directory exists
+if [ ! -d "$HOME/.config" ]; then
+    echo "📂 Creating ~/.config directory"
+    mkdir -p "$HOME/.config"
 fi
 
-# Function to create symbolic link
-create_link() {
-    local src_file="$1"
-    local target_file="$2"
-    local replace=${3:-"true"}
-    
-    if [ "$replace" == "true" ]; then
-        # Replace mode: remove existing file/link and create new link
-        echo "🔄 Replacing existing link: $target_file"
-        if [ -e "$target_file" ] || [ -L "$target_file" ]; then
-            echo "🗑️  Removing existing file/link: $target_file"
-            rm -f "$target_file"
-        fi
-        echo "🔗 Creating symbolic link: $target_file -> $src_file"
-        ln -s "$src_file" "$target_file"
+# Handle existing gitui configuration
+if [ -L "$GITUI_TARGET_DIR" ]; then
+    # Target is already a symlink, check if it points to the right place
+    CURRENT_TARGET=$(readlink "$GITUI_TARGET_DIR")
+    if [ "$CURRENT_TARGET" = "$GITUI_SRC_DIR" ]; then
+        echo "✅ GitUI symlink already exists and points to correct location"
+        exit 0
     else
-        # No replace mode: create link only if target doesn't exist
-        if [ -e "$target_file" ] || [ -L "$target_file" ]; then
-            echo "⏭️  Skipping existing file: $target_file"
-        else
-            echo "🔗 Creating symbolic link: $target_file -> $src_file"
-            ln -s "$src_file" "$target_file"
-        fi
+        echo "🔄 Existing symlink points to: $CURRENT_TARGET"
+        echo "🔄 Updating symlink to point to: $GITUI_SRC_DIR"
+        unlink "$GITUI_TARGET_DIR"
     fi
-}
+elif [ -e "$GITUI_TARGET_DIR" ]; then
+    # Target exists but is not a symlink (directory or file)
+    echo "⚠️  Found existing gitui configuration at: $GITUI_TARGET_DIR"
+    if [ "$REPLACE" = "true" ]; then
+        echo "🗑️  Replacing existing configuration (--replace specified)"
+        rm -rf "$GITUI_TARGET_DIR"
+    else
+        echo "⏭️  Skipping installation to preserve existing configuration"
+        echo "💡 Use --replace or -r to overwrite existing configuration"
+        exit 0
+    fi
+fi
 
-# Link key_bindings.ron
-create_link "$GITUI_SRC_DIR/key_bindings.ron" "$GITUI_TARGET_DIR/key_bindings.ron"
+# Create the directory-level symlink
+echo "🔗 Creating directory symlink: $GITUI_TARGET_DIR -> $GITUI_SRC_DIR"
+ln -s "$GITUI_SRC_DIR" "$GITUI_TARGET_DIR"
 
-# Link theme.ron
-create_link "$GITUI_SRC_DIR/theme.ron" "$GITUI_TARGET_DIR/theme.ron"
+echo "✅ GitUI configuration installed successfully!"
