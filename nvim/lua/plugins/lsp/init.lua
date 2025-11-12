@@ -49,6 +49,9 @@ local function init_nvim_lsp()
 
     -- prisma
     vim.lsp.enable("prismals")
+
+    -- protobuf
+    vim.lsp.enable("buf_ls")
   else
     vim.notify("Neovim version >= 0.11 is required for LSP support", vim.log.levels.WARN)
   end
