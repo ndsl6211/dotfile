@@ -1,3 +1,27 @@
+local function init()
+  require("which-key").setup({
+    preset = "modern",
+
+    win = {
+      -- "none", "single", "double", "rounded", "solid", "shadow"
+      border = "rounded",
+
+      -- 3. position settings：
+      -- row = math.huge -> bottom
+      -- col = 1 -> left
+      row = math.huge,
+      col = math.huge,
+
+      -- width settings
+      width = 0.3,
+
+      padding = { 1, 2 },
+      title = true,
+      title_pos = "center",
+    },
+  })
+end
+
 return {
   "folke/which-key.nvim",
   event = "VeryLazy",
@@ -15,5 +39,8 @@ return {
       desc = "Buffer Local Keymaps (which-key)",
     },
   },
-  enabled = false,
+  config = function()
+    init()
+  end,
+  enabled = true,
 }

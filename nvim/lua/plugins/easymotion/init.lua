@@ -16,7 +16,7 @@ local function init()
     end,
   })
 
-  vim.keymap.set('n', '<Leader>w', '<Plug>(easymotion-bd-w)', { noremap = false, silent = true })
+  vim.keymap.set('n', '<Leader>w', '<Plug>(easymotion-bd-w)', { noremap = false, silent = true, desc = "EasyMotion word" })
   vim.keymap.del({ 'n', 'x', 'o' }, '<Leader><Leader>')
 end
 
