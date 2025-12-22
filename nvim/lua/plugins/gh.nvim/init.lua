@@ -55,6 +55,6 @@ return {
     vim.keymap.set("n", "<leader>ghpc", ":GHClosePR<CR>")
     vim.keymap.set("n", "<leader>ghr", ":GHOpenPR<CR>")
 
-    vim.cmd("FzfLua register_ui_select")
+    --vim.cmd("FzfLua register_ui_select")
   end,
 }
