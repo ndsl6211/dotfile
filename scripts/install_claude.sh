@@ -100,4 +100,7 @@ create_link "$CLAUDE_SRC_DIR/CLAUDE_md" "$CLAUDE_TARGET_DIR/CLAUDE.md"
 # Link subagents
 create_link "$CLAUDE_SRC_DIR/agents" "$CLAUDE_TARGET_DIR/agents"
 
+# Link skills
+create_link "$CLAUDE_SRC_DIR/skills" "$CLAUDE_TARGET_DIR/skills"
+
 echo "🎉 Claude Code configuration installed successfully!"
