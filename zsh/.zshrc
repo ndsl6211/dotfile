@@ -82,7 +82,7 @@ plugins=(
   zsh-autosuggestions
   zsh-syntax-highlighting
   fast-syntax-highlighting
-  web-search
+  #web-search
   direnv
   fzf
   zsh-fzf-history-search
@@ -115,6 +115,9 @@ alias tf="terraform"
 alias gui="gitui"
 alias ghe="GH_HOST=git.linecorp.com gh"
 
+if [[ $(uname) == "Linux" ]]; then
+  alias fd="fd-find"
+fi
 
 ### Use vim keybindings
 bindkey -v
@@ -174,13 +177,17 @@ export PATH=$HOME/go/bin:$PATH
 . "$HOME/.cargo/env"
 
 
+### Set up Flutter
+export PATH="$HOME/flutter-sdk/3.35.1/bin:$PATH"
+
+
 ### Set up podman for testcontainer
 export TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE=/var/run/docker.sock
 export TESTCONTAINERS_RYUK_DISABLED=true
 
 
 ### Set up kubeconfig
-export KUBECONFIG="$HOME/.kube/config:$HOME/.kube/mashu-config"
+export KUBECONFIG="$HOME/.kube/config:$HOME/.kube/mashu-config:$HOME/.kube/mashu-server-config"
 
 
 ### Set up Flutter
