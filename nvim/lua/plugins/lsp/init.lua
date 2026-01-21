@@ -200,9 +200,8 @@ local function init_nvim_cmp()
       { name = 'buffer' },
     }),
     formatting = {
-      fields = { "kind", "abbr", "menu" },
+      fields = { "icon", "abbr", "menu" }, -- "kind", "icon", "abbr", "menu"
       format = function(entry, vim_item)
-        -- Kind icons
         local entrySourceName = ({
           buffer = "[Buffer]",
           nvim_lsp = "[LSP]",
@@ -212,10 +211,10 @@ local function init_nvim_cmp()
         })[entry.source.name] or ""
 
         local kind = require("lspkind").cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, vim_item)
-        local strings = vim.split(kind.kind, "%s", { trimempty = true })
-        kind.kind = (strings[1] or "")
+        --local strings = vim.split(kind.kind, "%s", { trimempty = true })
+        local type_name = kind.kind
         --kind.menu = "    (" .. (strings[2] or "") .. ")"
-        kind.menu = "(" .. (strings[2] or "") .. ")" .. entrySourceName
+        kind.menu = "(" .. type_name .. ")" .. entrySourceName
 
         return kind
       end
