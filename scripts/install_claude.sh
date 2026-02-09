@@ -7,21 +7,23 @@ set -e
 
 # Parse command line arguments
 REPLACE=false
-PRIVATE=false
+SETTINGS_VARIANT=""
+
 while [[ $# -gt 0 ]]; do
     case $1 in
         -r|--replace)
             REPLACE=true
             shift
             ;;
-        -p|--private)
-            PRIVATE=true
+        -s|--settings)
+            SETTINGS_VARIANT="$2"
+            shift
             shift
             ;;
         -h|--help)
-            echo "Usage: $0 [-r|--replace] [-p|--private] [-h|--help]"
+            echo "Usage: $0 [-r|--replace] [-s|--settings <variant>] [-h|--help]"
             echo "  -r, --replace    Replace existing configuration (default: false)"
-            echo "  -p, --private    Use private settings (default: public)"
+            echo "  -s, --settings   Specify settings variant (e.g. macos, ubuntu, private)"
             echo "  -h, --help       Show this help message"
             exit 0
             ;;
@@ -40,9 +42,9 @@ CLAUDE_SRC_DIR="$DOTFILE_ROOT/claude"
 CLAUDE_TARGET_DIR="$HOME/.claude"
 
 # Determine which settings file to use
-if [ "$PRIVATE" = "true" ]; then
-    SETTINGS_FILE="settings-private.json"
-    PROFILE_TYPE="private"
+if [ -n "$SETTINGS_VARIANT" ]; then
+    SETTINGS_FILE="settings-${SETTINGS_VARIANT}.json"
+    PROFILE_TYPE="$SETTINGS_VARIANT"
 else
     SETTINGS_FILE="settings-public.json"
     PROFILE_TYPE="public"
@@ -104,3 +106,5 @@ create_link "$CLAUDE_SRC_DIR/agents" "$CLAUDE_TARGET_DIR/agents"
 create_link "$CLAUDE_SRC_DIR/skills" "$CLAUDE_TARGET_DIR/skills"
 
 echo "🎉 Claude Code configuration installed successfully!"
+
+
