@@ -20,7 +20,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "ffplay -autoexit /usr/share/sounds/freedesktop/stereo/bell.oga"
+            "command": "ffplay -autoexit -nodisp /usr/share/sounds/freedesktop/stereo/bell.oga"
           }
         ]
       }
@@ -29,5 +29,6 @@
   "enabledPlugins": {
     "typescript-lsp@claude-plugins-official": true,
     "gopls-lsp@claude-plugins-official": true
-  }
+  },
+  "model": "sonnet"
 }
