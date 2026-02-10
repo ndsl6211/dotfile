@@ -1,0 +1,55 @@
+{
+  "ide": {
+    "enabled": true,
+    "hasSeenNudge": true
+  },
+  "security": {
+    "auth": {
+      "selectedType": "oauth-personal"
+    }
+  },
+  "ui": {
+    "showMemoryUsage": true,
+    "showCitations": true,
+    "showModelInfoInChat": true
+  },
+  "tools": {
+    "shell": {
+      "showColor": true
+    }
+  },
+  "general": {
+    "previewFeatures": true,
+    "vimMode": true,
+    "preferredEditor": "neovim"
+  },
+  "output": {
+    "format": "text"
+  },
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "name": "Play sound",
+            "type": "command",
+            "command": "ffplay -nodisp -autoexit /usr/share/sounds/freedesktop/stereo/message.oga"
+          }
+        ]
+      }
+    ],
+    "AfterAgent": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "name": "Play sound",
+            "type": "command",
+            "command": "ffplay -nodisp -autoexit /usr/share/sounds/freedesktop/stereo/message.oga"
+          }
+        ]
+      }
+    ]
+  }
+}
