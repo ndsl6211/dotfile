@@ -195,7 +195,10 @@ export PATH="$PATH:$HOME/flutter-sdk/flutter-3.35.2/bin"
 
 
 ### Welcome message
-figlet -f slant -w 120 '[ welcome, mashu ]' | cowsay -f parrot -n | lolcat -f -S 10
+#figlet -f slant -w 120 '[ welcome, mashu ]' | cowsay -f parrot -n | lolcat -f -S 10
+export COWPATH=$HOME/.cowsay
+export COWSAY_ONLY_COWPATH=1
+figlet -f slant -w 120 '[ welcome, mashu ]' | cowsay -r -n | lolcat -f -S 10
 
 
 #. "$HOME/.local/bin/env"
