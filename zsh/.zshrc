@@ -116,7 +116,8 @@ alias gui="gitui"
 alias ghe="GH_HOST=git.linecorp.com gh"
 
 if [[ $(uname) == "Linux" ]]; then
-  alias fd="fd-find"
+  alias fd="fdfind"
+  alias kitty="env GLFW_IM_MODULE=ibus kitty"
 fi
 
 ### Use vim keybindings
