@@ -207,9 +207,12 @@ figlet -f slant -w 120 '[ welcome, mashu ]' | cowsay -r -n | lolcat -f -S 10
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
-# bun completions
-[ -s "/Users/al03160718/.bun/_bun" ] && source "/Users/al03160718/.bun/_bun"
-
+### Set up Bun
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+# bun completions
+[ -s "/Users/al03160718/.bun/_bun" ] && source "/Users/al03160718/.bun/_bun"
+
+### Set up PATH
+export PATH="$HOME/.local/bin:$PATH"
