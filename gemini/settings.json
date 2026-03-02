@@ -21,7 +21,12 @@
   "general": {
     "previewFeatures": true,
     "vimMode": true,
-    "preferredEditor": "neovim"
+    "preferredEditor": "neovim",
+    "sessionRetention": {
+      "warningAcknowledged": true,
+      "enabled": true,
+      "maxAge": "30d"
+    }
   },
   "output": {
     "format": "text"

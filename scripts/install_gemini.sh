@@ -78,4 +78,7 @@ create_link() {
 # Link settings.json
 create_link "$GEMINI_SRC_DIR/settings.json" "$GEMINI_TARGET_DIR/settings.json"
 
+# Link skills
+create_link "$GEMINI_SRC_DIR/skills" "$GEMINI_TARGET_DIR/skills"
+
 echo "🎉 Gemini CLI configuration installed successfully!"
