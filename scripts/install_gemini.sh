@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# ABOUTME: Installs Gemini CLI configuration by creating ~/.gemini directory and setting up symbolic links
-# ABOUTME: Links files from the dotfile repo's gemini directory
+# ABOUTME: Installs Gemini CLI configuration and GEMINI.md mandates by creating ~/.gemini directory and setting up symbolic links
+# ABOUTME: Links files from the dotfile repo's gemini directory to ~/.gemini and project root
 
 set -e
 
@@ -81,4 +81,13 @@ create_link "$GEMINI_SRC_DIR/settings.json" "$GEMINI_TARGET_DIR/settings.json"
 # Link skills
 create_link "$GEMINI_SRC_DIR/skills" "$GEMINI_TARGET_DIR/skills"
 
-echo "🎉 Gemini CLI configuration installed successfully!"
+# Link GEMINI.md mandates to ~/.gemini/GEMINI.md
+create_link "$GEMINI_SRC_DIR/GEMINI.md" "$GEMINI_TARGET_DIR/GEMINI.md"
+
+# Link GEMINI.md to project root if in a project
+if [ -d "$DOTFILE_ROOT/.git" ]; then
+    echo "📦 Linking GEMINI.md to dotfile project root..."
+    create_link "$GEMINI_SRC_DIR/GEMINI.md" "$DOTFILE_ROOT/GEMINI.md"
+fi
+
+echo "🎉 Gemini CLI configuration and mandates installed successfully!"
