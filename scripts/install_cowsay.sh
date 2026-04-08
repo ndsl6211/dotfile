@@ -1,21 +1,28 @@
 #!/bin/bash
 
-# ABOUTME: Installs cowsay configuration by creating ~/.cowsay as a symlink to the repo
-# ABOUTME: This creates a directory-level symlink for custom cowsay cow files
+# ABOUTME: Installs cowsay configuration by copying files to ~/.cowsay (default) or symlinking.
+# ABOUTME: Copy mode is default because some Perl versions fail to resolve symlinked COWPATHs,
+# ABOUTME: which causes custom cows to be undiscoverable.
 
 set -e
 
 # Parse command line arguments
 REPLACE=false
+SYMLINK=false
 while [[ $# -gt 0 ]]; do
     case $1 in
         -r|--replace)
             REPLACE=true
             shift
             ;;
+        -s|--symlink)
+            SYMLINK=true
+            shift
+            ;;
         -h|--help)
-            echo "Usage: $0 [-r|--replace] [-h|--help]"
+            echo "Usage: $0 [-r|--replace] [-s|--symlink] [-h|--help]"
             echo "  -r, --replace    Replace existing configuration (default: false)"
+            echo "  -s, --symlink    Use symbolic link (Note: may fail on some Perl versions)"
             echo "  -h, --help       Show this help message"
             exit 0
             ;;
@@ -36,6 +43,7 @@ COWSAY_TARGET_DIR="$HOME/.cowsay"
 echo "🐮 Installing cowsay configuration..."
 echo "📁 Source directory: $COWSAY_SRC_DIR"
 echo "🎯 Target directory: $COWSAY_TARGET_DIR"
+echo "🛠️  Mode: $([ "$SYMLINK" = "true" ] && echo "Symlink" || echo "Copy")"
 
 # Check if source directory exists
 if [ ! -d "$COWSAY_SRC_DIR" ]; then
@@ -45,16 +53,16 @@ fi
 
 # Handle existing cowsay configuration
 if [ -L "$COWSAY_TARGET_DIR" ]; then
-    # Target is already a symlink, check if it points to the right place
-    CURRENT_TARGET=$(readlink "$COWSAY_TARGET_DIR")
-    if [ "$CURRENT_TARGET" = "$COWSAY_SRC_DIR" ]; then
-        echo "✅ Cowsay symlink already exists and points to correct location"
-        exit 0
-    else
-        echo "🔄 Existing symlink points to: $CURRENT_TARGET"
-        echo "🔄 Updating symlink to point to: $COWSAY_SRC_DIR"
-        unlink "$COWSAY_TARGET_DIR"
+    # Target is a symlink
+    if [ "$SYMLINK" = "true" ]; then
+        CURRENT_TARGET=$(readlink "$COWSAY_TARGET_DIR")
+        if [ "$CURRENT_TARGET" = "$COWSAY_SRC_DIR" ]; then
+            echo "✅ Cowsay symlink already exists and points to correct location"
+            exit 0
+        fi
     fi
+    echo "🔄 Removing existing symlink to proceed with installation..."
+    rm "$COWSAY_TARGET_DIR"
 elif [ -e "$COWSAY_TARGET_DIR" ]; then
     # Target exists but is not a symlink (directory or file)
     echo "⚠️  Found existing cowsay configuration at: $COWSAY_TARGET_DIR"
@@ -68,8 +76,13 @@ elif [ -e "$COWSAY_TARGET_DIR" ]; then
     fi
 fi
 
-# Create the directory-level symlink
-echo "🔗 Creating directory symlink: $COWSAY_TARGET_DIR -> $COWSAY_SRC_DIR"
-ln -s "$COWSAY_SRC_DIR" "$COWSAY_TARGET_DIR"
+# Execute installation
+if [ "$SYMLINK" = "true" ]; then
+    echo "🔗 Creating directory symlink: $COWSAY_TARGET_DIR -> $COWSAY_SRC_DIR"
+    ln -s "$COWSAY_SRC_DIR" "$COWSAY_TARGET_DIR"
+else
+    echo "📂 Copying directory: $COWSAY_SRC_DIR -> $COWSAY_TARGET_DIR"
+    cp -r "$COWSAY_SRC_DIR" "$COWSAY_TARGET_DIR"
+fi
 
 echo "✅ Cowsay configuration installed successfully!"
