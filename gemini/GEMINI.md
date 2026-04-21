@@ -47,6 +47,7 @@ If you catch yourself writing "new", "old", "legacy", "wrapper", "unified", or i
 
 ## Writing code
 
+- YOU MUST re-read the current content of any file immediately before modifying it, as it may have been changed since you last read it.
 - When submitting work, verify that you have FOLLOWED ALL RULES. (See Rule #1)
 - **Self-Check**: After completing a modification, you MUST perform a self-reflection: "Is this approach truly reasonable and pragmatic given the current context and architecture?"
 - **Consistency & Validation**: Always run the project's test suite to verify changes. If no tests exist, you MUST perform a thorough review of the codebase's existing patterns to ensure your new code is 100% consistent with the established style, naming, and architectural logic.
