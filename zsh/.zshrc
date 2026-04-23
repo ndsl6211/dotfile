@@ -217,3 +217,6 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 ### Set up PATH
 export PATH="$HOME/.local/bin:$PATH"
+
+# opencode
+export PATH=/Users/al03160718/.opencode/bin:$PATH
