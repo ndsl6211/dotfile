@@ -163,9 +163,9 @@ export NVM_DIR="$HOME/.nvm"
 
 
 ### Set up Java and Android SDK
-export ANDROID_HOME="/Users/mashu/Library/Android/sdk"
+export ANDROID_HOME="$HOME/Library/Android/sdk"
 #export PATH="${ANDROID_HOME}/bin:${PATH}"
-export JAVA_HOME="/Users/mashu/Library/Java/JavaVirtualMachines/graalvm-ce-21.0.2/Contents/Home"
+export JAVA_HOME="$HOME/Library/Java/JavaVirtualMachines/graalvm-ce-21.0.2/Contents/Home"
 #export PATH="${JAVA_HOME}/bin:${PATH}"
 
 
@@ -213,10 +213,10 @@ export SDKMAN_DIR="$HOME/.sdkman"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 # bun completions
-[ -s "/Users/al03160718/.bun/_bun" ] && source "/Users/al03160718/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 ### Set up PATH
 export PATH="$HOME/.local/bin:$PATH"
 
 # opencode
-export PATH=/Users/al03160718/.opencode/bin:$PATH
+export PATH="$HOME/.opencode/bin:$PATH"
