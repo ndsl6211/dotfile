@@ -114,22 +114,21 @@ local function set_up_theme()
     vim.opt.cursorcolumn = true
   end
 
-  -- set the highlight for the cursorline to "underline" without bg
-  -- Note: this lua function will automatically determine cterm and gui through the variable
-  -- "termguicolors". You can check the value of "termguicolors" by running ":echo &termguicolors"
-  vim.api.nvim_set_hl(0, "CursorLine", {
-    underline = true,
-    bg = "NONE"
+  -- Apply custom highlights on every colorscheme change to prevent them
+  -- from being overridden by the colorscheme or other plugins.
+  vim.api.nvim_create_autocmd("ColorScheme", {
+    group = vim.api.nvim_create_augroup("MashuCustomHighlights", { clear = true }),
+    callback = function()
+      vim.api.nvim_set_hl(0, "CursorLine", { underline = true, bg = "NONE" })
+      vim.api.nvim_set_hl(0, "CursorColumn", { underline = false, bg = "#3a3a3a" })
+      vim.api.nvim_set_hl(0, "IlluminatedWordText", { underline = true })
+      vim.api.nvim_set_hl(0, "IlluminatedWordRead", { underline = true })
+      vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { underline = true })
+    end,
   })
 
-  vim.api.nvim_set_hl(0, "CursorColumn", {
-    underline = false,
-    bg = "#3a3a3a"
-  })
-
-  vim.api.nvim_set_hl(0, 'IlluminatedWordText', { underline = true })
-  vim.api.nvim_set_hl(0, 'IlluminatedWordRead', { underline = true })
-  vim.api.nvim_set_hl(0, 'IlluminatedWordWrite', { underline = true })
+  -- Trigger once for the initial colorscheme
+  vim.api.nvim_exec_autocmds("ColorScheme", { group = "MashuCustomHighlights" })
 end
 
 local function set_up_neovide()
