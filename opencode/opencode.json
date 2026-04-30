@@ -1,0 +1,493 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "enabled_providers": [
+    "ly-chatai-bedrock",
+    "ly-chatai-openai",
+    "github-copilot"
+  ],
+  "provider": {
+    "ly-chatai-bedrock": {
+      "npm": "@ai-sdk/amazon-bedrock",
+      "name": "LY ChatAI Bedrock",
+      "options": {
+        "baseURL": "{env:LY_CHAT_AI_PROXY_ENDPOINT}",
+        "region": "us-east-1",
+        "accessKeyId": "no-need",
+        "secretAccessKey": "no-need",
+        "sessionToken": "{env:LY_CHATAI_PERSONAL_ACCESS_TOKEN}"
+      },
+      "models": {
+        "us.anthropic.claude-opus-4-6-v1": {
+          "name": "Claude Opus 4.6",
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 5,
+            "output": 25
+          },
+          "temperature": true,
+          "reasoning": true,
+          "tool_call": true,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          }
+        },
+        "us.anthropic.claude-sonnet-4-6": {
+          "name": "Claude Sonnet 4.6",
+          "limit": {
+            "context": 1000000,
+            "output": 64000
+          },
+          "cost": {
+            "input": 3,
+            "output": 15
+          },
+          "temperature": true,
+          "reasoning": true,
+          "tool_call": true,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          }
+        },
+        "us.anthropic.claude-sonnet-4-5-20250929-v1:0": {
+          "name": "Claude Sonnet 4.5",
+          "limit": {
+            "context": 200000,
+            "input": 136000,
+            "output": 64000
+          },
+          "cost": {
+            "input": 3,
+            "output": 15
+          },
+          "temperature": true,
+          "reasoning": true,
+          "tool_call": true,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          }
+        },
+        "us.anthropic.claude-haiku-4-5-20251001-v1:0": {
+          "name": "Claude Haiku 4.5",
+          "limit": {
+            "context": 200000,
+            "input": 136000,
+            "output": 64000
+          },
+          "cost": {
+            "input": 1,
+            "output": 5
+          },
+          "temperature": true,
+          "reasoning": true,
+          "tool_call": true,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          }
+        },
+        "us.anthropic.claude-sonnet-4-20250514-v1:0": {
+          "name": "Claude Sonnet 4.0",
+          "limit": {
+            "context": 200000,
+            "input": 136000,
+            "output": 64000
+          },
+          "temperature": true,
+          "reasoning": true,
+          "tool_call": true,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          }
+        }
+      }
+    },
+    "ly-chatai-openai": {
+      "npm": "@ai-sdk/openai",
+      "name": "LY ChatAI OpenAI",
+      "options": {
+        "baseURL": "{env:LY_CHAT_AI_PROXY_ENDPOINT}/v1",
+        "apiKey": "{env:LY_CHATAI_PERSONAL_ACCESS_TOKEN}"
+      },
+      "models": {
+        "gpt-5.4": {
+          "name": "GPT-5.4",
+          "limit": {
+            "context": 1050000,
+            "input": 922000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 2.5,
+            "output": 15
+          },
+          "temperature": false,
+          "reasoning": true,
+          "tool_call": true,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "variants": {
+            "low": {
+              "reasoningEffort": "low",
+              "reasoningSummary": "auto"
+            },
+            "medium": {
+              "reasoningEffort": "medium",
+              "reasoningSummary": "auto"
+            },
+            "high": {
+              "reasoningEffort": "high",
+              "reasoningSummary": "auto"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh",
+              "reasoningSummary": "auto"
+            }
+          }
+        },
+        "gpt-5.3-codex": {
+          "name": "GPT-5.3 Codex",
+          "limit": {
+            "context": 400000,
+            "input": 272000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 1.75,
+            "output": 14
+          },
+          "temperature": false,
+          "reasoning": true,
+          "tool_call": true,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "variants": {
+            "low": {
+              "reasoningEffort": "low",
+              "reasoningSummary": "auto"
+            },
+            "medium": {
+              "reasoningEffort": "medium",
+              "reasoningSummary": "auto"
+            },
+            "high": {
+              "reasoningEffort": "high",
+              "reasoningSummary": "auto"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh",
+              "reasoningSummary": "auto"
+            }
+          }
+        },
+        "gpt-5.2": {
+          "name": "GPT-5.2",
+          "limit": {
+            "context": 400000,
+            "input": 272000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 1.75,
+            "output": 14
+          },
+          "temperature": false,
+          "reasoning": true,
+          "tool_call": true,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "variants": {
+            "low": {
+              "reasoningEffort": "low",
+              "reasoningSummary": "auto"
+            },
+            "medium": {
+              "reasoningEffort": "medium",
+              "reasoningSummary": "auto"
+            },
+            "high": {
+              "reasoningEffort": "high",
+              "reasoningSummary": "auto"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh",
+              "reasoningSummary": "auto"
+            }
+          }
+        },
+        "gpt-5.2-codex": {
+          "name": "GPT-5.2 Codex",
+          "limit": {
+            "context": 400000,
+            "input": 272000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 1.75,
+            "output": 14
+          },
+          "temperature": false,
+          "reasoning": true,
+          "tool_call": true,
+          "variants": {
+            "low": {
+              "reasoningEffort": "low",
+              "reasoningSummary": "auto"
+            },
+            "medium": {
+              "reasoningEffort": "medium",
+              "reasoningSummary": "auto"
+            },
+            "high": {
+              "reasoningEffort": "high",
+              "reasoningSummary": "auto"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh",
+              "reasoningSummary": "auto"
+            }
+          }
+        },
+        "gpt-5.2-pro": {
+          "name": "GPT-5.2 Pro",
+          "limit": {
+            "context": 400000,
+            "input": 272000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 21,
+            "output": 168
+          },
+          "temperature": false,
+          "reasoning": true,
+          "tool_call": true,
+          "variants": {
+            "medium": {
+              "reasoningEffort": "medium",
+              "reasoningSummary": "auto"
+            },
+            "high": {
+              "reasoningEffort": "high",
+              "reasoningSummary": "auto"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh",
+              "reasoningSummary": "auto"
+            }
+          }
+        },
+        "gpt-5.1": {
+          "name": "GPT-5.1",
+          "limit": {
+            "context": 400000,
+            "input": 272000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 1.25,
+            "output": 10
+          },
+          "temperature": false,
+          "reasoning": true,
+          "tool_call": true,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "variants": {
+            "low": {
+              "reasoningEffort": "low",
+              "reasoningSummary": "auto"
+            },
+            "medium": {
+              "reasoningEffort": "medium",
+              "reasoningSummary": "auto"
+            },
+            "high": {
+              "reasoningEffort": "high",
+              "reasoningSummary": "auto"
+            }
+          }
+        },
+        "gpt-5": {
+          "name": "GPT-5",
+          "limit": {
+            "context": 400000,
+            "input": 272000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 1.25,
+            "output": 10
+          },
+          "temperature": false,
+          "reasoning": true,
+          "tool_call": true,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "variants": {
+            "low": {
+              "reasoningEffort": "low",
+              "reasoningSummary": "auto"
+            },
+            "medium": {
+              "reasoningEffort": "medium",
+              "reasoningSummary": "auto"
+            },
+            "high": {
+              "reasoningEffort": "high",
+              "reasoningSummary": "auto"
+            }
+          }
+        },
+        "gpt-5-mini": {
+          "name": "GPT-5 mini",
+          "limit": {
+            "context": 400000,
+            "input": 272000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 0.25,
+            "output": 2
+          },
+          "temperature": false,
+          "reasoning": true,
+          "tool_call": true,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "variants": {
+            "low": {
+              "reasoningEffort": "low",
+              "reasoningSummary": "auto"
+            },
+            "medium": {
+              "reasoningEffort": "medium",
+              "reasoningSummary": "auto"
+            }
+          }
+        },
+        "gpt-5-nano": {
+          "name": "GPT-5 nano",
+          "limit": {
+            "context": 400000,
+            "input": 272000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 0.05,
+            "output": 0.4
+          },
+          "temperature": false,
+          "reasoning": true,
+          "tool_call": true,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          }
+        },
+        "gpt-4o": {
+          "name": "GPT-4o",
+          "limit": {
+            "context": 128000,
+            "input": 111616,
+            "output": 16384
+          },
+          "cost": {
+            "input": 2.5,
+            "output": 10
+          },
+          "temperature": true,
+          "reasoning": false,
+          "tool_call": true,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          }
+        },
+        "gpt-4.1": {
+          "name": "GPT-4.1",
+          "limit": {
+            "context": 1047576,
+            "input": 1014808,
+            "output": 32768
+          },
+          "cost": {
+            "input": 2,
+            "output": 8
+          },
+          "temperature": true,
+          "reasoning": false,
+          "tool_call": true,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          }
+        },
+        "gpt-4.1-mini": {
+          "name": "GPT-4.1 mini",
+          "limit": {
+            "context": 1047576,
+            "input": 1014808,
+            "output": 32768
+          },
+          "cost": {
+            "input": 0.4,
+            "output": 1.6
+          },
+          "temperature": true,
+          "reasoning": false,
+          "tool_call": true,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          }
+        },
+        "gpt-4.1-nano": {
+          "name": "GPT-4.1 nano",
+          "limit": {
+            "context": 1047576,
+            "input": 1014808,
+            "output": 32768
+          },
+          "cost": {
+            "input": 0.1,
+            "output": 0.4
+          },
+          "temperature": true,
+          "reasoning": false,
+          "tool_call": true,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          }
+        }
+      }
+    }
+  },
+  "agent": {
+    "build": {
+      "disable": true
+    },
+    "plan": {
+      "disable": true
+    }
+  }
+}
