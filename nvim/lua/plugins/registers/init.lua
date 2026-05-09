@@ -99,8 +99,8 @@ return {
     init()
   end,
   keys = {
-    { "\"",    mode = { "n", "v" } },
-    { "<C-R>", mode = "i" },
+    { "\"",    mode = { "n", "v" }, desc = "Show registers" },
+    { "<C-R>", mode = "i", desc = "Insert from register" },
   },
   name = "registers",
 }

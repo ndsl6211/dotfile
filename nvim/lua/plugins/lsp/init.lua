@@ -59,7 +59,7 @@ local function init_nvim_lsp()
 
   -- Global mappings.
   -- See `:help vim.diagnostic.*` for documentation on any of the below functions
-  vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
+  vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = "Show diagnostics float" })
   --vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
   --vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
   --vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
@@ -75,13 +75,19 @@ local function init_nvim_lsp()
       -- Buffer local mappings.
       -- See `:help vim.lsp.*` for documentation on any of the below functions
       local opts = { buffer = ev.buf }
-      vim.keymap.set('n', '<C-h>', function() vim.lsp.buf.hover({ border = 'double' }) end, opts)
-      vim.keymap.set('n', '<C-s>', function() vim.lsp.buf.signature_help({ border = 'double' }) end, opts)
+      vim.keymap.set('n', '<C-h>', function() vim.lsp.buf.hover({ border = 'double' }) end,
+        vim.tbl_extend('force', opts, { desc = "LSP hover" }))
+      vim.keymap.set('n', '<C-s>', function() vim.lsp.buf.signature_help({ border = 'double' }) end,
+        vim.tbl_extend('force', opts, { desc = "LSP signature help" }))
 
-      vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-      vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-      vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-      vim.keymap.set('n', 'gR', vim.lsp.buf.references, opts)
+      vim.keymap.set('n', 'gD', vim.lsp.buf.declaration,
+        vim.tbl_extend('force', opts, { desc = "Go to declaration" }))
+      vim.keymap.set('n', 'gd', vim.lsp.buf.definition,
+        vim.tbl_extend('force', opts, { desc = "Go to definition" }))
+      vim.keymap.set('n', 'gi', vim.lsp.buf.implementation,
+        vim.tbl_extend('force', opts, { desc = "Go to implementation" }))
+      vim.keymap.set('n', 'gR', vim.lsp.buf.references,
+        vim.tbl_extend('force', opts, { desc = "Find references" }))
 
       --vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
       --vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
@@ -92,7 +98,8 @@ local function init_nvim_lsp()
       --vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
 
       -- rename variable
-      vim.keymap.set('n', '<A-r>', vim.lsp.buf.rename, opts)
+      vim.keymap.set('n', '<A-r>', vim.lsp.buf.rename,
+        vim.tbl_extend('force', opts, { desc = "LSP rename symbol" }))
 
       -- format code + organize imports
       vim.keymap.set('n', '<A-f>', function()
@@ -104,7 +111,7 @@ local function init_nvim_lsp()
           },
           apply = true,
         })
-      end, opts)
+      end, vim.tbl_extend('force', opts, { desc = "Format and organize imports" }))
 
       --vim.api.nvim_command('autocmd BufWritePre <buffer> lua vim.lsp.buf.format { async = true }')
     end,

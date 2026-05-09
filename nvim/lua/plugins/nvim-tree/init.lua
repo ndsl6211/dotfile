@@ -38,6 +38,14 @@ local function init()
     vim.keymap.set('n', '?', api.tree.toggle_help, opts('Help'))
     vim.keymap.set('n', '<C-[>', api.tree.change_root_to_parent, opts('CD..'))
     vim.keymap.set('n', '<CR>', api.tree.change_root_to_node, opts('Change root to node'))
+
+    -- Send file path to opencode
+    vim.keymap.set({ 'n', 'v' }, '<leader>os', function()
+      local node = api.tree.get_node_under_cursor()
+      if node and node.absolute_path then
+        require("opencode").prompt(node.absolute_path)
+      end
+    end, opts('Send path to opencode'))
   end
 
   -- OR setup with some options

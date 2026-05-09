@@ -50,7 +50,8 @@ local function init ()
 
   vim.keymap.set('n', '<leader>iblt', '<Esc>:IBLToggle<CR>', {
     noremap = true,
-    silent = true
+    silent = true,
+    desc = "Toggle indent guides",
   })
 end
 

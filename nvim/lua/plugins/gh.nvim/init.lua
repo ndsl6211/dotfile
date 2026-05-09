@@ -48,12 +48,12 @@ return {
       }
     })
 
-    vim.keymap.set("n", "<leader>ghco", ":GHOpenToCommit<CR>")
-    vim.keymap.set("n", "<leader>ghcc", ":GHCloseCommit<CR>")
+    vim.keymap.set("n", "<leader>ghco", ":GHOpenToCommit<CR>", { desc = "GH open commit" })
+    vim.keymap.set("n", "<leader>ghcc", ":GHCloseCommit<CR>", { desc = "GH close commit" })
 
-    vim.keymap.set("n", "<leader>ghpo", ":GHOpenPR<CR>")
-    vim.keymap.set("n", "<leader>ghpc", ":GHClosePR<CR>")
-    vim.keymap.set("n", "<leader>ghr", ":GHOpenPR<CR>")
+    vim.keymap.set("n", "<leader>ghpo", ":GHOpenPR<CR>", { desc = "GH open PR" })
+    vim.keymap.set("n", "<leader>ghpc", ":GHClosePR<CR>", { desc = "GH close PR" })
+    vim.keymap.set("n", "<leader>ghr", ":GHOpenPR<CR>", { desc = "GH review PR" })
 
     --vim.cmd("FzfLua register_ui_select")
   end,
