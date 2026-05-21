@@ -27,7 +27,7 @@ return {
     { "<leader>oc", function() require("opencode").toggle() end, desc = "Toggle opencode" },
 
     -- Send current context to opencode (append only, does not submit) -- consistent with \as (claude) and \ga (gemini)
-    { "<leader>os", function() require("opencode").prompt("@this") end, mode = { "n", "v" }, desc = "Send to opencode" },
+    { "<leader>os", function() require("opencode").prompt("@this ") end, mode = { "n", "v" }, desc = "Send to opencode" },
 
     -- Ask (open input box, type freely)
     { "<leader>oa", function() require("opencode").ask("@this ") end, mode = { "n", "v" }, desc = "Ask opencode" },

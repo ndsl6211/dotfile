@@ -43,7 +43,7 @@ local function init()
     vim.keymap.set({ 'n', 'v' }, '<leader>os', function()
       local node = api.tree.get_node_under_cursor()
       if node and node.absolute_path then
-        require("opencode").prompt(node.absolute_path)
+        require("opencode").prompt(node.absolute_path .. " ")
       end
     end, opts('Send path to opencode'))
   end
