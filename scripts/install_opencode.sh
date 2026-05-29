@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ABOUTME: Installs OpenCode configuration by creating ~/.config/opencode directory and setting up symbolic links
-# ABOUTME: Links skill files and opencode.json from the dotfile repo's opencode directory
+# ABOUTME: Links skills, agents, and opencode.json from the dotfile repo's opencode directory
 
 set -e
 
@@ -86,9 +86,7 @@ create_link "$OPENCODE_SRC_DIR/opencode.json" "$OPENCODE_TARGET_DIR/opencode.jso
 # Link agents directory
 create_link "$OPENCODE_SRC_DIR/agents" "$OPENCODE_TARGET_DIR/agents"
 
-# Link skill directory
-mkdir -p "$OPENCODE_TARGET_DIR/skill"
-create_link "$OPENCODE_SRC_DIR/skill/write-command" "$OPENCODE_TARGET_DIR/skill/write-command"
-create_link "$OPENCODE_SRC_DIR/skill/write-skill" "$OPENCODE_TARGET_DIR/skill/write-skill"
+# Link skills directory
+create_link "$OPENCODE_SRC_DIR/skills" "$OPENCODE_TARGET_DIR/skills"
 
 echo "OpenCode configuration installed successfully!"

@@ -17,6 +17,17 @@
         "sessionToken": "{env:LY_CHATAI_PERSONAL_ACCESS_TOKEN}"
       },
       "models": {
+        "us.anthropic.claude-opus-4-7": {
+          "name": "Claude Opus 4.7",
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 5.0,
+            "output": 25.0
+          }
+        },
         "us.anthropic.claude-opus-4-6-v1": {
           "name": "Claude Opus 4.6",
           "limit": {
@@ -83,6 +94,81 @@
         "apiKey": "{env:LY_CHATAI_PERSONAL_ACCESS_TOKEN}"
       },
       "models": {
+        "gpt-5.5-pro": {
+          "name": "GPT-5.5",
+          "limit": {
+            "context": 1050000,
+            "input": 220000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 30.0,
+            "output": 180.0
+          },
+          "temperature": false,
+          "reasoning": true,
+          "tool_call": true,
+          "variants": {
+            "low": {
+              "reasoningEffort": "low",
+              "reasoningSummary": "auto"
+            },
+            "medium": {
+              "reasoningEffort": "medium",
+              "reasoningSummary": "auto"
+            },
+            "high": {
+              "reasoningEffort": "high",
+              "reasoningSummary": "auto"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh",
+              "reasoningSummary": "auto"
+            }
+          }
+        },
+        "gpt-5.5": {
+          "name": "GPT-5.5",
+          "limit": {
+            "context": 1050000,
+            "input": 220000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 5.0,
+            "output": 30.0
+          },
+          "temperature": false,
+          "reasoning": true,
+          "tool_call": true,
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "variants": {
+            "low": {
+              "reasoningEffort": "low",
+              "reasoningSummary": "auto"
+            },
+            "medium": {
+              "reasoningEffort": "medium",
+              "reasoningSummary": "auto"
+            },
+            "high": {
+              "reasoningEffort": "high",
+              "reasoningSummary": "auto"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh",
+              "reasoningSummary": "auto"
+            }
+          }
+        },
         "gpt-5.4": {
           "name": "GPT-5.4",
           "limit": {
@@ -98,8 +184,13 @@
           "reasoning": true,
           "tool_call": true,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "variants": {
             "low": {
@@ -135,8 +226,13 @@
           "reasoning": true,
           "tool_call": true,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "variants": {
             "low": {
@@ -172,8 +268,13 @@
           "reasoning": true,
           "tool_call": true,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "variants": {
             "low": {
@@ -271,8 +372,13 @@
           "reasoning": true,
           "tool_call": true,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "variants": {
             "low": {
@@ -304,8 +410,13 @@
           "reasoning": true,
           "tool_call": true,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "variants": {
             "low": {
@@ -337,8 +448,13 @@
           "reasoning": true,
           "tool_call": true,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "variants": {
             "low": {
@@ -366,8 +482,13 @@
           "reasoning": true,
           "tool_call": true,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           }
         },
         "gpt-4o": {
@@ -385,8 +506,13 @@
           "reasoning": false,
           "tool_call": true,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           }
         },
         "gpt-4.1": {
@@ -404,8 +530,13 @@
           "reasoning": false,
           "tool_call": true,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           }
         },
         "gpt-4.1-mini": {
@@ -423,8 +554,13 @@
           "reasoning": false,
           "tool_call": true,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           }
         },
         "gpt-4.1-nano": {
@@ -442,8 +578,13 @@
           "reasoning": false,
           "tool_call": true,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           }
         }
       }
