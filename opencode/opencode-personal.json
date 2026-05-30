@@ -6,37 +6,12 @@
   ],
   "provider": {
     "deepseek": {
-      "models": {
-        "deepseek-chat": {
-          "name": "DeepSeek V4 Flash",
-          "limit": {
-            "context": 1000000,
-            "output": 128000
-          },
-          "cost": {
-            "input": 0.1,
-            "output": 0.2
-          }
-        },
-        "deepseek-reasoner": {
-          "name": "DeepSeek V4 Pro",
-          "limit": {
-            "context": 1000000,
-            "output": 128000
-          },
-          "cost": {
-            "input": 0.44,
-            "output": 0.87
-          }
-        }
-      }
+      "models": {}
     },
     "openai": {
       "models": {}
     }
   },
-  "model": "deepseek/deepseek-reasoner",
-  "small_model": "deepseek/deepseek-chat",
   "agent": {
     "build": {
       "disable": false
