@@ -23,7 +23,7 @@ while [[ $# -gt 0 ]]; do
         -h|--help)
             echo "Usage: $0 [-r|--replace] [-s|--settings <variant>] [-h|--help]"
             echo "  -r, --replace    Replace existing configuration (default: false)"
-            echo "  -s, --settings   Specify settings variant (e.g. work, private)"
+            echo "  -s, --settings   Specify settings variant (e.g. work, personal)"
             echo "  -h, --help       Show this help message"
             exit 0
             ;;
