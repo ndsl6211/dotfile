@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ABOUTME: Installs OpenCode configuration by creating ~/.config/opencode directory and setting up symbolic links
-# ABOUTME: Links skills, agents, and opencode.json from the dotfile repo's opencode directory
+# ABOUTME: Links skills, agents, and profile-specific opencode.json from the dotfile repo's opencode directory
 
 set -e
 
@@ -23,7 +23,7 @@ while [[ $# -gt 0 ]]; do
         -h|--help)
             echo "Usage: $0 [-r|--replace] [-s|--settings <variant>] [-h|--help]"
             echo "  -r, --replace    Replace existing configuration (default: false)"
-            echo "  -s, --settings   Specify settings variant (unused, kept for interface consistency)"
+            echo "  -s, --settings   Specify settings variant (e.g. work, private)"
             echo "  -h, --help       Show this help message"
             exit 0
             ;;
@@ -41,9 +41,30 @@ DOTFILE_ROOT="$(dirname "$SCRIPT_DIR")"
 OPENCODE_SRC_DIR="$DOTFILE_ROOT/opencode"
 OPENCODE_TARGET_DIR="$HOME/.config/opencode"
 
+# Determine which config file to use
+if [ -n "$SETTINGS_VARIANT" ]; then
+    CONFIG_FILE="opencode-${SETTINGS_VARIANT}.json"
+    PROFILE_TYPE="$SETTINGS_VARIANT"
+else
+    CONFIG_FILE="opencode-work.json"
+    PROFILE_TYPE="work"
+fi
+
+# Verify the config file exists
+if [ ! -f "$OPENCODE_SRC_DIR/$CONFIG_FILE" ]; then
+    echo "Error: Config file not found: $OPENCODE_SRC_DIR/$CONFIG_FILE"
+    echo "Available profiles:"
+    ls "$OPENCODE_SRC_DIR"/opencode-*.json 2>/dev/null | while read f; do
+        basename "$f" | sed 's/opencode-//;s/\.json//'
+    done
+    exit 1
+fi
+
 echo "Installing OpenCode configuration..."
 echo "Source directory: $OPENCODE_SRC_DIR"
 echo "Target directory: $OPENCODE_TARGET_DIR"
+echo "Profile type: $PROFILE_TYPE"
+echo "Using config file: $CONFIG_FILE"
 
 # Create ~/.config/opencode directory if it doesn't exist
 if [ ! -d "$OPENCODE_TARGET_DIR" ]; then
@@ -80,8 +101,8 @@ create_link() {
     fi
 }
 
-# Link opencode.json
-create_link "$OPENCODE_SRC_DIR/opencode.json" "$OPENCODE_TARGET_DIR/opencode.json"
+# Link profile-specific config as opencode.json
+create_link "$OPENCODE_SRC_DIR/$CONFIG_FILE" "$OPENCODE_TARGET_DIR/opencode.json"
 
 # Link agents directory
 create_link "$OPENCODE_SRC_DIR/agents" "$OPENCODE_TARGET_DIR/agents"
