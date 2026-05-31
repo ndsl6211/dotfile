@@ -128,6 +128,9 @@ bindkey -v
 # To customize prompt, run p10k configure or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+### Add $HOME/.local/bin to $PATH
+export PATH="$HOME/.local/bin:$PATH"
+
 if [[ "$(uname)" == "Linux" ]]; then
   # add brew to path
   export PATH="$HOME/linuxbrew/.linuxbrew/bin:$PATH"
@@ -146,11 +149,13 @@ command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 
 
 ### Setup neovim
-# use the neovim installed directly
-export PATH="/opt/nvim-linux-x86_64/bin:$PATH"
-# use the neo vim installed via brew
-# export PATH="$BREW_PREFIX/bin:$PATH"
-
+if [[ "$(uname)" == "Linux" ]]; then
+  # use the neovim installed directly
+  export PATH="/opt/nvim-linux-x86_64/bin:$PATH"
+else
+  # use the neo vim installed via brew
+  export PATH="$BREW_PREFIX/bin:$PATH"
+fi
 
 ### Setup z
 #. ~/z.sh
@@ -162,11 +167,16 @@ export NVM_DIR="$HOME/.nvm"
 #[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 
+### Set up SDKMAN (must be before Java/SDK usage)
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
 ### Set up Java and Android SDK
 export ANDROID_HOME="$HOME/Library/Android/sdk"
 #export PATH="${ANDROID_HOME}/bin:${PATH}"
-export JAVA_HOME="$HOME/Library/Java/JavaVirtualMachines/graalvm-ce-21.0.2/Contents/Home"
-#export PATH="${JAVA_HOME}/bin:${PATH}"
+#export JAVA_HOME="$HOME/Library/Java/JavaVirtualMachines/graalvm-ce-21.0.2/Contents/Home"
+export JAVA_HOME=$(sdk home java current)
+export PATH="${JAVA_HOME}/bin:${PATH}"
 
 
 ### Set up Golang
@@ -202,21 +212,12 @@ export COWSAY_ONLY_COWPATH=1
 figlet -f slant -w 120 '[ welcome, mashu ]' | cowsay -r -n | lolcat -f -S 10
 
 
-#. "$HOME/.local/bin/env"
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-
 ### Set up Bun
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 # bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
-
-### Set up PATH
-export PATH="$HOME/.local/bin:$PATH"
 
 # opencode
 export PATH="$HOME/.opencode/bin:$PATH"
