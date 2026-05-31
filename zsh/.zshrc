@@ -15,7 +15,11 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="powerlevel10k/powerlevel10k"
+if [[ -f "${ZSH_CUSTOM:-$ZSH/custom}/themes/powerlevel10k/powerlevel10k.zsh-theme" ]] || [[ -f "$ZSH/themes/powerlevel10k/powerlevel10k.zsh-theme" ]]; then
+  ZSH_THEME="powerlevel10k/powerlevel10k"
+else
+  ZSH_THEME="robbyrussell"
+fi
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -80,13 +84,18 @@ plugins=(
   git
   z
   zsh-autosuggestions
-  zsh-syntax-highlighting
-  fast-syntax-highlighting
   #web-search
-  direnv
-  fzf
   zsh-fzf-history-search
+  fast-syntax-highlighting
 )
+
+if command -v direnv &>/dev/null; then
+  plugins+=(direnv)
+fi
+
+if command -v fzf &>/dev/null; then
+  plugins+=(fzf)
+fi
 
 source $ZSH/oh-my-zsh.sh
 
@@ -134,7 +143,9 @@ export PATH="$HOME/.local/bin:$PATH"
 if [[ "$(uname)" == "Linux" ]]; then
   # add brew to path
   export PATH="$HOME/linuxbrew/.linuxbrew/bin:$PATH"
-  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  if [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  fi
 
   # add kitty to path
   export PATH="$HOME/.local/kitty.app/bin:$PATH"
@@ -175,8 +186,10 @@ export SDKMAN_DIR="$HOME/.sdkman"
 export ANDROID_HOME="$HOME/Library/Android/sdk"
 #export PATH="${ANDROID_HOME}/bin:${PATH}"
 #export JAVA_HOME="$HOME/Library/Java/JavaVirtualMachines/graalvm-ce-21.0.2/Contents/Home"
-export JAVA_HOME=$(sdk home java current)
-export PATH="${JAVA_HOME}/bin:${PATH}"
+if command -v sdk &>/dev/null; then
+  export JAVA_HOME=$(sdk home java current 2>/dev/null)
+  export PATH="${JAVA_HOME}/bin:${PATH}"
+fi
 
 
 ### Set up Golang
@@ -185,7 +198,7 @@ export PATH=$HOME/go/bin:$PATH
 
 
 ### Set up Rust
-. "$HOME/.cargo/env"
+[[ -f "$HOME/.cargo/env" ]] && . "$HOME/.cargo/env"
 
 
 ### Set up Flutter
@@ -209,7 +222,9 @@ export PATH="$PATH:$HOME/flutter-sdk/flutter-3.35.2/bin"
 #figlet -f slant -w 120 '[ welcome, mashu ]' | cowsay -f parrot -n | lolcat -f -S 10
 export COWPATH=$HOME/.cowsay
 export COWSAY_ONLY_COWPATH=1
-figlet -f slant -w 120 '[ welcome, mashu ]' | cowsay -r -n | lolcat -f -S 10
+if command -v figlet &>/dev/null && command -v cowsay &>/dev/null && command -v lolcat &>/dev/null; then
+  figlet -f slant -w 120 '[ welcome, mashu ]' | cowsay -r -n | lolcat -f -S 10
+fi
 
 
 ### Set up Bun
