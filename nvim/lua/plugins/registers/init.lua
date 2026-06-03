@@ -94,6 +94,7 @@ end
 
 return {
   "tversteeg/registers.nvim",
+  enabled = false,
   cmd = "Registers",
   config = function ()
     init()
