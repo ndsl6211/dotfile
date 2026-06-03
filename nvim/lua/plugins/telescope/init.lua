@@ -41,10 +41,12 @@ local function init()
   )
 end
 
+local is_012 = vim.fn.has('nvim-0.12') == 1
+
 return {
   {
     'nvim-telescope/telescope.nvim',
-    tag = '0.1.8',
+    tag = is_012 and 'v0.2.1' or '0.1.8',
     priority = 1000,
     dependencies = { 'nvim-lua/plenary.nvim' },
     config = function()
