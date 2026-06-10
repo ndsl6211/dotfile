@@ -1,3 +1,9 @@
+-- opencode TUI command and terminal window, shared by the toggle keymap and server.start
+local opencode_cmd = "opencode --port"
+local opencode_terminal_opts = {
+  win = { position = "right", enter = false },
+}
+
 return {
   "nickjvandyke/opencode.nvim",
   version = "*",
@@ -24,7 +30,7 @@ return {
   },
   keys = {
     -- Toggle opencode TUI terminal (right split) -- consistent with \ac (claude) and \gc (gemini)
-    { "<leader>oc", function() require("opencode").toggle() end, desc = "Toggle opencode" },
+    { "<leader>oc", function() require("snacks.terminal").toggle(opencode_cmd, opencode_terminal_opts) end, desc = "Toggle opencode" },
 
     -- Send current context to opencode (append only, does not submit) -- consistent with \as (claude) and \ga (gemini)
     { "<leader>os", function() require("opencode").prompt("@this ") end, mode = { "n", "v" }, desc = "Send to opencode" },
@@ -48,13 +54,16 @@ return {
     { "goo", function() return require("opencode").operator("@this ") .. "_" end, desc = "Add line to opencode", expr = true },
 
     -- Session management
-    { "<leader>oS", function() require("opencode").select_session() end, desc = "Select session" },
     { "<leader>on", function() require("opencode").command("session.new") end, desc = "New session" },
     { "<leader>ox", function() require("opencode").command("session.interrupt") end, desc = "Interrupt session" },
   },
   config = function()
     vim.g.opencode_opts = {
-      server = { port = nil },
+      server = {
+        start = function()
+          require("snacks.terminal").open(opencode_cmd, opencode_terminal_opts)
+        end,
+      },
       lsp = { enabled = false },
       events = {
         enabled = true,
