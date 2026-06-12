@@ -1,5 +1,5 @@
 -- ABOUTME: Core snacks.nvim quality-of-life modules.
--- ABOUTME: Enables the dashboard, smooth scroll, and a toggleable terminal.
+-- ABOUTME: Enables the dashboard, indent guides, smooth scroll, and terminal.
 
 -- Scroll a percentage of the window height using native scroll keys so
 -- snacks.scroll animates the view change. When move_cursor is set, the cursor
@@ -53,6 +53,10 @@ return {
   lazy = false,
   opts = {
     dashboard = { enabled = true },
+    indent = {
+      indent = { char = "▍" },
+      scope = { char = "→" },
+    },
     scroll = {
       enabled = true,
       animate = {
@@ -70,5 +74,7 @@ return {
     { "<C-j>", scroll("<C-e>", "j", 0.2, true), mode = { "n", "v", "x" }, desc = "Scroll down (small)" },
     { "<C-y>", scroll("<C-y>", "k", 0.1, false), mode = { "n", "v", "x" }, desc = "Scroll up (tiny)" },
     { "<C-e>", scroll("<C-e>", "j", 0.1, false), mode = { "n", "v", "x" }, desc = "Scroll down (tiny)" },
+
+    { "<leader>iblt", function() vim.g.snacks_indent = vim.g.snacks_indent == false end, desc = "Toggle indent guides" },
   },
 }
