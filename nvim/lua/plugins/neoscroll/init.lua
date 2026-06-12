@@ -21,6 +21,7 @@ end
 
 return {
   "karb94/neoscroll.nvim",
+  enabled = false,
   config = function()
     init()
   end
