@@ -13,7 +13,7 @@ local function init()
     callback = function()
       api.tree.open({ path = vim.fn.getcwd() }) -- open tree on the current directory
       vim.cmd("wincmd w") -- focus back to the main window
-      vim.cmd("Startify") -- open startify
+      require("snacks.dashboard").open({ win = 0, buf = 0 }) -- render dashboard in the main window
     end
   })
 
