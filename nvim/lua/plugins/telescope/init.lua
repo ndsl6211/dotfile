@@ -50,7 +50,8 @@ return {
     priority = 1000,
     dependencies = { 'nvim-lua/plenary.nvim' },
     config = function()
-      init()
+      -- Find/LSP keymaps are handled by snacks.picker. Call init() to bind telescope instead.
+      -- init()
     end,
   },
   -- {

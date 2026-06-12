@@ -76,5 +76,22 @@ return {
     { "<C-e>", scroll("<C-e>", "j", 0.1, false), mode = { "n", "v", "x" }, desc = "Scroll down (tiny)" },
 
     { "<leader>iblt", function() vim.g.snacks_indent = vim.g.snacks_indent == false end, desc = "Toggle indent guides" },
+
+    -- picker (find)
+    { "<leader>fc", function() Snacks.picker.commands() end, desc = "Find commands" },
+    { "<leader>ff", function() Snacks.picker.files() end, desc = "Find files" },
+    { "<leader>fof", function() Snacks.picker.recent() end, desc = "Find recently opened files" },
+    { "<leader>fg", function() Snacks.picker.grep() end, desc = "Live grep text" },
+    { "<leader>fb", function() Snacks.picker.buffers() end, desc = "Find buffers" },
+    { "<leader>fh", function() Snacks.picker.help() end, desc = "Find help tags" },
+    { "<leader>ft", function() Snacks.picker.treesitter() end, desc = "Find treesitter symbols" },
+    { "<leader>fr", function() Snacks.picker.lsp_references() end, desc = "Find LSP references" },
+    { "<leader>fm", function() Snacks.picker.keymaps() end, desc = "Find keymaps" },
+
+    -- lsp navigation
+    { "<leader>gd", function() Snacks.picker.lsp_definitions() end, desc = "Go to definition" },
+    { "<leader>gD", function() Snacks.picker.lsp_type_definitions() end, desc = "Go to type definition" },
+    { "<leader>gi", function() Snacks.picker.lsp_implementations() end, desc = "Go to implementation" },
+    { "gr", function() Snacks.picker.lsp_references() end, desc = "Go to references" },
   },
 }
