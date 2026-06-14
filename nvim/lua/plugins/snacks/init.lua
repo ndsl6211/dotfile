@@ -88,10 +88,14 @@ return {
     { "<leader>fr", function() Snacks.picker.lsp_references() end, desc = "Find LSP references" },
     { "<leader>fm", function() Snacks.picker.keymaps() end, desc = "Find keymaps" },
 
-    -- lsp navigation
-    { "<leader>gd", function() Snacks.picker.lsp_definitions() end, desc = "Go to definition" },
-    { "<leader>gD", function() Snacks.picker.lsp_type_definitions() end, desc = "Go to type definition" },
-    { "<leader>gi", function() Snacks.picker.lsp_implementations() end, desc = "Go to implementation" },
-    { "gr", function() Snacks.picker.lsp_references() end, desc = "Go to references" },
+    -- lsp navigation (current window)
+    { "gd", function() Snacks.picker.lsp_definitions() end, desc = "Go to definition" },
+    { "gD", function() Snacks.picker.lsp_declarations() end, desc = "Go to declaration" },
+    { "gi", function() Snacks.picker.lsp_implementations() end, desc = "Go to implementation" },
+
+    -- lsp navigation (split)
+    { "<leader>gd", function() Snacks.picker.lsp_definitions({ confirm = { action = "jump", cmd = "vsplit" } }) end, desc = "Go to definition (split)" },
+    { "<leader>gD", function() Snacks.picker.lsp_type_definitions({ confirm = { action = "jump", cmd = "vsplit" } }) end, desc = "Go to type definition (split)" },
+    { "<leader>gi", function() Snacks.picker.lsp_implementations({ confirm = { action = "jump", cmd = "vsplit" } }) end, desc = "Go to implementation (split)" },
   },
 }

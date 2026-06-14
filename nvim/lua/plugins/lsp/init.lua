@@ -80,14 +80,8 @@ local function init_nvim_lsp()
       vim.keymap.set('n', '<C-s>', function() vim.lsp.buf.signature_help({ border = 'double' }) end,
         vim.tbl_extend('force', opts, { desc = "LSP signature help" }))
 
-      vim.keymap.set('n', 'gD', vim.lsp.buf.declaration,
-        vim.tbl_extend('force', opts, { desc = "Go to declaration" }))
-      vim.keymap.set('n', 'gd', vim.lsp.buf.definition,
-        vim.tbl_extend('force', opts, { desc = "Go to definition" }))
-      vim.keymap.set('n', 'gi', vim.lsp.buf.implementation,
-        vim.tbl_extend('force', opts, { desc = "Go to implementation" }))
-      vim.keymap.set('n', 'gR', vim.lsp.buf.references,
-        vim.tbl_extend('force', opts, { desc = "Find references" }))
+      -- gd/gD/gi LSP navigation is provided by snacks.picker (current window),
+      -- with <leader>g* variants opening in a split.
 
       --vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
       --vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
