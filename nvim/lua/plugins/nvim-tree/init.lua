@@ -13,7 +13,16 @@ local function init()
     callback = function()
       api.tree.open({ path = vim.fn.getcwd() }) -- open tree on the current directory
       vim.cmd("wincmd w") -- focus back to the main window
-      require("snacks.dashboard").open({ win = 0, buf = 0 }) -- render dashboard in the main window
+
+      -- Only show the dashboard on a bare `nvim`; never replace a file passed on
+      -- the command line or piped in.
+      local buf = vim.api.nvim_get_current_buf()
+      local is_empty = vim.api.nvim_buf_get_name(buf) == ""
+        and vim.api.nvim_buf_line_count(buf) == 1
+        and vim.api.nvim_buf_get_lines(buf, 0, 1, false)[1] == ""
+      if vim.fn.argc(-1) == 0 and is_empty then
+        require("snacks.dashboard").open({ win = 0, buf = 0 }) -- render dashboard in the main window
+      end
     end
   })
 
