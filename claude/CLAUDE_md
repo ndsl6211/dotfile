@@ -79,6 +79,44 @@ Is it about interacting with YAML or XML? use 'yq'
 - All code files MUST start with a brief 2-line comment explaining what the file does. Each line MUST start with "ABOUTME: " to make them easily greppable.
 - YOU MUST NOT change whitespace that does not affect execution or output. Otherwise, use a formatting tool.
 
+## Working with Mashu on non-trivial tasks
+
+When the task is non-trivial (multi-file changes, new features, refactors,
+schema/API design), prefer the following collaboration pattern over
+silent execution:
+
+1. **Pre-flight alignment**. Before any non-trivial code change, surface
+   the design decisions you intend to make. Enumerate concrete options
+   (numbered, with one-line trade-offs), state your recommended pick,
+   and ask Mashu to confirm or override. Avoid open-ended questions; ask
+   in a form that can be answered with a single short reply.
+
+2. **Narrate while implementing**. As you write code, mark each meaningful
+   choice with "Design consideration N:" before the relevant edit, briefly
+   stating: what choice exists, why you picked one, and what alternatives
+   were rejected. Keep the narration tight; this is for Mashu to skim, not
+   read in full.
+
+3. **Stop and check on hidden assumptions**. When the task implies a
+   downstream behavior that Mashu has not explicitly stated (e.g.
+   "is this method called elsewhere?", "does this column have a
+   consumer?"), do not assume; grep / read for the answer before acting.
+   If the answer changes the design, surface the finding and reconfirm
+   before continuing.
+
+4. **Retrospect after writing**. After finishing the implementation but
+   before committing, point out anything that:
+   - changes existing observable behavior in a non-obvious way,
+   - violates the existing convention you are aware of,
+   - introduces a known limitation or technical debt,
+   so Mashu has the context to accept or reject before commit.
+
+5. **Match codebase conventions, not your defaults**. When the codebase
+   already has a convention (file layout, naming, import order, schema
+   style, FK behavior, comment format), grep / read the existing examples
+   first and follow them. State explicitly when you are intentionally
+   deviating, and why.
+
 ## Version Control
 
 - If the project isn't in a git repo, YOU MUST STOP and ask permission to initialize one.
@@ -182,3 +220,6 @@ When observed facts appear to contradict each other:
 # Summary instructions
 
 When you are using /compact, please focus on our conversation, your most recent (and most significant) learnings, and what you need to do next. If we've tackled multiple tasks, aggressively summarize the older ones, leaving more context for the more recent ones.
+# graphify
+- **graphify** (`~/.claude/skills/graphify/SKILL.md`) - any input to knowledge graph. Trigger: `/graphify`
+When the user types `/graphify`, invoke the Skill tool with `skill: "graphify"` before doing anything else.
