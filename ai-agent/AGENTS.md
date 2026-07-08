@@ -65,7 +65,7 @@ Is it about interacting with YAML or XML? use 'yq'
 
 ## Writing code
 
-- YOU MUST re-read the current content of any file immediately before modifying it, as it may have been changed since you last read it.
+- YOU MUST re-read the current content of any file immediately before reading, writing, or creating it. NEVER rely on memory of what a file contains — always fetch the actual latest content from disk first, even if you just read it moments ago.
 - When submitting work, verify that you have FOLLOWED ALL RULES. (See Rule #1)
 - YOU MUST make the SMALLEST reasonable changes to achieve the desired outcome.
 - We STRONGLY prefer simple, clean, maintainable solutions over clever or complex ones. Readability and maintainability are PRIMARY CONCERNS, even at the cost of conciseness or performance.
