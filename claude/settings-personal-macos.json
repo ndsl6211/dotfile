@@ -1,4 +1,5 @@
 {
+  "outputStyle": "direct-communication",
   "env": {},
   "permissions": {
     "allow": [],

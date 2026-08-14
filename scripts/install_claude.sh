@@ -46,8 +46,8 @@ if [ -n "$SETTINGS_VARIANT" ]; then
     SETTINGS_FILE="settings-${SETTINGS_VARIANT}.json"
     PROFILE_TYPE="$SETTINGS_VARIANT"
 else
-    SETTINGS_FILE="settings-public.json"
-    PROFILE_TYPE="public"
+    SETTINGS_FILE="settings-personal-macos.json"
+    PROFILE_TYPE="personal-macos"
 fi
 
 echo "🤖 Installing Claude Code configuration..."
@@ -104,6 +104,9 @@ create_link "$CLAUDE_SRC_DIR/agents" "$CLAUDE_TARGET_DIR/agents"
 
 # Link skills
 create_link "$CLAUDE_SRC_DIR/skills" "$CLAUDE_TARGET_DIR/skills"
+
+# Link output styles
+create_link "$CLAUDE_SRC_DIR/output-styles" "$CLAUDE_TARGET_DIR/output-styles"
 
 echo "🎉 Claude Code configuration installed successfully!"
 
