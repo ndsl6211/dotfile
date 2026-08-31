@@ -67,7 +67,9 @@ return {
       lsp = { enabled = false },
       events = {
         enabled = true,
-        reload = true,
+        reload = {
+          enabled = true,
+        },
         permissions = {
           enabled = true,
           edits = { enabled = true },
