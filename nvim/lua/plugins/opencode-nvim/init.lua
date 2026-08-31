@@ -64,7 +64,6 @@ return {
           require("snacks.terminal").open(opencode_cmd, opencode_terminal_opts)
         end,
       },
-      lsp = { enabled = false },
       events = {
         enabled = true,
         reload = {
