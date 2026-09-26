@@ -104,6 +104,9 @@ create_link() {
 # Link profile-specific config as opencode.json
 create_link "$OPENCODE_SRC_DIR/$CONFIG_FILE" "$OPENCODE_TARGET_DIR/opencode.json"
 
+# Link shared agent instructions as global AGENTS.md
+create_link "$DOTFILE_ROOT/ai-agent/AGENTS.md" "$OPENCODE_TARGET_DIR/AGENTS.md"
+
 # Link agents directory
 create_link "$OPENCODE_SRC_DIR/agents" "$OPENCODE_TARGET_DIR/agents"
 

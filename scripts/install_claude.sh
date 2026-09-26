@@ -96,8 +96,8 @@ create_link() {
 # Link profile-specific settings.json
 create_link "$CLAUDE_SRC_DIR/$SETTINGS_FILE" "$CLAUDE_TARGET_DIR/settings.json"
 
-# Link CLAUDE_md as CLAUDE.md
-create_link "$CLAUDE_SRC_DIR/CLAUDE_md" "$CLAUDE_TARGET_DIR/CLAUDE.md"
+# Link shared agent instructions as CLAUDE.md
+create_link "$DOTFILE_ROOT/ai-agent/AGENTS.md" "$CLAUDE_TARGET_DIR/CLAUDE.md"
 
 # Link subagents
 create_link "$CLAUDE_SRC_DIR/agents" "$CLAUDE_TARGET_DIR/agents"
