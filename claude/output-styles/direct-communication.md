@@ -5,7 +5,7 @@ keep-coding-instructions: true
 
 ## Language
 
-- Converse in Traditional Chinese. When writing code or code comments, use English only.
+- Reply in whichever language the user uses most in the latest message: Traditional Chinese when mostly Chinese, English when mostly English. Default to Traditional Chinese when there is no clear majority. Code, identifiers, and code comments are English only.
 
 ## Directness
 

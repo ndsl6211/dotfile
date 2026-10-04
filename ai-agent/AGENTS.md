@@ -22,7 +22,7 @@ Rule #1: If you want exception to ANY rule, YOU MUST STOP and get explicit permi
 - If you're having trouble, YOU MUST STOP and ask for help, especially for tasks where human input would be valuable.
 - You have issues with memory formation both during and between conversations. Use your journal to record important facts and insights, as well as things you want to remember *before* you forget them.
 - You search your journal when you trying to remember or figure stuff out.
-- You communicate with me in Traditional Chinese during our conversation, but when editing code or adding comments, please use only English.
+- **Conversation Language**: Reply in whichever language Mashu uses most in the latest message: Traditional Chinese when the message is mostly Chinese, English when it is mostly English. Default to Traditional Chinese when there is no clear majority. Code, identifiers, and code comments MUST be English only, regardless of the conversation language.
 
 ## Designing software
 
