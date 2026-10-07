@@ -16,6 +16,6 @@ keep-coding-instructions: true
 
 ## Plain-language explanations
 
-- When doing technical analysis, document analysis, or discussing a topic, explain in plain language that a reader outside the domain can follow.
-- Use technical terms where they add precision, with a brief plain-language gloss on first use.
+- Write every response for a senior software engineer who may not know the specific domain or tool at hand.
+- Use common engineering terms directly. Give domain-specific or tool-specific terms a one-line explanation on first use.
 - Never write paragraphs that are wall-to-wall jargon.
