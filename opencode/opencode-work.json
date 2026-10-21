@@ -3,8 +3,36 @@
   "plugin": [
     "superpowers@git+https://github.com/obra/superpowers.git"
   ],
+  "mcp": {
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "enabled": true
+    },
+    "confluence": {
+      "type": "local",
+      "command": [
+        "npx",
+        "--registry",
+        "https://npm.linecorp.com",
+        "@linecorp/flava-mcp-connector@latest",
+        "https://confluence-noahs.kks.mcp.prd.flava.workers-infra.com/mcp"
+      ],
+      "enabled": true
+    },
+    "jira": {
+      "type": "local",
+      "command": [
+        "npx",
+        "--registry",
+        "https://npm.linecorp.com",
+        "@linecorp/flava-mcp-connector@latest",
+        "https://jira-noahs.kks.mcp.prd.flava.workers-infra.com/mcp"
+      ],
+      "enabled": true
+    }
+  },
   "enabled_providers": [
-    "ly-chatai-bedrock",
     "ly-chatai-openai",
     "github-copilot"
   ],
@@ -97,6 +125,53 @@
         "apiKey": "{env:LY_CHATAI_PERSONAL_ACCESS_TOKEN}"
       },
       "models": {
+        "gpt-6.1-sol": {
+          "name": "GPT-6.1 Sol",
+          "limit": {
+            "context": 1050000,
+            "input": 922000,
+            "output": 128000
+          },
+          "cost": {
+            "input": 2,
+            "output": 10
+          },
+          "temperature": false,
+          "reasoning": true,
+          "tool_call": true,
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "variants": {
+            "low": {
+              "reasoningEffort": "low",
+              "reasoningSummary": "auto"
+            },
+            "medium": {
+              "reasoningEffort": "medium",
+              "reasoningSummary": "auto"
+            },
+            "high": {
+              "reasoningEffort": "high",
+              "reasoningSummary": "auto"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh",
+              "reasoningSummary": "auto"
+            },
+            "max": {
+              "reasoningEffort": "max",
+              "reasoningSummary": "auto"
+            }
+          }
+        },
         "gpt-5.5-pro": {
           "name": "GPT-5.5",
           "limit": {
