@@ -113,4 +113,7 @@ create_link "$OPENCODE_SRC_DIR/agents" "$OPENCODE_TARGET_DIR/agents"
 # Link skills directory
 create_link "$OPENCODE_SRC_DIR/skills" "$OPENCODE_TARGET_DIR/skills"
 
+# Link plugins directory
+create_link "$OPENCODE_SRC_DIR/plugins" "$OPENCODE_TARGET_DIR/plugins"
+
 echo "OpenCode configuration installed successfully!"
