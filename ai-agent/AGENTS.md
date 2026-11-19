@@ -134,6 +134,16 @@ silent execution:
 - YOU MUST commit frequently throughout the development process, even if your high-level tasks are not yet done.
 - NEVER SKIP OR EVADE OR DISABLE A PRE-COMMIT HOOK
 
+## Investigation and verification
+
+- Read-only investigation, configuration inspection, and factual questions do not require TDD or newly written tests.
+- Verify findings using relevant existing evidence: source files, logs, command output, or existing tests.
+- Apply the debugging workflow to investigating unexpected behavior. Apply TDD when implementing a feature or bug fix.
+- Prefer dedicated read/search tools and existing CLI or project commands for routine investigation.
+- Do not write custom code, including inline Python/Node snippets or temporary script files, when those tools can answer the question directly.
+- Use custom scripts when the required logic would be substantially clearer or more reliable than the available commands.
+- Do not replace a readable script with a convoluted shell one-liner.
+
 ## Testing
 
 - Tests MUST comprehensively cover ALL functionality.
@@ -160,7 +170,7 @@ silent execution:
 YOU MUST ALWAYS find the root cause of any issue you are debugging
 YOU MUST NEVER fix a symptom or add a workaround instead of finding a root cause, even if it is faster or I seem like I'm in a hurry.
 
-YOU MUST follow this debugging framework for ANY technical issue:
+YOU MUST follow this debugging framework when investigating unexpected behavior:
 
 ### Phase 1: Root Cause Investigation (BEFORE attempting fixes)
 - **Read Error Messages Carefully**: Don't skip past errors or warnings - they often contain the exact solution
@@ -180,7 +190,7 @@ YOU MUST follow this debugging framework for ANY technical issue:
 4. **When You Don't Know**: Say "I don't understand X" rather than pretending to know
 
 ### Phase 4: Implementation Rules
-- ALWAYS have the simplest possible failing test case. If there's no test framework, it's ok to write a one-off test script.
+- For bug fixes, establish the simplest possible failing test case before implementing the fix. Reuse the project's test framework when suitable; consider a one-off test script only when no suitable framework is available.
 - NEVER add multiple fixes at once
 - NEVER claim to implement a pattern without reading it completely first
 - ALWAYS test after each change
