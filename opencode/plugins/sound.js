@@ -1,14 +1,18 @@
-export const SoundPlugin = async ({ $, client }) => {
+import { execFile } from "node:child_process"
+import { promisify } from "node:util"
+
+const execute = promisify(execFile)
+
+const sounds = (log) => {
   const play = async (sound) => {
-    const result = await $`afplay ${sound}`.quiet().nothrow()
-    if (result.exitCode !== 0) {
-      await client.app.log({
-        body: {
-          service: "sound",
-          level: "warn",
-          message: `Could not play ${sound}`,
-          extra: { exitCode: result.exitCode, stderr: result.stderr.toString() },
-        },
+    try {
+      await execute("afplay", [sound])
+    } catch (error) {
+      await log({
+        service: "sound",
+        level: "warn",
+        message: `Could not play ${sound}`,
+        extra: { error: String(error) },
       })
     }
   }
@@ -25,4 +29,39 @@ export const SoundPlugin = async ({ $, client }) => {
       }
     },
   }
+}
+
+export const SoundPlugin = async ({ client }) => sounds((entry) => client.app.log({ body: entry }))
+
+export default {
+  id: "sound",
+  server: SoundPlugin,
+  async setup(ctx) {
+    if (typeof ctx.tool?.hook !== "function") return
+
+    const hooks = sounds((entry) => console.warn(entry))
+    await ctx.tool.hook("execute.after", hooks["tool.execute.after"])
+
+    const controller = new AbortController()
+    const events = ctx.event.subscribe({
+      types: ["permission.asked", "session.status"],
+      signal: controller.signal,
+    })
+
+    void (async () => {
+      for await (const event of events) {
+        if (event.type === "session.status") {
+          if (event.data.status.type === "idle") {
+            await hooks.event({ event: { type: "session.idle" } })
+          }
+        } else {
+          await hooks.event({ event })
+        }
+      }
+    })().catch((error) => {
+      if (!controller.signal.aborted) console.warn("Sound event subscription failed", error)
+    })
+
+    return () => controller.abort()
+  },
 }

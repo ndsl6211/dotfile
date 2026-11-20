@@ -1,20 +1,24 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugin": [
-    "superpowers@git+https://github.com/obra/superpowers.git"
-  ],
+  "plugins": ["superpowers@git+https://github.com/obra/superpowers.git#v7.0.2"],
+  "experimental": {
+    "todo": true
+  },
   "mcp": {
-    "context7": {
-      "type": "remote",
-      "url": "https://mcp.context7.com/mcp",
-      "enabled": true
+    "servers": {
+      "context7": {
+        "type": "remote",
+        "url": "https://mcp.context7.com/mcp",
+        "disabled": false
+      }
     }
   },
-  "enabled_providers": [
-    "deepseek",
-    "openai"
+  "policies": [
+    { "action": "provider.use", "resource": "*", "effect": "deny" },
+    { "action": "provider.use", "resource": "deepseek", "effect": "allow" },
+    { "action": "provider.use", "resource": "openai", "effect": "allow" }
   ],
-  "provider": {
+  "providers": {
     "deepseek": {
       "models": {
         "deepseek-v4-pro": {
@@ -41,14 +45,12 @@
             "context": 1050000,
             "output": 128000
           },
-          "options": {
+          "settings": {
             "reasoningEffort": "high",
             "textVerbosity": "low",
             "reasoningSummary": "auto",
-            "include": [
-              "reasoning.encrypted_content"
-            ],
-          },
+            "include": ["reasoning.encrypted_content"]
+          }
         },
         "gpt-5.4-mini": {
           "name": "GPT-5.4 Mini",
@@ -63,12 +65,12 @@
       }
     }
   },
-  "agent": {
+  "agents": {
     "build": {
-      "disable": false
+      "disabled": false
     },
     "plan": {
-      "disable": false
+      "disabled": false
     }
   }
 }

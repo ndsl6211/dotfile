@@ -1,46 +1,68 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugin": [
-    "superpowers@git+https://github.com/obra/superpowers.git"
-  ],
+  "plugins": ["superpowers@git+https://github.com/obra/superpowers.git#v7.0.2"],
+  "experimental": {
+    "todo": true
+  },
   "mcp": {
-    "context7": {
-      "type": "remote",
-      "url": "https://mcp.context7.com/mcp",
-      "enabled": true
-    },
-    "confluence": {
-      "type": "local",
-      "command": [
-        "npx",
-        "--registry",
-        "https://npm.linecorp.com",
-        "@linecorp/flava-mcp-connector@latest",
-        "https://confluence-noahs.kks.mcp.prd.flava.workers-infra.com/mcp"
-      ],
-      "enabled": true
-    },
-    "jira": {
-      "type": "local",
-      "command": [
-        "npx",
-        "--registry",
-        "https://npm.linecorp.com",
-        "@linecorp/flava-mcp-connector@latest",
-        "https://jira-noahs.kks.mcp.prd.flava.workers-infra.com/mcp"
-      ],
-      "enabled": true
+    "servers": {
+      "context7": {
+        "type": "remote",
+        "url": "https://mcp.context7.com/mcp",
+        "disabled": false
+      },
+      "confluence": {
+        "type": "local",
+        "command": [
+          "npx",
+          "--registry",
+          "https://npm.linecorp.com",
+          "@linecorp/flava-mcp-connector@latest",
+          "https://confluence-noahs.kks.mcp.prd.flava.workers-infra.com/mcp"
+        ],
+        "disabled": false
+      },
+      "jira": {
+        "type": "local",
+        "command": [
+          "npx",
+          "--registry",
+          "https://npm.linecorp.com",
+          "@linecorp/flava-mcp-connector@latest",
+          "https://jira-noahs.kks.mcp.prd.flava.workers-infra.com/mcp"
+        ],
+        "disabled": false
+      },
+      "sims": {
+        "type": "remote",
+        "url": "https://sims.workers-hub.com/mcp",
+        "disabled": false
+      }
     }
   },
-  "enabled_providers": [
-    "ly-chatai-openai",
-    "github-copilot"
+  "policies": [
+    { "action": "provider.use", "resource": "*", "effect": "deny" },
+    {
+      "action": "provider.use",
+      "resource": "ly-chatai-openai",
+      "effect": "allow"
+    },
+    {
+      "action": "provider.use",
+      "resource": "github-copilot",
+      "effect": "allow"
+    },
+    {
+      "action": "provider.use",
+      "resource": "openai",
+      "effect": "allow"
+    }
   ],
-  "provider": {
+  "providers": {
     "ly-chatai-bedrock": {
-      "npm": "@ai-sdk/amazon-bedrock",
+      "package": "aisdk:@ai-sdk/amazon-bedrock",
       "name": "LY ChatAI Bedrock",
-      "options": {
+      "settings": {
         "baseURL": "{env:LY_CHATAI_PROXY_ENDPOINT}",
         "region": "us-east-1",
         "accessKeyId": "no-need",
@@ -54,10 +76,12 @@
             "context": 1000000,
             "output": 128000
           },
-          "cost": {
-            "input": 5.0,
-            "output": 25.0
-          }
+          "cost": [
+            {
+              "input": 5.0,
+              "output": 25.0
+            }
+          ]
         },
         "us.anthropic.claude-opus-4-6-v1": {
           "name": "Claude Opus 4.6",
@@ -66,10 +90,12 @@
             "input": 872000,
             "output": 128000
           },
-          "cost": {
-            "input": 5.0,
-            "output": 25.0
-          }
+          "cost": [
+            {
+              "input": 5.0,
+              "output": 25.0
+            }
+          ]
         },
         "us.anthropic.claude-sonnet-4-6": {
           "name": "Claude Sonnet 4.6",
@@ -78,10 +104,12 @@
             "input": 936000,
             "output": 64000
           },
-          "cost": {
-            "input": 3.0,
-            "output": 15.0
-          },
+          "cost": [
+            {
+              "input": 3.0,
+              "output": 15.0
+            }
+          ]
         },
         "us.anthropic.claude-sonnet-4-5-20250929-v1:0": {
           "name": "Claude Sonnet 4.5",
@@ -90,10 +118,12 @@
             "input": 136000,
             "output": 64000
           },
-          "cost": {
-            "input": 3.0,
-            "output": 15.0
-          },
+          "cost": [
+            {
+              "input": 3.0,
+              "output": 15.0
+            }
+          ]
         },
         "us.anthropic.claude-haiku-4-5-20251001-v1:0": {
           "name": "Claude Haiku 4.5",
@@ -102,10 +132,12 @@
             "input": 136000,
             "output": 64000
           },
-          "cost": {
-            "input": 1.0,
-            "output": 5.0
-          },
+          "cost": [
+            {
+              "input": 1.0,
+              "output": 5.0
+            }
+          ]
         },
         "us.anthropic.claude-sonnet-4-20250514-v1:0": {
           "name": "Claude Sonnet 4.0",
@@ -113,14 +145,14 @@
             "context": 200000,
             "input": 136000,
             "output": 64000
-          },
+          }
         }
       }
     },
     "ly-chatai-openai": {
-      "npm": "@ai-sdk/openai",
+      "package": "aisdk:@ai-sdk/openai",
       "name": "LY ChatAI OpenAI",
-      "options": {
+      "settings": {
         "baseURL": "{env:LY_CHATAI_PROXY_ENDPOINT}/v1",
         "apiKey": "{env:LY_CHATAI_PERSONAL_ACCESS_TOKEN}"
       },
@@ -132,45 +164,54 @@
             "input": 922000,
             "output": 128000
           },
-          "cost": {
-            "input": 2,
-            "output": 10
-          },
-          "temperature": false,
-          "reasoning": true,
-          "tool_call": true,
-          "modalities": {
-            "input": [
-              "text",
-              "image",
-              "pdf"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "variants": {
-            "low": {
-              "reasoningEffort": "low",
-              "reasoningSummary": "auto"
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-              "reasoningSummary": "auto"
-            },
-            "high": {
-              "reasoningEffort": "high",
-              "reasoningSummary": "auto"
-            },
-            "xhigh": {
-              "reasoningEffort": "xhigh",
-              "reasoningSummary": "auto"
-            },
-            "max": {
-              "reasoningEffort": "max",
-              "reasoningSummary": "auto"
+          "cost": [
+            {
+              "input": 2,
+              "output": 10
             }
-          }
+          ],
+          "capabilities": {
+            "tools": true,
+            "input": ["text", "image", "pdf"],
+            "output": ["text"]
+          },
+          "variants": [
+            {
+              "id": "low",
+              "settings": {
+                "reasoningEffort": "low",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "medium",
+              "settings": {
+                "reasoningEffort": "medium",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "high",
+              "settings": {
+                "reasoningEffort": "high",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "xhigh",
+              "settings": {
+                "reasoningEffort": "xhigh",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "max",
+              "settings": {
+                "reasoningEffort": "max",
+                "reasoningSummary": "auto"
+              }
+            }
+          ]
         },
         "gpt-5.5-pro": {
           "name": "GPT-5.5",
@@ -179,31 +220,43 @@
             "input": 220000,
             "output": 128000
           },
-          "cost": {
-            "input": 30.0,
-            "output": 180.0
-          },
-          "temperature": false,
-          "reasoning": true,
-          "tool_call": true,
-          "variants": {
-            "low": {
-              "reasoningEffort": "low",
-              "reasoningSummary": "auto"
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-              "reasoningSummary": "auto"
-            },
-            "high": {
-              "reasoningEffort": "high",
-              "reasoningSummary": "auto"
-            },
-            "xhigh": {
-              "reasoningEffort": "xhigh",
-              "reasoningSummary": "auto"
+          "cost": [
+            {
+              "input": 30.0,
+              "output": 180.0
             }
-          }
+          ],
+          "capabilities": { "tools": true },
+          "variants": [
+            {
+              "id": "low",
+              "settings": {
+                "reasoningEffort": "low",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "medium",
+              "settings": {
+                "reasoningEffort": "medium",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "high",
+              "settings": {
+                "reasoningEffort": "high",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "xhigh",
+              "settings": {
+                "reasoningEffort": "xhigh",
+                "reasoningSummary": "auto"
+              }
+            }
+          ]
         },
         "gpt-5.5": {
           "name": "GPT-5.5",
@@ -212,40 +265,47 @@
             "input": 220000,
             "output": 128000
           },
-          "cost": {
-            "input": 5.0,
-            "output": 30.0
-          },
-          "temperature": false,
-          "reasoning": true,
-          "tool_call": true,
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "variants": {
-            "low": {
-              "reasoningEffort": "low",
-              "reasoningSummary": "auto"
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-              "reasoningSummary": "auto"
-            },
-            "high": {
-              "reasoningEffort": "high",
-              "reasoningSummary": "auto"
-            },
-            "xhigh": {
-              "reasoningEffort": "xhigh",
-              "reasoningSummary": "auto"
+          "cost": [
+            {
+              "input": 5.0,
+              "output": 30.0
             }
-          }
+          ],
+          "capabilities": {
+            "tools": true,
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "variants": [
+            {
+              "id": "low",
+              "settings": {
+                "reasoningEffort": "low",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "medium",
+              "settings": {
+                "reasoningEffort": "medium",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "high",
+              "settings": {
+                "reasoningEffort": "high",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "xhigh",
+              "settings": {
+                "reasoningEffort": "xhigh",
+                "reasoningSummary": "auto"
+              }
+            }
+          ]
         },
         "gpt-5.4": {
           "name": "GPT-5.4",
@@ -254,40 +314,47 @@
             "input": 922000,
             "output": 128000
           },
-          "cost": {
-            "input": 2.5,
-            "output": 15
-          },
-          "temperature": false,
-          "reasoning": true,
-          "tool_call": true,
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "variants": {
-            "low": {
-              "reasoningEffort": "low",
-              "reasoningSummary": "auto"
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-              "reasoningSummary": "auto"
-            },
-            "high": {
-              "reasoningEffort": "high",
-              "reasoningSummary": "auto"
-            },
-            "xhigh": {
-              "reasoningEffort": "xhigh",
-              "reasoningSummary": "auto"
+          "cost": [
+            {
+              "input": 2.5,
+              "output": 15
             }
-          }
+          ],
+          "capabilities": {
+            "tools": true,
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "variants": [
+            {
+              "id": "low",
+              "settings": {
+                "reasoningEffort": "low",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "medium",
+              "settings": {
+                "reasoningEffort": "medium",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "high",
+              "settings": {
+                "reasoningEffort": "high",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "xhigh",
+              "settings": {
+                "reasoningEffort": "xhigh",
+                "reasoningSummary": "auto"
+              }
+            }
+          ]
         },
         "gpt-5.3-codex": {
           "name": "GPT-5.3 Codex",
@@ -296,40 +363,47 @@
             "input": 272000,
             "output": 128000
           },
-          "cost": {
-            "input": 1.75,
-            "output": 14
-          },
-          "temperature": false,
-          "reasoning": true,
-          "tool_call": true,
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "variants": {
-            "low": {
-              "reasoningEffort": "low",
-              "reasoningSummary": "auto"
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-              "reasoningSummary": "auto"
-            },
-            "high": {
-              "reasoningEffort": "high",
-              "reasoningSummary": "auto"
-            },
-            "xhigh": {
-              "reasoningEffort": "xhigh",
-              "reasoningSummary": "auto"
+          "cost": [
+            {
+              "input": 1.75,
+              "output": 14
             }
-          }
+          ],
+          "capabilities": {
+            "tools": true,
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "variants": [
+            {
+              "id": "low",
+              "settings": {
+                "reasoningEffort": "low",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "medium",
+              "settings": {
+                "reasoningEffort": "medium",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "high",
+              "settings": {
+                "reasoningEffort": "high",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "xhigh",
+              "settings": {
+                "reasoningEffort": "xhigh",
+                "reasoningSummary": "auto"
+              }
+            }
+          ]
         },
         "gpt-5.2": {
           "name": "GPT-5.2",
@@ -338,40 +412,47 @@
             "input": 272000,
             "output": 128000
           },
-          "cost": {
-            "input": 1.75,
-            "output": 14
-          },
-          "temperature": false,
-          "reasoning": true,
-          "tool_call": true,
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "variants": {
-            "low": {
-              "reasoningEffort": "low",
-              "reasoningSummary": "auto"
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-              "reasoningSummary": "auto"
-            },
-            "high": {
-              "reasoningEffort": "high",
-              "reasoningSummary": "auto"
-            },
-            "xhigh": {
-              "reasoningEffort": "xhigh",
-              "reasoningSummary": "auto"
+          "cost": [
+            {
+              "input": 1.75,
+              "output": 14
             }
-          }
+          ],
+          "capabilities": {
+            "tools": true,
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "variants": [
+            {
+              "id": "low",
+              "settings": {
+                "reasoningEffort": "low",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "medium",
+              "settings": {
+                "reasoningEffort": "medium",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "high",
+              "settings": {
+                "reasoningEffort": "high",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "xhigh",
+              "settings": {
+                "reasoningEffort": "xhigh",
+                "reasoningSummary": "auto"
+              }
+            }
+          ]
         },
         "gpt-5.2-codex": {
           "name": "GPT-5.2 Codex",
@@ -380,31 +461,43 @@
             "input": 272000,
             "output": 128000
           },
-          "cost": {
-            "input": 1.75,
-            "output": 14
-          },
-          "temperature": false,
-          "reasoning": true,
-          "tool_call": true,
-          "variants": {
-            "low": {
-              "reasoningEffort": "low",
-              "reasoningSummary": "auto"
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-              "reasoningSummary": "auto"
-            },
-            "high": {
-              "reasoningEffort": "high",
-              "reasoningSummary": "auto"
-            },
-            "xhigh": {
-              "reasoningEffort": "xhigh",
-              "reasoningSummary": "auto"
+          "cost": [
+            {
+              "input": 1.75,
+              "output": 14
             }
-          }
+          ],
+          "capabilities": { "tools": true },
+          "variants": [
+            {
+              "id": "low",
+              "settings": {
+                "reasoningEffort": "low",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "medium",
+              "settings": {
+                "reasoningEffort": "medium",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "high",
+              "settings": {
+                "reasoningEffort": "high",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "xhigh",
+              "settings": {
+                "reasoningEffort": "xhigh",
+                "reasoningSummary": "auto"
+              }
+            }
+          ]
         },
         "gpt-5.2-pro": {
           "name": "GPT-5.2 Pro",
@@ -413,27 +506,36 @@
             "input": 272000,
             "output": 128000
           },
-          "cost": {
-            "input": 21,
-            "output": 168
-          },
-          "temperature": false,
-          "reasoning": true,
-          "tool_call": true,
-          "variants": {
-            "medium": {
-              "reasoningEffort": "medium",
-              "reasoningSummary": "auto"
-            },
-            "high": {
-              "reasoningEffort": "high",
-              "reasoningSummary": "auto"
-            },
-            "xhigh": {
-              "reasoningEffort": "xhigh",
-              "reasoningSummary": "auto"
+          "cost": [
+            {
+              "input": 21,
+              "output": 168
             }
-          }
+          ],
+          "capabilities": { "tools": true },
+          "variants": [
+            {
+              "id": "medium",
+              "settings": {
+                "reasoningEffort": "medium",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "high",
+              "settings": {
+                "reasoningEffort": "high",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "xhigh",
+              "settings": {
+                "reasoningEffort": "xhigh",
+                "reasoningSummary": "auto"
+              }
+            }
+          ]
         },
         "gpt-5.1": {
           "name": "GPT-5.1",
@@ -442,36 +544,40 @@
             "input": 272000,
             "output": 128000
           },
-          "cost": {
-            "input": 1.25,
-            "output": 10
-          },
-          "temperature": false,
-          "reasoning": true,
-          "tool_call": true,
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "variants": {
-            "low": {
-              "reasoningEffort": "low",
-              "reasoningSummary": "auto"
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-              "reasoningSummary": "auto"
-            },
-            "high": {
-              "reasoningEffort": "high",
-              "reasoningSummary": "auto"
+          "cost": [
+            {
+              "input": 1.25,
+              "output": 10
             }
-          }
+          ],
+          "capabilities": {
+            "tools": true,
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "variants": [
+            {
+              "id": "low",
+              "settings": {
+                "reasoningEffort": "low",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "medium",
+              "settings": {
+                "reasoningEffort": "medium",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "high",
+              "settings": {
+                "reasoningEffort": "high",
+                "reasoningSummary": "auto"
+              }
+            }
+          ]
         },
         "gpt-5": {
           "name": "GPT-5",
@@ -480,36 +586,40 @@
             "input": 272000,
             "output": 128000
           },
-          "cost": {
-            "input": 1.25,
-            "output": 10
-          },
-          "temperature": false,
-          "reasoning": true,
-          "tool_call": true,
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "variants": {
-            "low": {
-              "reasoningEffort": "low",
-              "reasoningSummary": "auto"
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-              "reasoningSummary": "auto"
-            },
-            "high": {
-              "reasoningEffort": "high",
-              "reasoningSummary": "auto"
+          "cost": [
+            {
+              "input": 1.25,
+              "output": 10
             }
-          }
+          ],
+          "capabilities": {
+            "tools": true,
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "variants": [
+            {
+              "id": "low",
+              "settings": {
+                "reasoningEffort": "low",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "medium",
+              "settings": {
+                "reasoningEffort": "medium",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "high",
+              "settings": {
+                "reasoningEffort": "high",
+                "reasoningSummary": "auto"
+              }
+            }
+          ]
         },
         "gpt-5-mini": {
           "name": "GPT-5 mini",
@@ -518,32 +628,33 @@
             "input": 272000,
             "output": 128000
           },
-          "cost": {
-            "input": 0.25,
-            "output": 2
-          },
-          "temperature": false,
-          "reasoning": true,
-          "tool_call": true,
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "variants": {
-            "low": {
-              "reasoningEffort": "low",
-              "reasoningSummary": "auto"
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-              "reasoningSummary": "auto"
+          "cost": [
+            {
+              "input": 0.25,
+              "output": 2
             }
-          }
+          ],
+          "capabilities": {
+            "tools": true,
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "variants": [
+            {
+              "id": "low",
+              "settings": {
+                "reasoningEffort": "low",
+                "reasoningSummary": "auto"
+              }
+            },
+            {
+              "id": "medium",
+              "settings": {
+                "reasoningEffort": "medium",
+                "reasoningSummary": "auto"
+              }
+            }
+          ]
         },
         "gpt-5-nano": {
           "name": "GPT-5 nano",
@@ -552,21 +663,16 @@
             "input": 272000,
             "output": 128000
           },
-          "cost": {
-            "input": 0.05,
-            "output": 0.4
-          },
-          "temperature": false,
-          "reasoning": true,
-          "tool_call": true,
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
+          "cost": [
+            {
+              "input": 0.05,
+              "output": 0.4
+            }
+          ],
+          "capabilities": {
+            "tools": true,
+            "input": ["text", "image"],
+            "output": ["text"]
           }
         },
         "gpt-4o": {
@@ -576,21 +682,16 @@
             "input": 111616,
             "output": 16384
           },
-          "cost": {
-            "input": 2.5,
-            "output": 10
-          },
-          "temperature": true,
-          "reasoning": false,
-          "tool_call": true,
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
+          "cost": [
+            {
+              "input": 2.5,
+              "output": 10
+            }
+          ],
+          "capabilities": {
+            "tools": true,
+            "input": ["text", "image"],
+            "output": ["text"]
           }
         },
         "gpt-4.1": {
@@ -600,21 +701,16 @@
             "input": 1014808,
             "output": 32768
           },
-          "cost": {
-            "input": 2,
-            "output": 8
-          },
-          "temperature": true,
-          "reasoning": false,
-          "tool_call": true,
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
+          "cost": [
+            {
+              "input": 2,
+              "output": 8
+            }
+          ],
+          "capabilities": {
+            "tools": true,
+            "input": ["text", "image"],
+            "output": ["text"]
           }
         },
         "gpt-4.1-mini": {
@@ -624,21 +720,16 @@
             "input": 1014808,
             "output": 32768
           },
-          "cost": {
-            "input": 0.4,
-            "output": 1.6
-          },
-          "temperature": true,
-          "reasoning": false,
-          "tool_call": true,
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
+          "cost": [
+            {
+              "input": 0.4,
+              "output": 1.6
+            }
+          ],
+          "capabilities": {
+            "tools": true,
+            "input": ["text", "image"],
+            "output": ["text"]
           }
         },
         "gpt-4.1-nano": {
@@ -648,32 +739,27 @@
             "input": 1014808,
             "output": 32768
           },
-          "cost": {
-            "input": 0.1,
-            "output": 0.4
-          },
-          "temperature": true,
-          "reasoning": false,
-          "tool_call": true,
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
+          "cost": [
+            {
+              "input": 0.1,
+              "output": 0.4
+            }
+          ],
+          "capabilities": {
+            "tools": true,
+            "input": ["text", "image"],
+            "output": ["text"]
           }
         }
       }
     }
   },
-  "agent": {
+  "agents": {
     "build": {
-      "disable": false
+      "disabled": false
     },
     "plan": {
-      "disable": false
+      "disabled": false
     }
   }
 }
