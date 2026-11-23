@@ -1,0 +1,9 @@
+{
+  "agentMode": "default",
+  "colorScheme": "dark",
+  "permissions": {
+    "allow": [],
+    "ask": [],
+    "deny": []
+  }
+}

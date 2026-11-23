@@ -105,13 +105,65 @@ create_link() {
 create_link "$OPENCODE_SRC_DIR/$CONFIG_FILE" "$OPENCODE_TARGET_DIR/opencode.json"
 
 # Link shared agent instructions as global AGENTS.md
-create_link "$DOTFILE_ROOT/ai-agent/AGENTS.md" "$OPENCODE_TARGET_DIR/AGENTS.md"
+create_link "$DOTFILE_ROOT/ai-agents/AGENTS.md" "$OPENCODE_TARGET_DIR/AGENTS.md"
 
 # Link agents directory
 create_link "$OPENCODE_SRC_DIR/agents" "$OPENCODE_TARGET_DIR/agents"
 
-# Link skills directory
-create_link "$OPENCODE_SRC_DIR/skills" "$OPENCODE_TARGET_DIR/skills"
+# Check whether an existing symlink points to a shared ai-agents skill
+is_shared_skill_link() {
+    local target_path="$1"
+    [ -L "$target_path" ] || return 1
+
+    local link_dest
+    link_dest="$(readlink "$target_path")"
+    case "$link_dest" in
+        "$DOTFILE_ROOT/ai-agents/skills/"*|"$DOTFILE_ROOT/ai-agent/skills/"*|"$HOME/.agents/skills/"*)
+            return 0
+            ;;
+        *)
+            return 1
+            ;;
+    esac
+}
+
+# Link OpenCode-specific skills individually (overriding shared ai-agents links of the same name)
+link_agent_skills() {
+    local target_skills_dir="$1"
+    local src_skills_dir="$2"
+
+    if [ -L "$target_skills_dir" ]; then
+        if [ "$REPLACE" = "true" ]; then
+            echo "Replacing legacy skills directory symlink: $target_skills_dir"
+            unlink "$target_skills_dir"
+        else
+            echo "Skipping legacy skills symlink: $target_skills_dir (re-run with -r/--replace to migrate)"
+            return 0
+        fi
+    fi
+
+    mkdir -p "$target_skills_dir"
+
+    [ -d "$src_skills_dir" ] || return 0
+    local skill_dir
+    for skill_dir in "$src_skills_dir"/*; do
+        [ -d "$skill_dir" ] || continue
+        local skill_name
+        skill_name="$(basename "$skill_dir")"
+        local target_skill="$target_skills_dir/$skill_name"
+
+        if is_shared_skill_link "$target_skill"; then
+            echo "Overriding shared ai-agents skill: $target_skill -> $skill_dir"
+            unlink "$target_skill"
+            ln -s "$skill_dir" "$target_skill"
+        else
+            create_link "$skill_dir" "$target_skill"
+        fi
+    done
+}
+
+# Link OpenCode-specific skills
+link_agent_skills "$OPENCODE_TARGET_DIR/skills" "$OPENCODE_SRC_DIR/skills"
 
 # Link plugins directory
 create_link "$OPENCODE_SRC_DIR/plugins" "$OPENCODE_TARGET_DIR/plugins"

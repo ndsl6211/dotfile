@@ -1,0 +1,11 @@
+{
+  "sound-notification": {
+    "enabled": true,
+    "Stop": [
+      {
+        "type": "command",
+        "command": "if command -v ffplay >/dev/null 2>&1; then ffplay -nodisp -autoexit /usr/share/sounds/freedesktop/stereo/message.oga >/dev/null 2>&1 & elif command -v afplay >/dev/null 2>&1; then afplay /System/Library/Sounds/Purr.aiff >/dev/null 2>&1 & fi; printf '{}'"
+      }
+    ]
+  }
+}
