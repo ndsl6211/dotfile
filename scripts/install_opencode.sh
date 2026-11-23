@@ -60,18 +60,19 @@ if [ ! -f "$OPENCODE_SRC_DIR/$CONFIG_FILE" ]; then
     exit 1
 fi
 
-echo "Installing OpenCode configuration..."
-echo "Source directory: $OPENCODE_SRC_DIR"
-echo "Target directory: $OPENCODE_TARGET_DIR"
-echo "Profile type: $PROFILE_TYPE"
-echo "Using config file: $CONFIG_FILE"
+echo "🤖 Installing OpenCode configuration..."
+echo "📁 Source directory: $OPENCODE_SRC_DIR"
+echo "🎯 Target directory: $OPENCODE_TARGET_DIR"
+echo "⚙️  Profile type: $PROFILE_TYPE"
+echo "📄 Using config file: $CONFIG_FILE"
+echo ""
 
 # Create ~/.config/opencode directory if it doesn't exist
 if [ ! -d "$OPENCODE_TARGET_DIR" ]; then
-    echo "Creating directory: $OPENCODE_TARGET_DIR"
+    echo "📂 Creating directory: $OPENCODE_TARGET_DIR"
     mkdir -p "$OPENCODE_TARGET_DIR"
 else
-    echo "Directory already exists: $OPENCODE_TARGET_DIR"
+    echo "✅ Directory already exists: $OPENCODE_TARGET_DIR"
 fi
 
 # Function to create symbolic link
@@ -81,7 +82,7 @@ create_link() {
 
     if [ "$REPLACE" = "true" ]; then
         # Replace mode: remove existing file/link and create new link
-        echo "Replacing: $target_file -> $src_file"
+        echo "  🔄 Replacing: $target_file -> $src_file"
         if [ -e "$target_file" ] || [ -L "$target_file" ]; then
             if [ -L "$target_file" ]; then
                 unlink "$target_file"
@@ -93,14 +94,16 @@ create_link() {
     else
         # No replace mode: create link only if target doesn't exist
         if [ -e "$target_file" ] || [ -L "$target_file" ]; then
-            echo "Skipping existing: $target_file"
+            echo "  ⏭️  Skipping existing: $target_file"
         else
-            echo "Linking: $target_file -> $src_file"
+            echo "  🔗 Linking: $target_file -> $src_file"
             ln -s "$src_file" "$target_file"
         fi
     fi
 }
 
+echo ""
+echo "⚙️  Linking OpenCode config, agents, and plugins..."
 # Link profile-specific config as opencode.json
 create_link "$OPENCODE_SRC_DIR/$CONFIG_FILE" "$OPENCODE_TARGET_DIR/opencode.json"
 
@@ -109,6 +112,9 @@ create_link "$DOTFILE_ROOT/ai-agents/AGENTS.md" "$OPENCODE_TARGET_DIR/AGENTS.md"
 
 # Link agents directory
 create_link "$OPENCODE_SRC_DIR/agents" "$OPENCODE_TARGET_DIR/agents"
+
+# Link plugins directory
+create_link "$OPENCODE_SRC_DIR/plugins" "$OPENCODE_TARGET_DIR/plugins"
 
 # Check whether an existing symlink points to a shared ai-agents skill
 is_shared_skill_link() {
@@ -132,12 +138,15 @@ link_agent_skills() {
     local target_skills_dir="$1"
     local src_skills_dir="$2"
 
+    echo ""
+    echo "🧩 Linking OpenCode-specific skills -> $target_skills_dir"
+
     if [ -L "$target_skills_dir" ]; then
         if [ "$REPLACE" = "true" ]; then
-            echo "Replacing legacy skills directory symlink: $target_skills_dir"
+            echo "  🔄 Migrating legacy skills symlink: $target_skills_dir"
             unlink "$target_skills_dir"
         else
-            echo "Skipping legacy skills symlink: $target_skills_dir (re-run with -r/--replace to migrate)"
+            echo "  ⏭️  Skipping legacy skills symlink: $target_skills_dir (re-run with -r/--replace to migrate)"
             return 0
         fi
     fi
@@ -153,7 +162,7 @@ link_agent_skills() {
         local target_skill="$target_skills_dir/$skill_name"
 
         if is_shared_skill_link "$target_skill"; then
-            echo "Overriding shared ai-agents skill: $target_skill -> $skill_dir"
+            echo "  🔄 Overriding shared skill: $target_skill -> $skill_dir"
             unlink "$target_skill"
             ln -s "$skill_dir" "$target_skill"
         else
@@ -165,7 +174,5 @@ link_agent_skills() {
 # Link OpenCode-specific skills
 link_agent_skills "$OPENCODE_TARGET_DIR/skills" "$OPENCODE_SRC_DIR/skills"
 
-# Link plugins directory
-create_link "$OPENCODE_SRC_DIR/plugins" "$OPENCODE_TARGET_DIR/plugins"
-
-echo "OpenCode configuration installed successfully!"
+echo ""
+echo "🎉 OpenCode configuration installed successfully!"

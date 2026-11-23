@@ -34,16 +34,17 @@ DOTFILE_ROOT="$(dirname "$SCRIPT_DIR")"
 AI_AGENT_SRC_DIR="$DOTFILE_ROOT/ai-agents"
 AI_AGENT_TARGET_DIR="$HOME/.agents"
 
-echo "Installing AI agent configuration..."
-echo "Source directory: $AI_AGENT_SRC_DIR"
-echo "Target directory: $AI_AGENT_TARGET_DIR"
+echo "🤖 Installing AI agents shared configuration..."
+echo "📁 Source directory: $AI_AGENT_SRC_DIR"
+echo "🎯 Target directory: $AI_AGENT_TARGET_DIR"
+echo ""
 
 # Create ~/.agents directory if it doesn't exist
 if [ ! -d "$AI_AGENT_TARGET_DIR" ]; then
-    echo "Creating directory: $AI_AGENT_TARGET_DIR"
+    echo "📂 Creating directory: $AI_AGENT_TARGET_DIR"
     mkdir -p "$AI_AGENT_TARGET_DIR"
 else
-    echo "Directory already exists: $AI_AGENT_TARGET_DIR"
+    echo "✅ Directory already exists: $AI_AGENT_TARGET_DIR"
 fi
 
 # Function to create symbolic link
@@ -53,7 +54,7 @@ create_link() {
 
     if [ "$REPLACE" = "true" ]; then
         # Replace mode: remove existing file/link and create new link
-        echo "Replacing: $target_file -> $src_file"
+        echo "  🔄 Replacing: $target_file -> $src_file"
         if [ -e "$target_file" ] || [ -L "$target_file" ]; then
             if [ -L "$target_file" ]; then
                 unlink "$target_file"
@@ -65,9 +66,9 @@ create_link() {
     else
         # No replace mode: create link only if target doesn't exist
         if [ -e "$target_file" ] || [ -L "$target_file" ]; then
-            echo "Skipping existing: $target_file"
+            echo "  ⏭️  Skipping existing: $target_file"
         else
-            echo "Linking: $target_file -> $src_file"
+            echo "  🔗 Linking: $target_file -> $src_file"
             ln -s "$src_file" "$target_file"
         fi
     fi
@@ -96,12 +97,15 @@ link_skills_dir() {
     local target_skills_dir="$1"
     local src_root="$2"
 
+    echo ""
+    echo "🧩 Syncing shared skills -> $target_skills_dir"
+
     if [ -L "$target_skills_dir" ]; then
         if [ "$REPLACE" = "true" ]; then
-            echo "Replacing legacy skills directory symlink: $target_skills_dir"
+            echo "  🔄 Migrating legacy skills symlink: $target_skills_dir"
             unlink "$target_skills_dir"
         else
-            echo "Skipping legacy skills symlink: $target_skills_dir (re-run with -r/--replace to migrate)"
+            echo "  ⏭️  Skipping legacy skills symlink: $target_skills_dir (re-run with -r/--replace to migrate)"
             return 0
         fi
     fi
@@ -117,7 +121,7 @@ link_skills_dir() {
         local target_skill="$target_skills_dir/$skill_name"
 
         if is_agent_specific_skill_link "$target_skill"; then
-            echo "Preserving agent-specific skill override: $target_skill"
+            echo "  🛡️  Preserving agent-specific override: $skill_name"
             continue
         fi
 
@@ -126,6 +130,8 @@ link_skills_dir() {
 }
 
 # Link canonical skills directory and npx skills lockfile
+echo ""
+echo "📦 Linking canonical ~/.agents resources..."
 create_link "$AI_AGENT_SRC_DIR/skills" "$AI_AGENT_TARGET_DIR/skills"
 if [ -f "$AI_AGENT_SRC_DIR/.skill-lock.json" ]; then
     create_link "$AI_AGENT_SRC_DIR/.skill-lock.json" "$AI_AGENT_TARGET_DIR/.skill-lock.json"
@@ -139,4 +145,5 @@ for agent_skills_dir in \
     link_skills_dir "$agent_skills_dir" "$AI_AGENT_SRC_DIR/skills"
 done
 
-echo "AI agent configuration installed successfully!"
+echo ""
+echo "🎉 AI agents shared configuration installed successfully!"
