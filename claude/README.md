@@ -25,6 +25,6 @@ Claude Code（`~/.claude/`）的設定檔與專屬擴充。
 
 ## Skills 規則
 
-- 共用 skills 由 `ai-agents/skills/` 透過 `./scripts/install_ai_agent.sh` 逐個連結至 `~/.claude/skills/`。
+- 共用 skills 由 `ai-agents/skills/` 透過 `./scripts/install_ai_agents.sh` 逐個連結至 `~/.claude/skills/`。
 - 若建立 `claude/skills/<skill-name>/SKILL.md` 並執行 `./scripts/install_claude.sh`，該 skill 會個別連結至 `~/.claude/skills/<skill-name>`；若與 `ai-agents/skills/` 同名，會自動覆蓋共用版本。
 - 全域指令 `CLAUDE.md` 由 `ai-agents/AGENTS.md` 連結而來。

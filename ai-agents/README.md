@@ -11,9 +11,9 @@
 ## 安裝與同步
 
 ```bash
-./scripts/install_ai_agent.sh
+./scripts/install_ai_agents.sh
 # 若舊環境的 skills 目錄仍是整包資料夾 symlink，請加 -r 遷移：
-./scripts/install_ai_agent.sh -r
+./scripts/install_ai_agents.sh -r
 ```
 
 腳本會執行以下動作：
@@ -27,7 +27,7 @@
 
 - **各家專屬 > `ai-agents` 共用**：
   - 執行 `install_claude.sh`、`install_antigravity.sh`、`install_opencode.sh` 時，若目標目錄已存在指向 `ai-agents/skills/` 的同名 skill，會自動覆蓋成該工具自家 `skills/` 的版本。
-  - 反向重跑 `install_ai_agent.sh` 時，會保留已存在的各家專屬 skill，不會蓋回去。
+  - 反向重跑 `install_ai_agents.sh` 時，會保留已存在的各家專屬 skill，不會蓋回去。
 
 ## 使用 `npx skills` 與自製 Skills
 
@@ -35,6 +35,6 @@
   ```bash
   npx skills add <owner/repo> -g
   ```
-  檔案會透過 `~/.agents/skills` 直接寫入 `ai-agents/skills/`，並更新 `ai-agents/.skill-lock.json`。完成後跑一次 `./scripts/install_ai_agent.sh` 即可同步至所有 agent，再用 git commit 管理。
+  檔案會透過 `~/.agents/skills` 直接寫入 `ai-agents/skills/`，並更新 `ai-agents/.skill-lock.json`。完成後跑一次 `./scripts/install_ai_agents.sh` 即可同步至所有 agent，再用 git commit 管理。
 - **新增自製共用 skill**：
-  直接建立 `ai-agents/skills/<your-skill>/SKILL.md`，跑一次 `./scripts/install_ai_agent.sh` 即可分發至各 agent。
+  直接建立 `ai-agents/skills/<your-skill>/SKILL.md`，跑一次 `./scripts/install_ai_agents.sh` 即可分發至各 agent。

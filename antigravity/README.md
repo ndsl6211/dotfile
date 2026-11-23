@@ -25,5 +25,5 @@ Google Antigravity（`agy`）的 CLI 設定與全域自訂項目。
 
 ## Skills 規則
 
-- 共用 skills 由 `ai-agents/skills/` 透過 `./scripts/install_ai_agent.sh` 逐個連結至 `~/.gemini/config/skills/`。
+- 共用 skills 由 `ai-agents/skills/` 透過 `./scripts/install_ai_agents.sh` 逐個連結至 `~/.gemini/config/skills/`。
 - 若建立 `antigravity/skills/<skill-name>/SKILL.md` 並執行 `./scripts/install_antigravity.sh`，該 skill 會個別連結至 `~/.gemini/config/skills/<skill-name>`；若與 `ai-agents/skills/` 同名，會自動覆蓋共用版本。
