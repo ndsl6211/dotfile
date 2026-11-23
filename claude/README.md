@@ -11,11 +11,11 @@ Claude Code（`~/.claude/`）的設定檔與專屬擴充。
 
 ## 安裝
 
-```bash
-# 預設使用 settings-personal-macos.json
-./scripts/install_claude.sh
+`-s` / `--settings` 為必帶參數：
 
-# 指定環境設定檔
+```bash
+# 指定環境設定檔（personal-macos / personal-ubuntu / work-premium）
+./scripts/install_claude.sh -s personal-macos
 ./scripts/install_claude.sh -s personal-ubuntu
 ./scripts/install_claude.sh -s work-premium
 

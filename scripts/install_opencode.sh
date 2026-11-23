@@ -16,14 +16,17 @@ while [[ $# -gt 0 ]]; do
             shift
             ;;
         -s|--settings)
+            if [[ $# -lt 2 || "$2" == -* ]]; then
+                echo "Error: $1 requires a settings variant." >&2
+                exit 1
+            fi
             SETTINGS_VARIANT="$2"
-            shift
-            shift
+            shift 2
             ;;
         -h|--help)
-            echo "Usage: $0 [-r|--replace] [-s|--settings <variant>] [-h|--help]"
+            echo "Usage: $0 -s|--settings <variant> [-r|--replace] [-h|--help]"
+            echo "  -s, --settings   Specify settings variant (required, e.g. work, personal)"
             echo "  -r, --replace    Replace existing configuration (default: false)"
-            echo "  -s, --settings   Specify settings variant (e.g. work, personal)"
             echo "  -h, --help       Show this help message"
             exit 0
             ;;
@@ -41,22 +44,26 @@ DOTFILE_ROOT="$(dirname "$SCRIPT_DIR")"
 OPENCODE_SRC_DIR="$DOTFILE_ROOT/opencode"
 OPENCODE_TARGET_DIR="$HOME/.config/opencode"
 
-# Determine which config file to use
-if [ -n "$SETTINGS_VARIANT" ]; then
-    CONFIG_FILE="opencode-${SETTINGS_VARIANT}.json"
-    PROFILE_TYPE="$SETTINGS_VARIANT"
-else
-    CONFIG_FILE="opencode-work.json"
-    PROFILE_TYPE="work"
+# Require -s|--settings and verify the config file exists
+if [ -z "$SETTINGS_VARIANT" ]; then
+    echo "Error: -s|--settings is required." >&2
+    echo "Available profiles:" >&2
+    ls "$OPENCODE_SRC_DIR"/opencode-*.json 2>/dev/null | while read -r f; do
+        basename "$f" | sed 's/^opencode-//;s/\.json$//'
+    done >&2
+    exit 1
 fi
+
+CONFIG_FILE="opencode-${SETTINGS_VARIANT}.json"
+PROFILE_TYPE="$SETTINGS_VARIANT"
 
 # Verify the config file exists
 if [ ! -f "$OPENCODE_SRC_DIR/$CONFIG_FILE" ]; then
-    echo "Error: Config file not found: $OPENCODE_SRC_DIR/$CONFIG_FILE"
-    echo "Available profiles:"
-    ls "$OPENCODE_SRC_DIR"/opencode-*.json 2>/dev/null | while read f; do
-        basename "$f" | sed 's/opencode-//;s/\.json//'
-    done
+    echo "Error: Config file not found: $OPENCODE_SRC_DIR/$CONFIG_FILE" >&2
+    echo "Available profiles:" >&2
+    ls "$OPENCODE_SRC_DIR"/opencode-*.json 2>/dev/null | while read -r f; do
+        basename "$f" | sed 's/^opencode-//;s/\.json$//'
+    done >&2
     exit 1
 fi
 

@@ -16,14 +16,17 @@ while [[ $# -gt 0 ]]; do
             shift
             ;;
         -s|--settings)
+            if [[ $# -lt 2 || "$2" == -* ]]; then
+                echo "Error: $1 requires a settings variant." >&2
+                exit 1
+            fi
             SETTINGS_VARIANT="$2"
-            shift
-            shift
+            shift 2
             ;;
         -h|--help)
-            echo "Usage: $0 [-r|--replace] [-s|--settings <variant>] [-h|--help]"
+            echo "Usage: $0 -s|--settings <variant> [-r|--replace] [-h|--help]"
+            echo "  -s, --settings   Specify settings variant (required, e.g. personal-macos, personal-ubuntu, work-premium)"
             echo "  -r, --replace    Replace existing configuration (default: false)"
-            echo "  -s, --settings   Specify settings variant (e.g. personal-macos, personal-ubuntu, work-premium)"
             echo "  -h, --help       Show this help message"
             exit 0
             ;;
@@ -41,13 +44,26 @@ DOTFILE_ROOT="$(dirname "$SCRIPT_DIR")"
 CLAUDE_SRC_DIR="$DOTFILE_ROOT/claude"
 CLAUDE_TARGET_DIR="$HOME/.claude"
 
-# Determine which settings file to use
-if [ -n "$SETTINGS_VARIANT" ]; then
-    SETTINGS_FILE="settings-${SETTINGS_VARIANT}.json"
-    PROFILE_TYPE="$SETTINGS_VARIANT"
-else
-    SETTINGS_FILE="settings-personal-macos.json"
-    PROFILE_TYPE="personal-macos"
+# Require -s|--settings and verify the settings file exists
+if [ -z "$SETTINGS_VARIANT" ]; then
+    echo "Error: -s|--settings is required." >&2
+    echo "Available profiles:" >&2
+    ls "$CLAUDE_SRC_DIR"/settings-*.json 2>/dev/null | while read -r f; do
+        basename "$f" | sed 's/^settings-//;s/\.json$//'
+    done >&2
+    exit 1
+fi
+
+SETTINGS_FILE="settings-${SETTINGS_VARIANT}.json"
+PROFILE_TYPE="$SETTINGS_VARIANT"
+
+if [ ! -f "$CLAUDE_SRC_DIR/$SETTINGS_FILE" ]; then
+    echo "Error: Settings file not found: $CLAUDE_SRC_DIR/$SETTINGS_FILE" >&2
+    echo "Available profiles:" >&2
+    ls "$CLAUDE_SRC_DIR"/settings-*.json 2>/dev/null | while read -r f; do
+        basename "$f" | sed 's/^settings-//;s/\.json$//'
+    done >&2
+    exit 1
 fi
 
 echo "🤖 Installing Claude Code configuration..."
