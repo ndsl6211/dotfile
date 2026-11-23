@@ -77,7 +77,7 @@ is_shared_skill_link() {
     local link_dest
     link_dest="$(readlink "$target_path")"
     case "$link_dest" in
-        "$DOTFILE_ROOT/ai-agents/skills/"*|"$DOTFILE_ROOT/ai-agent/skills/"*|"$HOME/.agents/skills/"*)
+        "$DOTFILE_ROOT/ai-agents/skills/"*|"$DOTFILE_ROOT/ai-agent/skills/"*|"$HOME/.agents/skills/"*|*"/.agents/skills/"*)
             return 0
             ;;
         *)
